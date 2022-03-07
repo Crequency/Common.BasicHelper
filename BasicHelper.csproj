@@ -53,6 +53,8 @@
     <Compile Include="UI\Animation\AnimationHelper.cs" />
     <Compile Include="Windows\MutexHelper.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include=".gitignore" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
