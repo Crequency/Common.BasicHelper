@@ -1,6 +1,0 @@
-E:\OneDrive\Development\Projects\常青园\Library\BasicHelper\bin\Debug\BasicHelper.dll
-E:\OneDrive\Development\Projects\常青园\Library\BasicHelper\bin\Debug\BasicHelper.pdb
-E:\OneDrive\Development\Projects\常青园\Library\BasicHelper\obj\Debug\BasicHelper.csproj.AssemblyReference.cache
-E:\OneDrive\Development\Projects\常青园\Library\BasicHelper\obj\Debug\BasicHelper.csproj.CoreCompileInputs.cache
-E:\OneDrive\Development\Projects\常青园\Library\BasicHelper\obj\Debug\BasicHelper.dll
-E:\OneDrive\Development\Projects\常青园\Library\BasicHelper\obj\Debug\BasicHelper.pdb
