@@ -1,6 +1,8 @@
-﻿using BasicHelper.StdExp;
+﻿using BasicHelper.Util;
 using System;
 using System.IO;
+
+#pragma warning disable IDE0051 // 删除未使用的私有成员
 
 namespace BasicHelper.IO
 {
@@ -12,30 +14,22 @@ namespace BasicHelper.IO
         /// <param name="path">指定的路径</param>
         /// <param name="content">内容</param>
         /// <returns>写入是否成功以及异常信息</returns>
-        public static Exp WriteIn(string path, string content)
+        public static Result<bool> WriteIn(string path, string content)
         {
             try
             {
                 if (File.Exists(path)) File.Delete(path);
                 else File.Create(path);
-                FileStream fs = new FileStream(path, FileMode.Open);
-                StreamWriter sw = new StreamWriter(fs);
+                FileStream fs = new(path, FileMode.Open);
+                StreamWriter sw = new(fs);
                 sw.Write(content); sw.Flush();
                 sw.Close(); sw.Dispose();
                 fs.Close(); fs.Dispose();
-                return new Exp()
-                {
-                    OperateResult = true
-                };
+                return new Result<bool>(true);
             }
             catch (Exception o)
             {
-                return new Exp()
-                {
-                    LocalException = o,
-                    Title = o.Message,
-                    OperateResult = false
-                };
+                throw new Result<bool>(o.Message);
             }
         }
 
@@ -52,7 +46,7 @@ namespace BasicHelper.IO
         /// <param name="path">路径</param>
         /// <param name="content">内容</param>
         /// <returns>异常信息</returns>
-        public static Exp WriteByteIn(string path, byte[] content)
+        public static Result<bool> WriteByteIn(string path, byte[] content)
         {
             try
             {
@@ -60,25 +54,17 @@ namespace BasicHelper.IO
                 {
                     File.Create(path);
                 }
-                FileStream fs = new FileStream(path, FileMode.Open);
-                BinaryWriter bw = new BinaryWriter(fs);
+                FileStream fs = new(path, FileMode.Open);
+                BinaryWriter bw = new(fs);
                 bw.Write(content);
                 bw.Flush();
                 bw.Close(); bw.Dispose();
                 fs.Close(); fs.Dispose();
-                return new Exp()
-                {
-                    OperateResult = true
-                };
+                return new Result<bool>(true);
             }
             catch (Exception p)
             {
-                return new Exp()
-                {
-                    OperateResult = false,
-                    LocalException = p,
-                    Title = p.Message
-                };
+                throw new Result<bool>(p.Message);
             }
         }
 
@@ -89,7 +75,7 @@ namespace BasicHelper.IO
         /// <param name="content">内容</param>
         public static void WriteBytesToFile(string path, byte[] content)
         {
-            FileStream fs_write = new FileStream(path, FileMode.Open);
+            FileStream fs_write = new(path, FileMode.Open);
             fs_write.Write(content, 0, content.Length);
             fs_write.Close(); fs_write.Dispose();
         }
@@ -104,17 +90,14 @@ namespace BasicHelper.IO
             string content;
             if (File.Exists(path))
             {
-                FileStream fs = new FileStream(path, FileMode.Open);
-                StreamReader sr = new StreamReader(fs);
+                FileStream fs = new(path, FileMode.Open);
+                StreamReader sr = new(fs);
                 content = sr.ReadToEnd();
                 sr.Close(); sr.Dispose();
                 fs.Close(); fs.Dispose();
                 return content;
             }
-            else
-            {
-                return "File didn't exists.";
-            }
+            else throw new Result<bool>("File didn't exists.");
         }
 
         /// <summary>
@@ -124,8 +107,8 @@ namespace BasicHelper.IO
         /// <returns>二进制流</returns>
         public static byte[] ReadByteAll(string path)
         {
-            FileStream fs = new FileStream(path, FileMode.Open);
-            BinaryReader br = new BinaryReader(fs);
+            FileStream fs = new(path, FileMode.Open);
+            BinaryReader br = new(fs);
             byte[] byData = br.ReadBytes((int)fs.Length);
             br.Close(); br.Dispose();
             fs.Close(); fs.Dispose();
@@ -139,7 +122,7 @@ namespace BasicHelper.IO
         /// <returns>二进制流</returns>
         private static byte[] FileToBytes(string filePath)
         {
-            FileInfo fi = new FileInfo(filePath);
+            FileInfo fi = new(filePath);
             byte[] buffer = new byte[fi.Length];
             FileStream fs = fi.OpenRead();
             fs.Read(buffer, 0, Convert.ToInt32(fi.Length));
@@ -156,52 +139,35 @@ namespace BasicHelper.IO
         private static void CreateFile(byte[] fileBuffer, string newFilePath)
         {
             if (File.Exists(newFilePath))
-            {
                 File.Delete(newFilePath);
-            }
-            FileStream fs = new FileStream(newFilePath, FileMode.CreateNew);
-            BinaryWriter bw = new BinaryWriter(fs);
+            FileStream fs = new(newFilePath, FileMode.CreateNew);
+            BinaryWriter bw = new(fs);
             bw.Write(fileBuffer, 0, fileBuffer.Length); // 用文件流生成一个文件
             bw.Close(); bw.Dispose();
             fs.Close(); fs.Dispose();
         }
 
         /// <summary>
-        /// 循环删除文件夹、子文件夹及其文件
+        /// 递归删除目录下所有文件夹/文件包括子文件夹
         /// </summary>
-        /// <param name="file">目录</param>
-        public static void DeleteSrcFolder(string file)
+        /// <param name="path">目录路径</param>
+        /// <returns>删除操作结果</returns>
+        /// <exception cref="Result{bool}">删除失败异常</exception>
+        public static Result<bool> DeleteFolder(string path)
         {
-            DirectoryInfo fileInfo = new DirectoryInfo(file);
-            fileInfo.Attributes = FileAttributes.Normal & FileAttributes.Directory;
-            File.SetAttributes(file, System.IO.FileAttributes.Normal);
-            if (Directory.Exists(file))
+            try
             {
-                foreach (string f in Directory.GetFileSystemEntries(file))
-                {
-                    if (File.Exists(f))
-                        File.Delete(f);
-                    else
-                        DeleteSrcFolder1(f);
-                }
+                DirectoryInfo directoryInfo = new(path);
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                    file.Delete();
+                foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
+                    DeleteFolder(directory.FullName);
+                directoryInfo.Delete();
+                return new Result<bool>(true);
             }
-        }
-
-        private static void DeleteSrcFolder1(string file)
-        {
-            DirectoryInfo fileInfo = new DirectoryInfo(file);
-            fileInfo.Attributes = FileAttributes.Normal & FileAttributes.Directory;
-            File.SetAttributes(file, FileAttributes.Normal);
-            if (Directory.Exists(file))
+            catch (Exception e)
             {
-                foreach (string f in Directory.GetFileSystemEntries(file))
-                {
-                    if (File.Exists(f))
-                        File.Delete(f);
-                    else
-                        DeleteSrcFolder1(f);
-                }
-                Directory.Delete(file);
+                throw new Result<bool>(e.Message);
             }
         }
 
@@ -214,16 +180,14 @@ namespace BasicHelper.IO
         {
             try
             {
-                using (FileStream fs = new FileStream(fileUrl, FileMode.Open, FileAccess.Read))
-                {
-                    byte[] byteArray = new byte[fs.Length];
-                    fs.Read(byteArray, 0, byteArray.Length);
-                    return byteArray;
-                }
+                using FileStream fs = new(fileUrl, FileMode.Open, FileAccess.Read);
+                byte[] byteArray = new byte[fs.Length];
+                fs.Read(byteArray, 0, byteArray.Length);
+                return byteArray;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                throw new Result<bool>(e.Message);
             }
         }
 
@@ -233,22 +197,20 @@ namespace BasicHelper.IO
         /// <param name="byteArray">byte[]数组</param>
         /// <param name="fileName">保存至硬盘的文件路径</param>
         /// <returns>保存是否成功</returns>
-        public static bool ByteToFile(byte[] byteArray, string fileName)
+        public static Result<bool> ByteToFile(byte[] byteArray, string fileName)
         {
-            bool result = false;
             try
             {
-                using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    fs.Write(byteArray, 0, byteArray.Length);
-                    result = true;
-                }
+                using FileStream fs = new(fileName, FileMode.OpenOrCreate, FileAccess.Write);
+                fs.Write(byteArray, 0, byteArray.Length);
+                return new Result<bool>(true);
             }
-            catch
+            catch (Exception e)
             {
-                result = false;
+                throw new Result<bool>(e.Message);
             }
-            return result;
         }
     }
 }
+
+#pragma warning restore IDE0051 // 删除未使用的私有成员
