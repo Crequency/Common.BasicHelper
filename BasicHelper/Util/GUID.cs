@@ -38,9 +38,21 @@ namespace BasicHelper.Util
         /// <summary>
         /// 生成一个随机部分GUID, 字符来源 RandomCharGenerate() 函数
         /// </summary>
-        /// <returns></returns>
+        /// <returns>一个部分GUID</returns>
         public static GUID_Part Random_GUID_Part_Generate() => new(string.Concat(RandomCharGenerate(),
             RandomCharGenerate(), RandomCharGenerate(), RandomCharGenerate(), RandomCharGenerate()));
+
+        /// <summary>
+        /// 生成一个随机GUID, 部分GUID来源 Random_GUID_Part_Generate() 函数
+        /// </summary>
+        /// <returns>一个GUID</returns>
+        public static GUID Random_GUID_Generate() => new(
+            $"{Random_GUID_Part_Generate().GetString()}-" +
+            $"{Random_GUID_Part_Generate().GetString()}-" +
+            $"{Random_GUID_Part_Generate().GetString()}-" +
+            $"{Random_GUID_Part_Generate().GetString()}-" +
+            $"{Random_GUID_Part_Generate().GetString()}"
+        );
     }
 
     public struct GUID
