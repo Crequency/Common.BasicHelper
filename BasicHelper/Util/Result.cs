@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BasicHelper.Util
 {
-    internal class Result<T> : Exception
+    public class Result<T> : Exception
     {
 
         private bool hasProblem = false;
