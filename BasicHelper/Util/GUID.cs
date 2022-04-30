@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using BasicHelper.Math;
 
 namespace BasicHelper.Util
 {
@@ -21,6 +22,25 @@ namespace BasicHelper.Util
                     return false;
             return true;
         }
+
+        /// <summary>
+        /// 生成一个随机字符, 但符合 [RegexStrings].GUID_Part_Parttern
+        /// </summary>
+        /// <returns>一个随机字符</returns>
+        public static char RandomCharGenerate()
+        {
+            char rst = (char)('0' - 1);
+            while (!Regex.IsMatch(rst.ToString(), RegexStrings.GUID_Part_Parttern))
+                rst = (char)new Random().Next(Standard.Min('a', 'A', '0'), Standard.Max('z', 'Z', '9'));
+            return rst;
+        }
+
+        /// <summary>
+        /// 生成一个随机部分GUID, 字符来源 RandomCharGenerate() 函数
+        /// </summary>
+        /// <returns></returns>
+        public static GUID_Part Random_GUID_Part_Generate() => new(string.Concat(RandomCharGenerate(),
+            RandomCharGenerate(), RandomCharGenerate(), RandomCharGenerate(), RandomCharGenerate()));
     }
 
     public struct GUID
