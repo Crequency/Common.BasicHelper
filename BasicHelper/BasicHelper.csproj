@@ -5,8 +5,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<FileVersion>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds), 1.32))))</FileVersion>
-		<Version>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.DateTime]::UtcNow.ToString("mmss"))</Version>
+		<FileVersion>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays.ToString().PadRight(5, '0').Substring(0, 4)).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds.ToString().PadRight(5, '0').Substring(0, 4)), 1.32))))</FileVersion>
+		<Version>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays.ToString().PadRight(5, '0').Substring(0, 3))$([System.DateTime]::UtcNow.ToString("HH").Substring(1)).$([System.DateTime]::UtcNow.ToString("HHmmss").PadRight(7, '0').Substring(2, 5))</Version>
 		<Authors>Dynesshely</Authors>
 		<Company>Catrol</Company>
 		<PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
