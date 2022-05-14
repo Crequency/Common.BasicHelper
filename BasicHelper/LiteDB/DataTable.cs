@@ -132,5 +132,19 @@ namespace BasicHelper.LiteDB
             }
             else throw new Result<bool>($"Didn't exist key -> {id}.");
         }
+
+        /// <summary>
+        /// 通过ID更新一个记录
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="col">要修改的列</param>
+        /// <param name="value">新的值</param>
+        public void Update(int id, string col, object value)
+        {
+            if (value.GetType() != Keys[col])
+                throw new Result<bool>($"Type of -> {value} not match {Keys[col]}.");
+            
+            //TODO: 通过列名找到单元格并更新它的值
+        }
     }
 }
