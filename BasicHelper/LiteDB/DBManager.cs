@@ -9,11 +9,11 @@ namespace BasicHelper.LiteDB
 {
     public class DBManager
     {
+        private string workbase = "./";
+
         /// <summary>
         /// 工作空间
         /// </summary>
-        private string workbase = "./";
-
         public string WorkBase
         {
             get { return workbase; }
@@ -31,7 +31,7 @@ namespace BasicHelper.LiteDB
         private void CheckDirectory()
         {
             DirectoryInfo dirinfo = new(WorkBase);
-            if (File.Exists($"{dirinfo.FullName}\\LiteDB.config"))
+            if (File.Exists($"{dirinfo.FullName}\\.LiteDB.config"))
                 Init();
             if (
                 !dirinfo.Exists ||
@@ -49,10 +49,61 @@ namespace BasicHelper.LiteDB
 
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public DBManager()
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="workDir">工作空间路径</param>
         public DBManager(string workDir)
         {
             WorkBase = workDir;
         }
 
+        private readonly Dictionary<string, DataBase> DataBases = new();
+
+        /// <summary>
+        /// 创建新数据库
+        /// </summary>
+        /// <param name="name">数据库名称</param>
+        /// <returns>数据库ID</returns>
+        /// <exception cref="Result{bool}">已经存在此数据库异常</exception>
+        public void CreateDataBase(string name)
+        {
+            if (DataBases.ContainsKey(name))
+                throw new Result<bool>("This database already existed.");
+            DataBases.Add(name, new());
+        }
+
+        /// <summary>
+        /// 获取某数据库实例
+        /// </summary>
+        /// <param name="name">数据库名称</param>
+        /// <returns>数据库</returns>
+        /// <exception cref="Result{bool}">不存在此数据库异常</exception>
+        public Result<DataBase> GetDataBase(string name)
+        {
+            if(DataBases.ContainsKey(name))
+                return new(DataBases[name]);
+            throw new Result<bool>("No this database.");
+        }
+
+        /// <summary>
+        /// 移除某数据库
+        /// </summary>
+        /// <param name="name">数据库名称</param>
+        /// <exception cref="Result{bool}">不存在此数据库异常</exception>
+        public void RemoveDataBase(string name)
+        {
+            if (DataBases.ContainsKey(name))
+                DataBases.Remove(name);
+            throw new Result<bool>("No this database.");
+        }
     }
 }
