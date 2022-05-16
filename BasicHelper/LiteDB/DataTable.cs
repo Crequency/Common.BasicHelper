@@ -24,11 +24,11 @@ namespace BasicHelper.LiteDB
         /// </summary>
         private readonly Dictionary<int, List<object>> Values = new();
 
+        private int maxid = 0;
+
         /// <summary>
         /// 最大应赋予的ID
         /// </summary>
-        private int maxid = 0;
-
         private int MaxID
         {
             get
@@ -79,6 +79,23 @@ namespace BasicHelper.LiteDB
                     KeyTypes.Add(types[i]);
                 }
             }
+        }
+
+        /// <summary>
+        /// 通过列名返回列标
+        /// </summary>
+        /// <param name="col">列名</param>
+        /// <returns>列标</returns>
+        private int GetIndexByColumeName(string col)
+        {
+            int index = 0;
+            foreach (var item in Keys.Keys)
+            {
+                if (item.Equals(col))
+                    return index;
+                ++index;
+            }
+            throw new Result<bool>($"Colume {col} not found!");
         }
 
         /// <summary>
@@ -143,8 +160,8 @@ namespace BasicHelper.LiteDB
         {
             if (value.GetType() != Keys[col])
                 throw new Result<bool>($"Type of -> {value} not match {Keys[col]}.");
-            
-            //TODO: 通过列名找到单元格并更新它的值
+
+            Values[id][GetIndexByColumeName(col)] = value;
         }
     }
 }
