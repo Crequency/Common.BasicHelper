@@ -14,6 +14,8 @@ namespace BasicHelper.LiteDB
         /// <exception cref="Result{bool}">已经存在此表</exception>
         public void AddTable(string name, DataTable dt)
         {
+            if (!System.Text.RegularExpressions.Regex.IsMatch(name, RegexStrings.LiteDB_Name_Limit))
+                throw new Result<bool>("Illegal name.");
             if (SubDataTables.ContainsKey(name))
                 throw new Result<bool>("This data table already exists.");
             else SubDataTables.Add(name, dt);

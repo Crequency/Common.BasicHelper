@@ -76,6 +76,8 @@ namespace BasicHelper.LiteDB
         /// <exception cref="Result{bool}">已经存在此数据库异常</exception>
         public void CreateDataBase(string name)
         {
+            if (!System.Text.RegularExpressions.Regex.IsMatch(name, RegexStrings.LiteDB_Name_Limit))
+                throw new Result<bool>("Illegal name.");
             if (DataBases.ContainsKey(name))
                 throw new Result<bool>("This database already existed.");
             DataBases.Add(name, new());
@@ -89,7 +91,7 @@ namespace BasicHelper.LiteDB
         /// <exception cref="Result{bool}">不存在此数据库异常</exception>
         public Result<DataBase> GetDataBase(string name)
         {
-            if(DataBases.ContainsKey(name))
+            if (DataBases.ContainsKey(name))
                 return new(DataBases[name]);
             throw new Result<bool>("No this database.");
         }
