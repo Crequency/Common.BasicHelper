@@ -72,6 +72,13 @@ namespace BasicHelper.LiteDB
         }
 
         /// <summary>
+        /// 检查是否存在记录
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>是否存在</returns>
+        public bool Exist(int id) => Values.ContainsKey(id);
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="names">表头结构列名称</param>
