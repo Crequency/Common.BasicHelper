@@ -61,7 +61,6 @@ namespace BasicHelper.Util
             if (result != null)
             {
                 ReturnResult = result;
-                ReturnType = typeof(T);
             }
         }
     }
