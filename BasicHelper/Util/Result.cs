@@ -28,7 +28,11 @@ namespace BasicHelper.Util
         public object ReturnResult
         {
             get { return returnResult; }
-            set { returnResult = value; }
+            set
+            {
+                returnResult = value;
+                returnType = value.GetType();
+            }
         }
 
         private Type returnType = typeof(string);
@@ -39,7 +43,6 @@ namespace BasicHelper.Util
         public Type ReturnType
         {
             get { return returnType; }
-            set { returnType = value; }
         }
 
         /// <summary>
