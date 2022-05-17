@@ -27,6 +27,16 @@ namespace BasicHelper.LiteDB
         private int maxid = 0;
 
         /// <summary>
+        /// 数据表表头结构限定数据类型
+        /// </summary>
+        public List<Type> KeyTypesProperty { get => KeyTypes; }
+
+        /// <summary>
+        /// 数据表表头结构名称和限定数据类型
+        /// </summary>
+        public Dictionary<string, Type> KeysProperty { get => Keys; }
+
+        /// <summary>
         /// 最大应赋予的ID
         /// </summary>
         private int MaxID
@@ -46,7 +56,7 @@ namespace BasicHelper.LiteDB
         /// <summary>
         /// 获取下一个应该使用的ID
         /// </summary>
-        public int NextID
+        private int NextID
         {
             get
             {
