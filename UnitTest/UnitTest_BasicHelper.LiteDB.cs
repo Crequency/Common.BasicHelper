@@ -67,5 +67,12 @@ namespace UnitTest
                 }
             }
         }
+
+        [TestMethod]
+        public void IOTest()
+        {
+            DBManager manager = new(@"D:\Temp\Test\LiteDB");
+            manager.CreateDataBase("Default");
+        }
     }
 }
