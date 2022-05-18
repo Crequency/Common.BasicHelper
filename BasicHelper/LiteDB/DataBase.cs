@@ -45,5 +45,16 @@ namespace BasicHelper.LiteDB
                 SubDataTables.Remove(name);
             else throw new Result<bool>("This data table didn't exists.");
         }
+
+        /// <summary>
+        /// 通知每个数据表写入本地
+        /// </summary>
+        /// <param name="name">数据库名称</param>
+        /// <param name="path">文件夹路径</param>
+        public void Save2File(string name, string path)
+        {
+            foreach (var item in SubDataTables)
+                item.Value.Save2File($"{name}.{item.Key}", path);
+        }
     }
 }

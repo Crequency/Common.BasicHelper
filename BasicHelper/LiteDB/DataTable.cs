@@ -2,11 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace BasicHelper.LiteDB
 {
+    [XmlRoot("DataTable", IsNullable = true)]
     public class DataTable
     {
         /// <summary>
@@ -179,6 +183,19 @@ namespace BasicHelper.LiteDB
                 throw new Result<bool>($"Type of -> {value} not match {Keys[col]}.");
 
             Values[id][GetIndexByColumeName(col)] = value;
+        }
+
+        /// <summary>
+        /// 保存到本地
+        /// </summary>
+        /// <param name="name">文件命名空间</param>
+        /// <param name="path">路径</param>
+        public void Save2File(string name, string path)
+        {
+            XmlSerializer serializer = new(typeof(DataTable));
+            TextWriter writer = new StreamWriter($"{path}\\{name}.xml");
+            serializer.Serialize(writer, this);
+            writer.Close();
         }
     }
 }

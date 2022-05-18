@@ -107,5 +107,21 @@ namespace BasicHelper.LiteDB
                 DataBases.Remove(name);
             throw new Result<bool>("No this database.");
         }
+
+        public void Save2File()
+        {
+            try
+            {
+                IO.FileHelper.DeleteFolder(WorkBase);
+                Directory.CreateDirectory(Path.GetFullPath(WorkBase));
+            }
+            catch(Exception o)
+            {
+                throw new Result<bool>($"Directory init failed cause: \n{o.Message}");
+            }
+
+            foreach (var item in DataBases)
+                item.Value.Save2File(item.Key, WorkBase);
+        }
     }
 }
