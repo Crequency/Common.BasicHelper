@@ -69,6 +69,11 @@ namespace BasicHelper.LiteDB
         private readonly Dictionary<string, DataBase> DataBases = new();
 
         /// <summary>
+        /// 数据库列表
+        /// </summary>
+        public Dictionary<string, DataBase>.KeyCollection DataBasesList { get => DataBases.Keys; }
+
+        /// <summary>
         /// 创建新数据库
         /// </summary>
         /// <param name="name">数据库名称</param>
