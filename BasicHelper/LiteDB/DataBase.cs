@@ -1,4 +1,5 @@
 ﻿using BasicHelper.Util;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BasicHelper.LiteDB
 {
@@ -54,7 +55,12 @@ namespace BasicHelper.LiteDB
         public void Save2File(string name, string path)
         {
             foreach (var item in SubDataTables)
-                item.Value.Save2File($"{name}.{item.Key}", path);
+            {
+                FileStream stream = new($"{path}\\{name}.{item.Key}.dat", FileMode.Create, FileAccess.Write);
+                BinaryFormatter formatter = new();
+                formatter.Serialize(stream, item.Value);
+                stream.Close();
+            }
         }
     }
 }

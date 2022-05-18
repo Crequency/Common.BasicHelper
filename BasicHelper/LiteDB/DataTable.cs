@@ -10,14 +10,16 @@ using System.Xml.Serialization;
 
 namespace BasicHelper.LiteDB
 {
-    [XmlRoot("DataTable", IsNullable = true)]
+    [Serializable]
     public class DataTable
     {
+        [NonSerialized]
         /// <summary>
         /// 数据表表头结构名称和限定数据类型
         /// </summary>
         private readonly Dictionary<string, Type> Keys = new();
 
+        [NonSerialized]
         /// <summary>
         /// 数据表表头结构限定数据类型
         /// </summary>
@@ -183,16 +185,6 @@ namespace BasicHelper.LiteDB
                 throw new Result<bool>($"Type of -> {value} not match {Keys[col]}.");
 
             Values[id][GetIndexByColumeName(col)] = value;
-        }
-
-        /// <summary>
-        /// 保存到本地
-        /// </summary>
-        /// <param name="name">文件命名空间</param>
-        /// <param name="path">路径</param>
-        public void Save2File(string name, string path)
-        {
-
         }
     }
 }

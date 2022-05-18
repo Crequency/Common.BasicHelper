@@ -123,6 +123,7 @@ namespace BasicHelper.LiteDB
             {
                 IO.FileHelper.DeleteFolder(WorkBase);
                 Directory.CreateDirectory(Path.GetFullPath(WorkBase));
+                File.Create($"{Path.GetFullPath(WorkBase)}\\.LiteDB.config");
             }
             catch(Exception o)
             {
@@ -143,13 +144,13 @@ namespace BasicHelper.LiteDB
             var dbManager = new DBManager(workbase);
             dbManager.CreateDataBase("Test");
             var db_test = dbManager.GetDataBase("Test").ReturnResult as DataBase;
-            db_test.AddTable("Test_DT", new(new string[]
+            db_test.AddTable("Test", new(new string[]
             {
                 "ID", "Title", "URL", "DESCR"
             }, new Type[]{
                 typeof(int), typeof(string), typeof(string), typeof(string)
             }));
-            var dt_test = db_test.GetTable("Test_DT").ReturnResult as DataTable;
+            var dt_test = db_test.GetTable("Test").ReturnResult as DataTable;
             var ids = new List<int>()
             {
                 (int)dt_test.Add(new object[]
