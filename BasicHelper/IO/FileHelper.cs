@@ -157,7 +157,7 @@ namespace BasicHelper.IO
         {
             try
             {
-                DirectoryInfo directoryInfo = new(path);
+                DirectoryInfo directoryInfo = new(Path.GetFullPath(path));
                 foreach (FileInfo file in directoryInfo.GetFiles())
                     file.Delete();
                 foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
