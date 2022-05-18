@@ -192,10 +192,7 @@ namespace BasicHelper.LiteDB
         /// <param name="path">路径</param>
         public void Save2File(string name, string path)
         {
-            XmlSerializer serializer = new(typeof(DataTable));
-            TextWriter writer = new StreamWriter($"{path}\\{name}.xml");
-            serializer.Serialize(writer, this);
-            writer.Close();
+
         }
     }
 }
