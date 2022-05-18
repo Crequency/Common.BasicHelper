@@ -138,7 +138,7 @@ namespace BasicHelper.LiteDB
         /// </summary>
         /// <param name="workbase">工作空间</param>
         /// <returns>数据库实例</returns>
-        public Result<DBManager> GetTestDBManager(string workbase)
+        public static Result<DBManager> GetTestDBManager(string workbase)
         {
             var dbManager = new DBManager(workbase);
             dbManager.CreateDataBase("Test");
