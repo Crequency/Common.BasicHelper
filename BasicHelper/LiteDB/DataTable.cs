@@ -17,13 +17,13 @@ namespace BasicHelper.LiteDB
         /// <summary>
         /// 数据表表头结构名称和限定数据类型
         /// </summary>
-        private readonly Dictionary<string, Type> Keys = new();
+        private Dictionary<string, Type> Keys = new();
 
         [NonSerialized]
         /// <summary>
         /// 数据表表头结构限定数据类型
         /// </summary>
-        private readonly List<Type> KeyTypes = new();
+        private List<Type> KeyTypes = new();
 
         /// <summary>
         /// 数据表内容列表
@@ -185,6 +185,28 @@ namespace BasicHelper.LiteDB
                 throw new Result<bool>($"Type of -> {value} not match {Keys[col]}.");
 
             Values[id][GetIndexByColumeName(col)] = value;
+        }
+
+        /// <summary>
+        /// 重设表列名和类型
+        /// </summary>
+        /// <param name="names">列名</param>
+        /// <param name="types">类型</param>
+        /// <exception cref="Result{bool}">不匹配参数</exception>
+        public void ResetKeys(string[] names, Type[] types)
+        {
+            if (names.Length != types.Length)
+                throw new Result<bool>("Invalid input arguments for different length.");
+            else
+            {
+                Keys = new Dictionary<string, Type>();
+                KeyTypes = new List<Type>();
+                for (int i = 0; i < names.Length; i++)
+                {
+                    Keys.Add(names[i], types[i]);
+                    KeyTypes.Add(types[i]);
+                }
+            }
         }
     }
 }

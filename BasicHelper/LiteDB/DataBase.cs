@@ -8,6 +8,11 @@ namespace BasicHelper.LiteDB
         private readonly Dictionary<string, DataTable> SubDataTables = new();
 
         /// <summary>
+        /// 数据表属性
+        /// </summary>
+        public Dictionary<string, DataTable> SubDataTablesProperty { get => SubDataTables; }
+
+        /// <summary>
         /// 新增数据表
         /// </summary>
         /// <param name="name">表名称</param>
@@ -61,6 +66,18 @@ namespace BasicHelper.LiteDB
                 formatter.Serialize(stream, item.Value);
                 stream.Close();
             }
+        }
+
+        /// <summary>
+        /// 从文件恢复数据表
+        /// </summary>
+        /// <param name="filename">文件名</param>
+        /// <returns>数据表</returns>
+        public static Result<DataTable> Recovery(string filename)
+        {
+            Console.WriteLine(filename);
+            FileStream stream = new(filename, FileMode.Open, FileAccess.Read);
+            return new(new BinaryFormatter().Deserialize(stream) as DataTable);
         }
     }
 }

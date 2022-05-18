@@ -33,7 +33,7 @@ namespace BasicHelper.LiteDB
             DirectoryInfo dirinfo = new(WorkBase);
             if (File.Exists($"{dirinfo.FullName}\\.LiteDB.config"))
                 Init();
-            if (
+            else if (
                 !dirinfo.Exists ||
                 dirinfo.GetFiles().Length >= 1 ||
                 dirinfo.GetDirectories().Length >= 1
@@ -46,7 +46,21 @@ namespace BasicHelper.LiteDB
         /// </summary>
         private void Init()
         {
-
+            var dirinfo = new DirectoryInfo(Path.GetFullPath(WorkBase));
+            var files = dirinfo.GetFiles();
+            foreach (var datafile in files)
+            {
+                if (datafile.Name.Equals(".LiteDB.config")) continue;
+                var namespaces = datafile.Name.Split('.');
+                if (!DataBases.ContainsKey(namespaces[0]))
+                {
+                    DataBases.Add(namespaces[0], new());
+                }
+                DataBases[namespaces[0]].AddTable(
+                    namespaces[1],
+                    DataBase.Recovery(datafile.FullName).ReturnResult as DataTable
+                );
+            }
         }
 
         /// <summary>
@@ -125,7 +139,7 @@ namespace BasicHelper.LiteDB
                 Directory.CreateDirectory(Path.GetFullPath(WorkBase));
                 File.Create($"{Path.GetFullPath(WorkBase)}\\.LiteDB.config");
             }
-            catch(Exception o)
+            catch (Exception o)
             {
                 throw new Result<bool>($"Directory init failed cause: \n{o.Message}");
             }
