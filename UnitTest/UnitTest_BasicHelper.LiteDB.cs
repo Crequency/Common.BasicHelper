@@ -2,6 +2,7 @@
 using System;
 using BasicHelper.LiteDB;
 using System.Collections.Generic;
+using System.IO;
 
 namespace UnitTest
 {
@@ -71,11 +72,37 @@ namespace UnitTest
         [TestMethod]
         public void IOTest()
         {
-            var manager = DBManager
-                .GetTestDBManager(@"D:\Temp\Test\LiteDB")
-                .ReturnResult as DBManager;
-
-            manager.Save2File();
+            if (File.Exists(@"D:\Temp\Test\LiteDB\.LiteDB.config"))
+            {
+                Console.WriteLine("Build from disk.\n");
+                var manager = new DBManager(@"D:\Temp\Test\LiteDB\");
+                foreach (var item in manager.DataBasesList)
+                {
+                    Console.WriteLine(item);
+                    var db = manager.GetDataBase(item).ReturnResult as DataBase;
+                    foreach (var table in db.SubDataTablesProperty)
+                    {
+                        Console.WriteLine($"\t{table.Key}");
+                        table.Value.ResetKeys(new string[]
+                        {
+                            "ID", "Title", "URL", "DESCR"
+                        }, new Type[]{
+                            typeof(int), typeof(string), typeof(string), typeof(string)
+                        });
+                        foreach (var record in table.Value.KeysProperty)
+                        {
+                            Console.WriteLine($"\t\t{record.Key}");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var manager = DBManager
+                    .GetTestDBManager(@"D:\Temp\Test\LiteDB")
+                    .ReturnResult as DBManager;
+                manager.Save2File();
+            }
         }
     }
 }
