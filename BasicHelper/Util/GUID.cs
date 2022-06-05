@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BasicHelper.Math;
 using System.Text;
 using System.Text.RegularExpressions;
-using BasicHelper.Math;
 
 namespace BasicHelper.Util
 {
