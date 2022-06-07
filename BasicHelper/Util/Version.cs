@@ -136,20 +136,26 @@ namespace BasicHelper.Util
         /// <returns>版本结构</returns>
         public static Version Parse(string version)
         {
-            MatchCollection collection = new Regex(RegexStrings.Version_Parse_STR).Matches(version);
+            Regex regex = new(RegexStrings.Version_Parse_STR);
+            MatchCollection collection = regex.Matches(version);
             if (collection.Count > 1)
                 throw new Result<bool>("More than one version expression matched.");
             else
             {
-                Version result = new();
-                string[] parts = collection.ToArray().ToString().Split('.');
-                result.SetVersion(
-                    ushort.Parse(parts[0]),
-                    ushort.Parse(parts[1]),
-                    ushort.Parse(parts[2]),
-                    ushort.Parse(parts[3])
-                );
-                return result;
+                foreach (Match match in collection)
+                {
+                    string[] parts = match.Value.Split('.');
+                    Version result = new();
+                    result.SetVersion(
+                        ushort.Parse(parts[0]),
+                        ushort.Parse(parts[1]),
+                        ushort.Parse(parts[2]),
+                        parts.Length == 4 ?
+                        ushort.Parse(parts[3]) : (ushort)0
+                    );
+                    return result;
+                }
+                throw new Result<bool>("No version expression matched.");
             }
         }
     }
