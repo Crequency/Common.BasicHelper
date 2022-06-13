@@ -12,6 +12,9 @@
 		<Company>Catrol</Company>
 		<PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageId>Catrol.$(AssemblyName)</PackageId>
+		<PackageProjectUrl>https://github.com/Catrol-org/BasicHelper/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Catrol-org/BasicHelper/</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
