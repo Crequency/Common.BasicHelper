@@ -53,7 +53,11 @@ namespace BasicHelper.LiteLogger
             public void Log(string content, LogLevel lv = LogLevel.Error)
             {
                 if (lv <= Level)
-                    file.AppendText().WriteLine($"{DateTime.Now:yyyy.MM.dd-HH:mm:ss}\t{content}");
+                {
+                    StreamWriter sw = file.AppendText();
+                    sw.WriteLine($"{DateTime.Now:yyyy.MM.dd-HH:mm:ss}\t{content}");
+                    sw.Close();
+                }
             }
 
             /// <summary>
