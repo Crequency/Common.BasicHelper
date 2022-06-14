@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace BasicHelper.IO.PipeHelper
 {
-    public class StreamString
+    public class StreamString : IDisposable
     {
-        private Stream ioStream;
-        private UnicodeEncoding streamEncoding;
+        private readonly Stream ioStream;
+        private readonly UnicodeEncoding streamEncoding;
 
         public StreamString(Stream ioStream)
         {
             this.ioStream = ioStream;
             streamEncoding = new UnicodeEncoding();
+        }
+
+        public void Dispose()
+        {
+            ioStream.Close();
+            ioStream.Dispose();
         }
 
         public string ReadString()
