@@ -17,8 +17,13 @@ namespace BasicHelper.IO.PipeHelper
         {
             ioStream.Close();
             ioStream.Dispose();
+            GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// 读取字符串
+        /// </summary>
+        /// <returns>字符串</returns>
         public string ReadString()
         {
             int len = ioStream.ReadByte() * 256;
@@ -29,6 +34,11 @@ namespace BasicHelper.IO.PipeHelper
             return streamEncoding.GetString(inBuffer);
         }
 
+        /// <summary>
+        /// 写入字符串
+        /// </summary>
+        /// <param name="outString">字符串</param>
+        /// <returns>写出缓冲区长度</returns>
         public int WriteString(string outString)
         {
             byte[] outBuffer = streamEncoding.GetBytes(outString);
