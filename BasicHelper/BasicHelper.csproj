@@ -21,7 +21,6 @@
 		<Folder Include="IO\" />
 		<Folder Include="Math\" />
 		<Folder Include="NET\" />
-		<Folder Include="Windows\" />
 	</ItemGroup>
 
 </Project>
