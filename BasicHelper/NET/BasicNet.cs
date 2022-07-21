@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Net;
+﻿using System.Net;
 using System.Net.NetworkInformation;
-using System.IO;
+using System.Text;
 
 namespace BasicHelper.Net
 {
