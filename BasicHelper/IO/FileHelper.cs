@@ -17,7 +17,7 @@ namespace BasicHelper.IO
             try
             {
                 if (File.Exists(path)) File.Delete(path);
-                else File.Create(path).Close();
+                File.Create(path).Close();
                 FileStream fs = new(path, FileMode.Open);
                 StreamWriter sw = new(fs);
                 sw.Write(content); sw.Flush();
