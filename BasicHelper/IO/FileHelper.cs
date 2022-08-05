@@ -99,6 +99,32 @@ namespace BasicHelper.IO
         }
 
         /// <summary>
+        /// 异步读取指定路径的全部内容
+        /// </summary>
+        /// <param name="path">指定路径</param>
+        /// <returns>内容或异常信息</returns>
+        /// <exception cref="Result{bool}">异常</exception>
+        public static async Task<string> ReadAllAsync(string path)
+        {
+            FileStream fs;
+            StreamReader sr;
+            string result;
+            try
+            {
+                fs = new(path, FileMode.Open);
+                sr = new(fs);
+                result = await sr.ReadToEndAsync();
+                sr.Close();
+                fs.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Result<bool>(e.Message);
+            }
+        }
+
+        /// <summary>
         /// 以二进制流读取指定路径全部内容
         /// </summary>
         /// <param name="path">路径</param>
