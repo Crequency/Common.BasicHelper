@@ -28,11 +28,14 @@ namespace BasicHelper.LiteLogger
         /// </summary>
         public struct LoggerInfo
         {
-            public LoggerInfo(string name_in, string folder, string descr_in = "Nice Logger!", LogLevel lv = LogLevel.Error)
+            public LoggerInfo(string name_in, string folder, string descr_in = "Nice Logger!",
+                LogLevel lv = LogLevel.Error, int lfs = 1024)
             {
                 name = name_in;
                 descr = descr_in;
                 Level = lv;
+                limitedFileSize = lfs;
+
                 file = new($"{Path.GetFullPath(folder)}/Log_{DateTime.Now:yyyy.MM.dd}_{lv}.log");
                 if (!file.Exists) file.Create().Dispose();
             }
@@ -42,6 +45,9 @@ namespace BasicHelper.LiteLogger
             public string descr = "Nice Logger!";
             public ulong logged_count = 0;
             public ulong logged_char_count = 0;
+
+            // File Size in KB
+            public int limitedFileSize = 0;
 
             private readonly FileInfo file;
 
@@ -54,9 +60,20 @@ namespace BasicHelper.LiteLogger
             {
                 if (lv <= Level)
                 {
-                    StreamWriter sw = file.AppendText();
-                    sw.WriteLine($"{DateTime.Now:yyyy.MM.dd-HH:mm:ss}\t{content}");
-                    sw.Close();
+                    StreamWriter? sw = null;
+                    try
+                    {
+                        if (file.Length >= limitedFileSize * 1024)
+                            sw = file.CreateText();
+                        else
+                            sw = file.AppendText();
+                        sw.WriteLine($"{DateTime.Now:yyyy.MM.dd-HH:mm:ss}\t{content}");
+                        sw.Close();
+                    }
+                    catch
+                    {
+                        sw?.Dispose();
+                    }
                 }
             }
 
@@ -69,10 +86,21 @@ namespace BasicHelper.LiteLogger
             {
                 if (lv <= Level)
                 {
-                    StreamWriter sw = file.AppendText();
-                    await sw.WriteLineAsync($"{DateTime.Now:yyyy.MM.dd-HH:mm:ss}\t{content}");
-                    sw.Close();
-                    await sw.DisposeAsync();
+                    StreamWriter? sw = null;
+                    try
+                    {
+                        if (file.Length >= limitedFileSize * 1024)
+                            sw = file.CreateText();
+                        else
+                            sw = file.AppendText();
+                        await sw.WriteLineAsync($"{DateTime.Now:yyyy.MM.dd-HH:mm:ss}\t{content}");
+                        sw.Close();
+                        await sw.DisposeAsync();
+                    }
+                    catch
+                    {
+                        sw?.Dispose();
+                    }
                 }
             }
 
