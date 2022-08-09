@@ -10,18 +10,27 @@
         <FileVersion>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds), 1.32))))</FileVersion>
         <Version>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds), 1.32))))</Version>
         <Authors>Dynesshely</Authors>
-        <Company>Catrol</Company>
+        <Company>Crequency</Company>
         <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageId>Catrol.$(AssemblyName)</PackageId>
-        <PackageProjectUrl>https://github.com/Catrol-org/BasicHelper/</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Catrol-org/BasicHelper/</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Crequency/BasicHelper/</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Crequency/BasicHelper/</RepositoryUrl>
+        <Copyright>Copyright © Crequency 2022-present</Copyright>
+        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
         <Folder Include="IO\" />
         <Folder Include="Math\" />
         <Folder Include="NET\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="icon.png">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
 
 </Project>
