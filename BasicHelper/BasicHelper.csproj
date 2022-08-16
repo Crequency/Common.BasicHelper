@@ -6,9 +6,6 @@
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
-        <AssemblyVersion>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds), 1.32))))</AssemblyVersion>
-        <FileVersion>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds), 1.32))))</FileVersion>
-        <Version>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds), 1.32))))</Version>
         <Authors>Dynesshely</Authors>
         <Company>Crequency</Company>
         <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
@@ -18,6 +15,10 @@
         <RepositoryUrl>https://github.com/Crequency/BasicHelper/</RepositoryUrl>
         <Copyright>Copyright © Crequency 2022-present</Copyright>
         <PackageIcon>icon.png</PackageIcon>
+
+        <AssemblyVersion>$(Version)</AssemblyVersion>
+        <FileVersion>$(Version)</FileVersion>
+        <Version>1.1.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
     </PropertyGroup>
 
     <ItemGroup>
