@@ -1,4 +1,5 @@
 ﻿using BasicHelper.Math;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -36,14 +37,15 @@ namespace BasicHelper.Util
         /// 生成一个随机部分GUID, 字符来源 RandomCharGenerate() 函数
         /// </summary>
         /// <returns>一个部分GUID</returns>
-        public static GUID_Part Random_GUID_Part_Generate() => new(string.Concat(RandomCharGenerate(),
+        public static GUID_Part Random_GUID_Part_Generate() => new GUID_Part(
+            string.Concat(RandomCharGenerate(),
             RandomCharGenerate(), RandomCharGenerate(), RandomCharGenerate(), RandomCharGenerate()));
 
         /// <summary>
         /// 生成一个随机GUID, 部分GUID来源 Random_GUID_Part_Generate() 函数
         /// </summary>
         /// <returns>一个GUID</returns>
-        public static GUID Random_GUID_Generate() => new(
+        public static GUID Random_GUID_Generate() => new GUID(
             $"{Random_GUID_Part_Generate().GetString()}-" +
             $"{Random_GUID_Part_Generate().GetString()}-" +
             $"{Random_GUID_Part_Generate().GetString()}-" +
@@ -54,7 +56,7 @@ namespace BasicHelper.Util
 
     public struct GUID
     {
-        private readonly GUID_Part[] parts = new GUID_Part[5];
+        private readonly GUID_Part[] parts;
 
         public GUID_Part A { get => parts[0]; set => parts[0] = value; }
 
@@ -74,6 +76,7 @@ namespace BasicHelper.Util
         /// <exception cref="Result{bool}">格式错误异常</exception>
         public GUID(string input, char sep = '-')
         {
+            parts = new GUID_Part[5];
             string[] tmp = input.Split(sep);
             if (tmp.Length != 5) throw new Result<bool>("Error input format!");
             for (int i = 0; i < 5; i++)
@@ -86,7 +89,7 @@ namespace BasicHelper.Util
         /// <param name="input">输入数据</param>
         /// <param name="sep">数据分隔符, 默认为'-'</param>
         /// <returns>一个GUID</returns>
-        public static GUID BuildFromString(string input, char sep = '-') => new(input, sep);
+        public static GUID BuildFromString(string input, char sep = '-') => new GUID(input, sep);
 
         /// <summary>
         /// 返回字符串
@@ -95,16 +98,16 @@ namespace BasicHelper.Util
         /// <returns>字符串</returns>
         public string GetString(char sep = '-')
         {
-            StringBuilder sb = new();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 5; i++)
-                sb.Append($"{parts[i].GetString()}{(i == 4 ? "" : sep)}");
+                sb.Append($"{parts[i].GetString()}{(i == 4 ? "" : sep.ToString())}");
             return sb.ToString();
         }
     }
 
     public struct GUID_Part
     {
-        private readonly char[] ids = new char[5];
+        private readonly char[] ids;
 
         public char A { get => ids[0]; set => ids[0] = value; }
 
@@ -123,6 +126,8 @@ namespace BasicHelper.Util
         /// <exception cref="Result{bool}">构造失败, 格式错误</exception>
         public GUID_Part(string input)
         {
+            ids = new char[5];
+
             if (input.Length != 5)
                 throw new Result<bool>("Error argument length.");
             else
@@ -137,7 +142,7 @@ namespace BasicHelper.Util
         /// </summary>
         /// <param name="input">字符串</param>
         /// <returns>部分GUID</returns>
-        public static GUID_Part BuildFromString(string input) => new(input);
+        public static GUID_Part BuildFromString(string input) => new GUID_Part(input);
 
         /// <summary>
         /// 返回字符串
@@ -145,7 +150,7 @@ namespace BasicHelper.Util
         /// <returns>字符串</returns>
         public string GetString()
         {
-            StringBuilder sb = new();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 5; i++)
                 sb.Append(ids[i]);
             return sb.ToString().ToUpper();

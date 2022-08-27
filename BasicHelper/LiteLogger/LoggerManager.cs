@@ -1,6 +1,7 @@
 ﻿using BasicHelper.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,18 +37,21 @@ namespace BasicHelper.LiteLogger
                 Level = lv;
                 limitedFileSize = lfs;
 
-                file = new($"{Path.GetFullPath(folder)}/Log_{DateTime.Now:yyyy.MM.dd}_{lv}.log");
+                file = new FileInfo($"{Path.GetFullPath(folder)}/Log_{DateTime.Now:yyyy.MM.dd}_{lv}.log");
                 if (!file.Exists) file.Create().Dispose();
+
+                logged_count = 0;
+                logged_char_count = 0;
             }
 
-            public LogLevel Level = LogLevel.Error;
-            public string name = "DefaultLogger";
-            public string descr = "Nice Logger!";
-            public ulong logged_count = 0;
-            public ulong logged_char_count = 0;
+            public LogLevel Level;
+            public string name;
+            public string descr;
+            public ulong logged_count;
+            public ulong logged_char_count;
 
             // File Size in KB
-            public int limitedFileSize = 0;
+            public int limitedFileSize;
 
             private readonly FileInfo file;
 
@@ -60,7 +64,7 @@ namespace BasicHelper.LiteLogger
             {
                 if (lv <= Level)
                 {
-                    StreamWriter? sw = null;
+                    StreamWriter sw = null;
                     try
                     {
                         if (file.Length >= limitedFileSize * 1024)
@@ -86,7 +90,7 @@ namespace BasicHelper.LiteLogger
             {
                 if (lv <= Level)
                 {
-                    StreamWriter? sw = null;
+                    StreamWriter sw = null;
                     try
                     {
                         if (file.Length >= limitedFileSize * 1024)
@@ -106,7 +110,7 @@ namespace BasicHelper.LiteLogger
 
         }
 
-        private readonly Dictionary<string, LoggerInfo> loggerPool = new();
+        private readonly Dictionary<string, LoggerInfo> loggerPool = new Dictionary<string, LoggerInfo>();
 
         /// <summary>
         /// 日志记录器池

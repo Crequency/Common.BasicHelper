@@ -1,4 +1,6 @@
-﻿namespace BasicHelper.Util
+﻿using System;
+
+namespace BasicHelper.Util
 {
     public class Result<T> : Exception
     {

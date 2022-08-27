@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <TargetFrameworks>netstandard2.1;net40</TargetFrameworks>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <Authors>Dynesshely</Authors>
@@ -20,12 +20,6 @@
         <FileVersion>$(Version)</FileVersion>
         <Version>1.1.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
     </PropertyGroup>
-
-    <ItemGroup>
-        <Folder Include="IO\" />
-        <Folder Include="Math\" />
-        <Folder Include="NET\" />
-    </ItemGroup>
 
     <ItemGroup>
       <None Update="icon.png">

@@ -1,4 +1,7 @@
 ﻿using BasicHelper.Util;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 #pragma warning disable IDE0051 // 删除未使用的私有成员
 
@@ -18,8 +21,8 @@ namespace BasicHelper.IO
             {
                 if (File.Exists(path)) File.Delete(path);
                 File.Create(path).Close();
-                FileStream fs = new(path, FileMode.Open);
-                StreamWriter sw = new(fs);
+                FileStream fs = new FileStream(path, FileMode.Open);
+                StreamWriter sw = new StreamWriter(fs);
                 sw.Write(content); sw.Flush();
                 sw.Close(); sw.Dispose();
                 fs.Close(); fs.Dispose();
@@ -52,8 +55,8 @@ namespace BasicHelper.IO
                 {
                     File.Create(path);
                 }
-                FileStream fs = new(path, FileMode.Open);
-                BinaryWriter bw = new(fs);
+                FileStream fs = new FileStream(path, FileMode.Open);
+                BinaryWriter bw = new BinaryWriter(fs);
                 bw.Write(content);
                 bw.Flush();
                 bw.Close(); bw.Dispose();
@@ -73,7 +76,7 @@ namespace BasicHelper.IO
         /// <param name="content">内容</param>
         public static void WriteBytesToFile(string path, byte[] content)
         {
-            FileStream fs_write = new(path, FileMode.Open);
+            FileStream fs_write = new FileStream(path, FileMode.Open);
             fs_write.Write(content, 0, content.Length);
             fs_write.Close(); fs_write.Dispose();
         }
@@ -88,8 +91,8 @@ namespace BasicHelper.IO
             string content;
             if (File.Exists(path))
             {
-                FileStream fs = new(path, FileMode.Open);
-                StreamReader sr = new(fs);
+                FileStream fs = new FileStream(path, FileMode.Open);
+                StreamReader sr = new StreamReader(fs);
                 content = sr.ReadToEnd();
                 sr.Close(); sr.Dispose();
                 fs.Close(); fs.Dispose();
@@ -111,8 +114,8 @@ namespace BasicHelper.IO
             string result;
             try
             {
-                fs = new(path, FileMode.Open);
-                sr = new(fs);
+                fs = new FileStream(path, FileMode.Open);
+                sr = new StreamReader(fs);
                 result = await sr.ReadToEndAsync();
                 sr.Close();
                 fs.Close();
@@ -131,8 +134,8 @@ namespace BasicHelper.IO
         /// <returns>二进制流</returns>
         public static byte[] ReadByteAll(string path)
         {
-            FileStream fs = new(path, FileMode.Open);
-            BinaryReader br = new(fs);
+            FileStream fs = new FileStream(path, FileMode.Open);
+            BinaryReader br = new BinaryReader(fs);
             byte[] byData = br.ReadBytes((int)fs.Length);
             br.Close(); br.Dispose();
             fs.Close(); fs.Dispose();
@@ -146,7 +149,7 @@ namespace BasicHelper.IO
         /// <returns>二进制流</returns>
         private static byte[] FileToBytes(string filePath)
         {
-            FileInfo fi = new(filePath);
+            FileInfo fi = new FileInfo(filePath);
             byte[] buffer = new byte[fi.Length];
             FileStream fs = fi.OpenRead();
             fs.Read(buffer, 0, Convert.ToInt32(fi.Length));
@@ -164,8 +167,8 @@ namespace BasicHelper.IO
         {
             if (File.Exists(newFilePath))
                 File.Delete(newFilePath);
-            FileStream fs = new(newFilePath, FileMode.CreateNew);
-            BinaryWriter bw = new(fs);
+            FileStream fs = new FileStream(newFilePath, FileMode.CreateNew);
+            BinaryWriter bw = new BinaryWriter(fs);
             bw.Write(fileBuffer, 0, fileBuffer.Length); // 用文件流生成一个文件
             bw.Close(); bw.Dispose();
             fs.Close(); fs.Dispose();
@@ -181,7 +184,7 @@ namespace BasicHelper.IO
         {
             try
             {
-                DirectoryInfo directoryInfo = new(Path.GetFullPath(path));
+                DirectoryInfo directoryInfo = new DirectoryInfo(Path.GetFullPath(path));
                 foreach (FileInfo file in directoryInfo.GetFiles())
                     file.Delete();
                 foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
@@ -204,7 +207,7 @@ namespace BasicHelper.IO
         {
             try
             {
-                using FileStream fs = new(fileUrl, FileMode.Open, FileAccess.Read);
+                using FileStream fs = new FileStream(fileUrl, FileMode.Open, FileAccess.Read);
                 byte[] byteArray = new byte[fs.Length];
                 fs.Read(byteArray, 0, byteArray.Length);
                 return byteArray;
@@ -225,7 +228,7 @@ namespace BasicHelper.IO
         {
             try
             {
-                using FileStream fs = new(fileName, FileMode.OpenOrCreate, FileAccess.Write);
+                using FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write);
                 fs.Write(byteArray, 0, byteArray.Length);
                 return new Result<bool>(true);
             }

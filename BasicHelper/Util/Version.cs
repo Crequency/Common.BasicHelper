@@ -1,25 +1,20 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BasicHelper.Util
 {
     public struct Version
     {
 
-        private ushort majorVersion = 0;
-        private ushort minorVersion = 0;
-        private ushort branchVersion = 0;
-        private ushort buildVersion = 0;
+        private ushort majorVersion;
+        private ushort minorVersion;
+        private ushort branchVersion;
+        private ushort buildVersion;
 
-        private readonly List<Architecture> supportedArchitectures = new();
-        private readonly List<Platform> supportedPlatforms = new();
+        public List<Architecture> SupportedArchitectures => new List<Architecture>();
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public Version()
-        {
-
-        }
+        public List<Platform> SupportedPlatforms => new List<Platform>();
 
         /// <summary>
         /// 设置版本
@@ -40,13 +35,13 @@ namespace BasicHelper.Util
         /// 增加一个受支持的架构
         /// </summary>
         /// <param name="arch">架构</param>
-        public void AddSupportedArchitecture(Architecture arch) => supportedArchitectures.Add(arch);
+        public void AddSupportedArchitecture(Architecture arch) => SupportedArchitectures.Add(arch);
 
         /// <summary>
         /// 增加一个受支持的平台
         /// </summary>
         /// <param name="platform">平台</param>
-        public void AddPlatform(Platform platform) => supportedPlatforms.Add(platform);
+        public void AddPlatform(Platform platform) => SupportedPlatforms.Add(platform);
 
         /// <summary>
         /// 版本类别
@@ -101,16 +96,6 @@ namespace BasicHelper.Util
         public ushort Build => buildVersion;
 
         /// <summary>
-        /// 受支持的架构
-        /// </summary>
-        public List<Architecture> SupportedArchitectures => supportedArchitectures;
-
-        /// <summary>
-        /// 受支持的平台
-        /// </summary>
-        public List<Platform> SupportedPlatforms => supportedPlatforms;
-
-        /// <summary>
         /// 获取版本号字符串
         /// </summary>
         /// <param name="prefix">前导字符串</param>
@@ -131,16 +116,16 @@ namespace BasicHelper.Util
         /// <returns>版本结构</returns>
         public static Version Parse(string version)
         {
-            Regex regex = new(RegexStrings.Version_Parse_STR);
+            Regex regex = new Regex(RegexStrings.Version_Parse_STR);
             MatchCollection collection = regex.Matches(version);
             if (collection.Count > 1)
                 throw new Result<bool>("More than one version expression matched.");
             else
             {
-                foreach (Match match in collection)
+                foreach (Match match in collection.Cast<Match>())
                 {
                     string[] parts = match.Value.Split('.');
-                    Version result = new();
+                    Version result = new Version();
                     result.SetVersion(
                         ushort.Parse(parts[0]),
                         ushort.Parse(parts[1]),
