@@ -207,9 +207,10 @@ namespace BasicHelper.IO
         {
             try
             {
-                using FileStream fs = new FileStream(fileUrl, FileMode.Open, FileAccess.Read);
+                FileStream fs = new FileStream(fileUrl, FileMode.Open, FileAccess.Read);
                 byte[] byteArray = new byte[fs.Length];
                 fs.Read(byteArray, 0, byteArray.Length);
+                fs.Dispose();
                 return byteArray;
             }
             catch (Exception e)
@@ -228,8 +229,9 @@ namespace BasicHelper.IO
         {
             try
             {
-                using FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write);
+                FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write);
                 fs.Write(byteArray, 0, byteArray.Length);
+                fs.Dispose();
                 return new Result<bool>(true);
             }
             catch (Exception e)

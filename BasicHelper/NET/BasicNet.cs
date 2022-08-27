@@ -76,7 +76,7 @@ namespace BasicHelper.Net
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(serverFilePath);
             WebResponse respone = request.GetResponse();
             Stream netStream = respone.GetResponseStream();
-            using Stream fileStream = new FileStream(targetPath, FileMode.Create);
+            Stream fileStream = new FileStream(targetPath, FileMode.Create);
             byte[] read = new byte[1024];
             int realReadLen = netStream.Read(read, 0, read.Length);
             while (realReadLen > 0)
@@ -95,8 +95,9 @@ namespace BasicHelper.Net
         /// <param name="targetPath">存储到本地的文件位置</param>
         public static void WebDownloadFile(string serverFilePath, string targetPath)
         {
-            using WebClient webClient = new WebClient();
+            WebClient webClient = new WebClient();
             webClient.DownloadFile(serverFilePath, targetPath);
+            webClient.Dispose();
         }
     }
 }

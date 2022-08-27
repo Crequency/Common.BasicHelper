@@ -99,7 +99,7 @@ namespace BasicHelper.LiteLogger
                             sw = file.AppendText();
                         await sw.WriteLineAsync($"{DateTime.Now:yyyy.MM.dd-HH:mm:ss}\t{content}");
                         sw.Close();
-                        await sw.DisposeAsync();
+                        sw.Dispose();
                     }
                     catch
                     {
