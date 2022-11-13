@@ -5,17 +5,17 @@ namespace BasicHelper.UI.Screen
 {
     public class Resolution
     {
-        internal double? Width { get; set; }
+        public double? Width { get; set; }
 
-        internal double? Height { get; set; }
+        public double? Height { get; set; }
 
-        internal double? FramePerSecond { get; set; }
+        public double? FramePerSecond { get; set; }
 
-        internal double? Area => Width * Height;
+        public double? Area => Width * Height;
 
-        internal double? AspectRatio => Width / Height;
-
-        internal string Description { get; set; } = string.Empty;
+        public double? AspectRatio => Width / Height;
+        
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// 宽高整数化
