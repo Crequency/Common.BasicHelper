@@ -1,6 +1,6 @@
+﻿using Common.BasicHelper.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using BasicHelper.Util;
 
 namespace UnitTest
 {
