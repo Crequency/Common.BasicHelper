@@ -24,6 +24,7 @@ jobs:
 
       - name: Build
         run: |
+          cd Common.BasicHelper
           dotnet build -c Release
 
   build-on-ubuntu:
@@ -41,6 +42,7 @@ jobs:
 
       - name: Build
         run: |
+          cd Common.BasicHelper
           dotnet build -c Release
 
       - name: Add to GitHub Repo
@@ -54,8 +56,8 @@ jobs:
 
       - name: Publish Package to GitHub and NuGet
         run: |
-          nuget push ./BasicHelper/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol
-          nuget push ./BasicHelper/bin/Release/*.nupkg -Source github -SkipDuplicate
+          nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol
+          nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source github -SkipDuplicate
 
 
   build-on-macos:
@@ -73,6 +75,7 @@ jobs:
 
       - name: Build
         run: |
+          cd Common.BasicHelper
           dotnet build -c Release
 
 
