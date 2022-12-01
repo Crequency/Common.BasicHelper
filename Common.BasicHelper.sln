@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicHelper", "BasicHelper\BasicHelper.csproj", "{A80ED612-3DE2-4106-92C4-96940C93FD1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.BasicHelper", "Common.BasicHelper\Common.BasicHelper.csproj", "{A80ED612-3DE2-4106-92C4-96940C93FD1C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{0AC03FB9-0E2A-42FA-B712-685DFE512685}"
 EndProject
