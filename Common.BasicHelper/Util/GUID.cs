@@ -1,9 +1,8 @@
-﻿using BasicHelper.Math;
-using System;
+﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BasicHelper.Util
+namespace Common.BasicHelper.Util
 {
     public static class GUID_Helper
     {

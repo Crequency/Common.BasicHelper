@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BasicHelper\BasicHelper.csproj" />
+    <ProjectReference Include="..\Common.BasicHelper\Common.BasicHelper.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace BasicHelper.Util
+﻿namespace Common.BasicHelper.Util
 {
     public struct RegexStrings
     {

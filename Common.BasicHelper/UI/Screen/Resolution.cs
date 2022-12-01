@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BasicHelper.UI.Screen
+namespace Common.BasicHelper.UI.Screen
 {
     public class Resolution
     {
@@ -14,7 +14,7 @@ namespace BasicHelper.UI.Screen
         public double? Area => Width * Height;
 
         public double? AspectRatio => Width / Height;
-        
+
         public string Description { get; set; } = string.Empty;
 
         /// <summary>

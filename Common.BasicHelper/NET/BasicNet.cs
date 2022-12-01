@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 
-namespace BasicHelper.Net
+namespace Common.BasicHelper.Net
 {
     public class BasicNet
     {

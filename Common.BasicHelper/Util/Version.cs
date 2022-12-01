@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace BasicHelper.Util
+namespace Common.BasicHelper.Util
 {
     public struct Version
     {

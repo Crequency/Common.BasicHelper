@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace BasicHelper.IO.PipeHelper
+namespace Common.BasicHelper.IO.PipeHelper
 {
     public class StreamString : IDisposable
     {

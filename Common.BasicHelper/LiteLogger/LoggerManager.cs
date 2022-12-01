@@ -1,12 +1,9 @@
-﻿using BasicHelper.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace BasicHelper.LiteLogger
+namespace Common.BasicHelper.LiteLogger
 {
     public class LoggerManager
     {
