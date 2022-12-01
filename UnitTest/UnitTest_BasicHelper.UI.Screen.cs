@@ -1,4 +1,4 @@
-﻿using BasicHelper.UI.Screen;
+﻿using Common.BasicHelper.UI.Screen;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -12,8 +12,9 @@ namespace UnitTest
         {
             foreach (var item in Resolution.resolutions)
             {
-                Console.WriteLine(Resolution.Suggest(Resolution.Parse("2560x1440"),
-                    Resolution.Parse("1280x720"), item).Integerization());
+                Resolution tarRes = Resolution.Suggest(Resolution.Parse("2560x1440"),
+                    Resolution.Parse("1280x720"), item).Integerization();
+                Console.WriteLine($"{item}\r\n\t{tarRes}");
             }
         }
     }
