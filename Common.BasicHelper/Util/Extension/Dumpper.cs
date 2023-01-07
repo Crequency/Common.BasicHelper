@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Text;
 
@@ -8,6 +6,11 @@ namespace Common.BasicHelper.Util.Extension
 {
     public static class Dumpper
     {
+        /// <summary>
+        /// 网络适配器打印机
+        /// </summary>
+        /// <param name="adapter">网络适配器</param>
+        /// <returns>打印内容</returns>
         public static string Dump(this NetworkInterface adapter)
         {
             var sb = new StringBuilder();
@@ -54,6 +57,11 @@ namespace Common.BasicHelper.Util.Extension
             return sb.ToString();
         }
 
+        /// <summary>
+        /// 网络适配器打印机, 按行返回
+        /// </summary>
+        /// <param name="adapter">网络适配器</param>
+        /// <returns>打印内容</returns>
         public static string[] Dump2Lines(this NetworkInterface adapter)
         {
             List<string> sb = new List<string>();
