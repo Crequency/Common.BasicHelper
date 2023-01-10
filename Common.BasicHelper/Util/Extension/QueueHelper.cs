@@ -35,6 +35,6 @@ namespace Common.BasicHelper.Util.Extension
         /// <typeparam name="T">队列类型</typeparam>
         /// <param name="queue">队列</param>
         /// <returns>是否为空</returns>
-        public static bool IsEmpty<T>(this Queue<T> queue) => queue.Count > 0;
+        public static bool IsNotEmpty<T>(this Queue<T> queue) => queue.Count > 0;
     }
 }
