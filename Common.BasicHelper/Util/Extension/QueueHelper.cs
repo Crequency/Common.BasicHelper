@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Common.BasicHelper.Util.Extension
 {
@@ -44,5 +45,40 @@ namespace Common.BasicHelper.Util.Extension
         /// <param name="queue">队列</param>
         /// <returns>是否为空</returns>
         public static bool IsNotEmpty<T>(this Queue<T> queue) => queue.Count > 0;
+
+        /// <summary>
+        /// 遍历队列对每一个元素执行操作, 执行完毕后返回队列本身
+        /// </summary>
+        /// <typeparam name="T">队列类型</typeparam>
+        /// <param name="queue">队列</param>
+        /// <param name="action">对元素的操作</param>
+        /// <param name="reappend">是否将出队元素重新入队</param>
+        /// <param name="locker">操作锁</param>
+        /// <returns>队列本身</returns>
+        public static Queue<T> ForEach<T>(this Queue<T> queue, Action<T> action,
+            bool reappend = false, object locker = null)
+        {
+            Queue<T> func()
+            {
+                var count = queue.Count;
+                while (count > 0)
+                {
+                    var item = queue.Dequeue();
+                    action.Invoke(item);
+                    --count;
+                    if (reappend) queue.Enqueue(item);
+                }
+                return queue;
+            }
+
+            if (locker != null)
+            {
+                lock (locker)
+                {
+                    return func();
+                }
+            }
+            else return func();
+        }
     }
 }
