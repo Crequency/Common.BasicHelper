@@ -28,5 +28,13 @@ namespace Common.BasicHelper.Util.Extension
             _ = queue.Dequeue();
             return queue;
         }
+
+        /// <summary>
+        /// 判断队列是否为空
+        /// </summary>
+        /// <typeparam name="T">队列类型</typeparam>
+        /// <param name="queue">队列</param>
+        /// <returns>是否为空</returns>
+        public static bool IsEmpty<T>(this Queue<T> queue) => queue.Count > 0;
     }
 }
