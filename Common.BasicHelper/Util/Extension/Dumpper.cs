@@ -20,7 +20,7 @@ namespace Common.BasicHelper.Util.Extension
             {
                 result.Append(x.ToString());
                 result.Append(separater);
-            });
+            }, true);
             return result.ToString();
         }
 
@@ -33,7 +33,7 @@ namespace Common.BasicHelper.Util.Extension
         public static string[] Dump2Lines<T>(this Queue<T> queue)
         {
             var result = new List<string>();
-            queue.ForEach(x => result.Add(x.ToString()));
+            queue.ForEach(x => result.Add(x.ToString()), true);
             return result.ToArray();
         }
 
