@@ -7,6 +7,37 @@ namespace Common.BasicHelper.Util.Extension
     public static class Dumpper
     {
         /// <summary>
+        /// 队列打印机
+        /// </summary>
+        /// <typeparam name="T">队列类型</typeparam>
+        /// <param name="queue">队列</param>
+        /// <param name="separater">分隔符</param>
+        /// <returns>打印内容</returns>
+        public static string Dump<T>(this Queue<T> queue, string separater = " ")
+        {
+            var result = new StringBuilder();
+            queue.ForEach(x =>
+            {
+                result.Append(x.ToString());
+                result.Append(separater);
+            });
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 队列打印机, 按行返回
+        /// </summary>
+        /// <typeparam name="T">队列类型</typeparam>
+        /// <param name="queue">队列</param>
+        /// <returns>打印内容</returns>
+        public static string[] Dump2Lines<T>(this Queue<T> queue)
+        {
+            var result = new List<string>();
+            queue.ForEach(x => result.Add(x.ToString()));
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// 网络适配器打印机
         /// </summary>
         /// <param name="adapter">网络适配器</param>
