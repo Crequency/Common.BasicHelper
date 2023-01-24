@@ -26,7 +26,8 @@ namespace Common.BasicHelper.Util.Extension
         /// <returns>队列</returns>
         public static Queue<T> Pop<T>(this Queue<T> queue)
         {
-            _ = queue.Dequeue();
+            if (queue.Count > 0)
+                _ = queue.Dequeue();
             return queue;
         }
 
