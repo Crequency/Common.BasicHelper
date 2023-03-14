@@ -2,24 +2,31 @@ name: Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - "main"
+    paths-ignore:
+      - ".*/**"
+      - "**/*.md"
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"
+    paths-ignore:
+      - ".*/**"
+      - "**/*.md"
 
   workflow_dispatch:
-  
+
 jobs:
   build-on-windows:
     runs-on: windows-latest
 
     steps:
-
       - uses: actions/checkout@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: "6.0.x"
           include-prerelease: false
 
       - name: Build
@@ -31,13 +38,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: "6.0.x"
           include-prerelease: false
 
       - name: Build
@@ -52,30 +58,26 @@ jobs:
       - name: Install NuGet
         uses: nuget/setup-nuget@v1
         with:
-          nuget-version: '6.x'
+          nuget-version: "6.x"
 
       - name: Publish Package to GitHub and NuGet
         run: |
           nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol
           nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source github -SkipDuplicate
 
-
   build-on-macos:
     runs-on: macos-latest
 
     steps:
-
       - uses: actions/checkout@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: "6.0.x"
           include-prerelease: false
 
       - name: Build
         run: |
           cd Common.BasicHelper
           dotnet build -c Release
-
-
