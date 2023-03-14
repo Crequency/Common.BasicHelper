@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Common.BasicHelper.Util.Extension;
 
@@ -40,11 +41,11 @@ public static class QueueHelper
     public static bool IsEmpty<T>(this Queue<T> queue) => queue.Count == 0;
 
     /// <summary>
-    /// 判断队列是否为空
+    /// 判断队列是否非空
     /// </summary>
     /// <typeparam name="T">队列类型</typeparam>
     /// <param name="queue">队列</param>
-    /// <returns>是否为空</returns>
+    /// <returns>是否非空</returns>
     public static bool IsNotEmpty<T>(this Queue<T> queue) => queue.Count > 0;
 
     /// <summary>
@@ -80,5 +81,33 @@ public static class QueueHelper
             }
         }
         else return func();
+    }
+
+    /// <summary>
+    /// 异步遍历队列对每一个元素执行操作, 执行完毕后返回队列本身
+    /// </summary>
+    /// <typeparam name="T">队列类型</typeparam>
+    /// <param name="queue">队列</param>
+    /// <param name="action">对元素的操作</param>
+    /// <param name="reappend">是否将出队元素重新入队</param>
+    /// <param name="locker">操作锁</param>
+    /// <returns>返回队列本身的任务</returns>
+    public static async Task<Queue<T>> ForEachAsync<T>(this Queue<T> queue, Action<T> action,
+        bool reappend = false)
+    {
+        Queue<T> func()
+        {
+            var count = queue.Count;
+            while (count > 0)
+            {
+                var item = queue.Dequeue();
+                action.Invoke(item);
+                --count;
+                if (reappend) queue.Enqueue(item);
+            }
+            return queue;
+        }
+
+        return await Task.Run(func);
     }
 }
