@@ -53,4 +53,19 @@ public class Standard
 
         return max;
     }
+
+    /// <summary>
+    /// 获取指定位数的数字
+    /// 例如：456 取 2 位数返回 5，6892 取 4 位数返回 6
+    /// </summary>
+    /// <param name="number">指示要被获取指定位数字的数字</param>
+    /// <param name="bit">指示要获取的位数</param>
+    /// <returns>返回指定位上数字</returns>
+    public static int GetBit(int number, int bit)
+    {
+        var pow = 10;
+        for (var i = 0; i < bit - 1; ++i)
+            pow *= pow;
+        return (number % pow) / (pow / 10);
+    }
 }

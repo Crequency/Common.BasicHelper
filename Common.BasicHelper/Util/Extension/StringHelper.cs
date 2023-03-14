@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Common.BasicHelper.Util.Extension;
 
@@ -24,5 +26,33 @@ public static class StringHelper
             else sb.Append(source[i]);
         return sb.ToString();
     }
+
+    /// <summary>
+    /// 从磁盘读取全部文本
+    /// </summary>
+    /// <param name="path">文件路径</param>
+    /// <returns>文本内容, 若文件不存在则返回空</returns>
+    public static string ReadAllTextFromDisk(this string path)
+    {
+        if (File.Exists(path))
+            return File.ReadAllText(path);
+        else return null;
+    }
+
+#if NETSTANDARD2_1_OR_GREATER
+
+    /// <summary>
+    /// 从磁盘异步读取全部文本
+    /// </summary>
+    /// <param name="path">文件路径</param>
+    /// <returns>文本内容读取任务, 若文件不存在则返回空</returns>
+    public static Task<string> ReadAllTextFromDiskAsync(this string path)
+    {
+        if (File.Exists(path))
+            return File.ReadAllTextAsync(path);
+        else return null;
+    }
+
+#endif
 
 }
