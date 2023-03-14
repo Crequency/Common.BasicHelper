@@ -6,7 +6,6 @@ namespace Common.BasicHelper.Util.Extension;
 
 public static class CleanHelper
 {
-
     /// <summary>
     /// 关闭并释放对象
     /// </summary>
