@@ -1,12 +1,12 @@
-﻿using Common.BasicHelper.UI.Screen;
+﻿using Common.BasicHelper.Graphics.Screen;
 
-namespace Common.BasicHelper.Test;
+namespace Common.BasicHelper.Test.Graphics.Screen;
 
 [TestClass]
-public class UI_Test
+public class Test_Resolution
 {
     [TestMethod]
-    public void ResolutionSuggestTest()
+    public void Test_SuggestResolution()
     {
         foreach (var item in Resolution.resolutions)
         {

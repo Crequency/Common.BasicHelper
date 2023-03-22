@@ -1,12 +1,12 @@
 ﻿using Common.BasicHelper.Core.Shell;
 
-namespace Common.BasicHelper.Test;
+namespace Common.BasicHelper.Test.Core.Shell;
 
 [TestClass]
-public class CommadsExecutor_Test
+public class Test_CommandsExecutor
 {
     [TestMethod]
-    public void TestCommand()
+    public void Test_Command()
     {
         Console.WriteLine("help".ExecuteAsCommand());
     }

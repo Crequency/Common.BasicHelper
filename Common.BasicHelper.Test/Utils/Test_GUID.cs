@@ -1,12 +1,12 @@
-﻿using Common.BasicHelper.Util;
+﻿using Common.BasicHelper.Utils;
 
-namespace Common.BasicHelper.Test;
+namespace Common.BasicHelper.Test.Utils;
 
 [TestClass]
-public class Util_Test
+public class Test_GUID
 {
     [TestMethod]
-    public void GUID_Part_Random_Generate_Test()
+    public void Test_GenerateRandomGUIDPart()
     {
         for (int i = 0; i < 10; i++)
             Console.WriteLine(GUID_Helper.Random_GUID_Generate().GetString());

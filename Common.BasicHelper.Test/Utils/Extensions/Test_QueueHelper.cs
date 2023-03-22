@@ -6,7 +6,7 @@ namespace Common.BasicHelper.Test.Utils.Extensions;
 public class Test_QueueHelper
 {
     [TestMethod]
-    public void QueueExtensionTest()
+    public void Test_QueueExtensions()
     {
         var queue = new Queue<int>()
             .Push(1)
@@ -26,7 +26,7 @@ public class Test_QueueHelper
     }
 
     [TestMethod]
-    public void DumpQueueTest()
+    public void Test_DumpQueue()
     {
         var queue = new Queue<int>()
             .Push(1)
