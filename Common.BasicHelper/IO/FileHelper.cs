@@ -1,5 +1,5 @@
-﻿using Common.BasicHelper.Util;
-using Common.BasicHelper.Util.Extension;
+﻿using Common.BasicHelper.Utils;
+using Common.BasicHelper.Utils.Extensions;
 using System;
 using System.IO;
 using System.Threading.Tasks;
