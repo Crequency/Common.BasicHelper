@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Common.BasicHelper.Util.Extension;
+namespace Common.BasicHelper.Utils.Extensions;
 
 public static class QueueHelper
 {

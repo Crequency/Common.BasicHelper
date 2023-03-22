@@ -3,7 +3,7 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Common.BasicHelper.Util;
+namespace Common.BasicHelper.Utils;
 
 public static class GUID_Helper
 {

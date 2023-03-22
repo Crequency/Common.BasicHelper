@@ -1,4 +1,4 @@
-﻿namespace Common.BasicHelper.Util.Extension;
+﻿namespace Common.BasicHelper.Utils.Extensions;
 
 public static class ArrayHelper
 {
