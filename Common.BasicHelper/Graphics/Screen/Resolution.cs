@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common.BasicHelper.UI.Screen;
+namespace Common.BasicHelper.Graphics.Screen;
 
 public class Resolution
 {

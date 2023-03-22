@@ -1,4 +1,4 @@
-﻿namespace Common.BasicHelper.Util;
+﻿namespace Common.BasicHelper.Utils;
 
 public struct Platform
 {

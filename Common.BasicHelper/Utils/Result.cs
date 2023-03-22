@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.BasicHelper.Util;
+namespace Common.BasicHelper.Utils;
 
 public class Result<T> : Exception
 {

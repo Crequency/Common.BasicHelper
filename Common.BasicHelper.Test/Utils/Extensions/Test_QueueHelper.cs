@@ -1,12 +1,12 @@
-﻿using Common.BasicHelper.Util.Extension;
+﻿using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Test;
+namespace Common.BasicHelper.Test.Utils.Extensions;
 
 [TestClass]
-public class Util_Extension_Test
+public class Test_QueueHelper
 {
     [TestMethod]
-    public void QueueExtensionTest()
+    public void Test_QueueExtensions()
     {
         var queue = new Queue<int>()
             .Push(1)
@@ -26,7 +26,7 @@ public class Util_Extension_Test
     }
 
     [TestMethod]
-    public void DumpQueueTest()
+    public void Test_DumpQueue()
     {
         var queue = new Queue<int>()
             .Push(1)

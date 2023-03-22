@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace Common.BasicHelper.Util.Extension;
+namespace Common.BasicHelper.Utils.Extensions;
 
 public static class CleanHelper
 {
