@@ -18,7 +18,7 @@ public static class Dumpper
         var result = new StringBuilder();
         queue.ForEach(x =>
         {
-            result.Append(x.ToString());
+            result.Append(x?.ToString());
             result.Append(separater);
         }, true);
         return result.ToString();
@@ -33,7 +33,7 @@ public static class Dumpper
     public static string[] Dump2Lines<T>(this Queue<T> queue)
     {
         var result = new List<string>();
-        queue.ForEach(x => result.Add(x.ToString()), true);
+        queue.ForEach(x => result.Add(x?.ToString() ?? string.Empty), true);
         return result.ToArray();
     }
 

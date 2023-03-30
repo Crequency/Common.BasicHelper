@@ -58,7 +58,7 @@ public static class QueueHelper
     /// <param name="locker">操作锁</param>
     /// <returns>队列本身</returns>
     public static Queue<T> ForEach<T>(this Queue<T> queue, Action<T> action,
-        bool reappend = false, object locker = null)
+        bool reappend = false, object? locker = null)
     {
         Queue<T> func()
         {
@@ -73,7 +73,7 @@ public static class QueueHelper
             return queue;
         }
 
-        if (locker != null)
+        if (locker is not null)
         {
             lock (locker)
             {

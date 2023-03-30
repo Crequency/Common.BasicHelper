@@ -47,7 +47,7 @@ public class BasicNet
     /// <param name="target">测试目标</param>
     /// <param name="waitTime">等待时间</param>
     /// <returns>返回失败原因</returns>
-    public static Exception WebConectionError(string target, int waitTime)
+    public static Exception? WebConectionError(string target, int waitTime)
     {
         try
         {

@@ -18,7 +18,7 @@ public static class ListHelper
 
         foreach (var item in list)
         {
-            sb.Append(item.ToString());
+            sb.Append(item?.ToString());
             sb.Append(separater);
         }
 
