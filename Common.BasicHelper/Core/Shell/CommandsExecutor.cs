@@ -20,7 +20,7 @@ public static class CommandsExecutor
         string command,
         string args,
         bool findInPath = false,
-        Action<ProcessStartInfo> action = null
+        Action<ProcessStartInfo>? action = null
     )
     {
         if (findInPath)
@@ -68,8 +68,8 @@ public static class CommandsExecutor
         string command,
         string args,
         bool findInPath = false,
-        Action<ProcessStartInfo> action = null,
-        CancellationToken token = default
+        Action<ProcessStartInfo>? action = null,
+        CancellationToken? token = default
     )
     {
         if (findInPath)
@@ -128,9 +128,9 @@ public static class CommandsExecutorExtensions
     public static string ExecuteAsCommand
     (
         this string command,
-        string args = null,
+        string? args = null,
         bool findInPath = true,
-        Action<ProcessStartInfo> action = null
+        Action<ProcessStartInfo>? action = null
     )
         => CommandsExecutor.GetExecutionResult
         (
