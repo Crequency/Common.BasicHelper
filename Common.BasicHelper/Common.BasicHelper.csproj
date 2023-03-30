@@ -4,7 +4,7 @@
         <LangVersion>preview</LangVersion>
         <TargetFrameworks>netstandard2.1;net46</TargetFrameworks>
         <ImplicitUsings>disable</ImplicitUsings>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <Authors>Dynesshely</Authors>
