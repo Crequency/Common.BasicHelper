@@ -13,17 +13,19 @@ public static class CleanHelper
     /// <param name="obj">对象</param>
     public static void CloseAndDispose<T>(this T obj) where T : IDisposable
     {
-        if (obj is Stream) (obj as Stream).Close();
+        if (false) { }
 
-        else if (obj is BinaryReader) (obj as BinaryReader).Close();
+        else if (obj is Stream stream) stream?.Close();
 
-        else if (obj is BinaryWriter) (obj as BinaryWriter).Close();
+        else if (obj is BinaryReader binaryReader) binaryReader?.Close();
 
-        else if (obj is TextReader) (obj as TextReader).Close();
+        else if (obj is BinaryWriter binaryWriter) binaryWriter?.Close();
 
-        else if (obj is TextWriter) (obj as TextWriter).Close();
+        else if (obj is TextReader textReader) textReader?.Close();
 
-        else if (obj is WebResponse) (obj as WebResponse).Close();
+        else if (obj is TextWriter textWriter) textWriter?.Close();
+
+        else if (obj is WebResponse webResponse) webResponse?.Close();
 
         obj.Dispose();
     }
