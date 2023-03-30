@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ public static class StringHelper
     /// </summary>
     /// <param name="path">文件路径</param>
     /// <returns>文本内容, 若文件不存在则返回空</returns>
-    public static string ReadAllTextFromDisk(this string path)
+    public static string? ReadAllTextFromDisk(this string path)
     {
         if (File.Exists(path))
             return File.ReadAllText(path);
@@ -46,7 +47,7 @@ public static class StringHelper
     /// </summary>
     /// <param name="path">文件路径</param>
     /// <returns>文本内容读取任务, 若文件不存在则返回空</returns>
-    public static Task<string> ReadAllTextFromDiskAsync(this string path)
+    public static Task<string>? ReadAllTextFromDiskAsync(this string path)
     {
         if (File.Exists(path))
             return File.ReadAllTextAsync(path);
@@ -54,5 +55,45 @@ public static class StringHelper
     }
 
 #endif
+
+    /// <summary>
+    /// 对字符串进行按指定数量分组拼接
+    /// </summary>
+    /// <param name="text">字符串</param>
+    /// <param name="count">每组字符数</param>
+    /// <param name="action">每组分割完后动作</param>
+    /// <param name="executeAfterLastGroup">最后一组分割完成后是否执行动作</param>
+    /// <returns>返回拼接结果</returns>
+    public static string SeparateGroup
+    (
+        this string text,
+        int count,
+        Action<StringBuilder>? action = null,
+        bool executeAfterLastGroup = false
+    )
+    {
+        var sb = new StringBuilder();
+        for (int i = 0, j = 0; i < text.Length; ++i)
+        {
+            void normalSeparate()
+            {
+                sb.Append(text[i]);
+                ++j;
+            }
+
+            normalSeparate();
+
+            if (j == count)
+            {
+                if (i != text.Length - 1)
+                    action?.Invoke(sb);
+                else if (executeAfterLastGroup)
+                    action?.Invoke(sb);
+
+                j = 0;
+            }
+        }
+        return sb.ToString();
+    }
 
 }
