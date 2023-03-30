@@ -67,7 +67,8 @@ public class Resolution
     /// <returns>是否相等</returns>
     public override bool Equals(object obj)
     {
-        var res = obj as Resolution;
+        if (obj is not Resolution res) return false;
+
         if (Width.Equals(res.Width) && Height.Equals(res.Height))
             if (FramePerSecond != null && res.FramePerSecond != null)
                 if (FramePerSecond.Equals(res.FramePerSecond))
@@ -81,10 +82,12 @@ public class Resolution
     /// 重写 GetHashCode() 方法
     /// </summary>
     /// <returns>哈希值</returns>
-    public override int GetHashCode() => (int)(0
+    public override int GetHashCode() => (int)(
+        0
         + (Area.GetHashCode() ^ AspectRatio.GetHashCode())
         + (Width.GetHashCode() ^ Height.GetHashCode())
-        + FramePerSecond == null ? 0 : FramePerSecond);
+        + FramePerSecond ?? 0
+        );
 
     /// <summary>
     /// 根据字符串返回分辨率对象
