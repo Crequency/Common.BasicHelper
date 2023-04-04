@@ -96,4 +96,18 @@ public static class StringHelper
         return sb.ToString();
     }
 
+    /// <summary>
+    /// 判断字符串是否为空
+    /// </summary>
+    /// <param name="str">字符串对象</param>
+    /// <returns>是否为空</returns>
+    public static bool IsNullOrEmpty(this string? str) => string.IsNullOrEmpty(str);
+
+    /// <summary>
+    /// 判断字符串是否为空或仅由空白组成
+    /// </summary>
+    /// <param name="str">字符串对象</param>
+    /// <returns>是否为空或仅有空白组成</returns>
+    public static bool IsNullOrWhiteSpace(this string? str) => string.IsNullOrWhiteSpace(str);
+
 }
