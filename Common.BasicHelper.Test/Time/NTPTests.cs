@@ -1,10 +1,9 @@
-﻿using Common.BasicHelper.Time;
-using System.Text;
+﻿using System.Text;
 
-namespace Common.BasicHelper.Test.Time;
+namespace Common.BasicHelper.Time;
 
 [TestClass]
-public class Test_NTP
+public class NTPTests
 {
     private static double GetOffsetsMillisecondsInRandomWay(bool useTimeSpan = false, bool print = true)
     {

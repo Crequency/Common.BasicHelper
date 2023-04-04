@@ -1,9 +1,7 @@
-﻿using Common.BasicHelper.Core.Shell;
-
-namespace Common.BasicHelper.Test.Core.Shell;
+﻿namespace Common.BasicHelper.Core.Shell;
 
 [TestClass]
-public class Test_CommandsExecutor
+public class CommandsExecutorTests
 {
     [TestMethod]
     public void Test_Command()

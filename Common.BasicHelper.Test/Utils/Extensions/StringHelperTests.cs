@@ -1,9 +1,7 @@
-﻿using Common.BasicHelper.Utils.Extensions;
-
-namespace Common.BasicHelper.Test.Utils.Extensions;
+﻿namespace Common.BasicHelper.Utils.Extensions;
 
 [TestClass]
-public class Test_StringHelper
+public class StringHelperTests
 {
     [TestMethod]
     public void Test_SeparateGroup()

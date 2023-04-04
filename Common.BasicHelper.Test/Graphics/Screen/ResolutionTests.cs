@@ -1,9 +1,7 @@
-﻿using Common.BasicHelper.Graphics.Screen;
-
-namespace Common.BasicHelper.Test.Graphics.Screen;
+﻿namespace Common.BasicHelper.Graphics.Screen;
 
 [TestClass]
-public class Test_Resolution
+public class ResolutionTests
 {
     [TestMethod]
     public void Test_SuggestResolution()

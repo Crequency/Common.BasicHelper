@@ -1,9 +1,7 @@
-﻿using Common.BasicHelper.Utils.Extensions;
-
-namespace Common.BasicHelper.Test.Utils.Extensions;
+﻿namespace Common.BasicHelper.Utils.Extensions;
 
 [TestClass]
-public class Test_QueueHelper
+public class QueueHelperTests
 {
     [TestMethod]
     public void Test_QueueExtensions()

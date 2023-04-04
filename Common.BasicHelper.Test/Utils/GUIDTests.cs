@@ -1,9 +1,7 @@
-﻿using Common.BasicHelper.Utils;
-
-namespace Common.BasicHelper.Test.Utils;
+﻿namespace Common.BasicHelper.Utils;
 
 [TestClass]
-public class Test_GUID
+public class GUIDTests
 {
     [TestMethod]
     public void Test_GenerateRandomGUIDPart()
