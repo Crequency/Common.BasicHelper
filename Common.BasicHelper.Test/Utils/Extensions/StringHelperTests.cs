@@ -38,4 +38,16 @@ public class StringHelperTests
         Assert.IsTrue(c.IsNullOrWhiteSpace());
         Assert.IsTrue(d.IsNullOrWhiteSpace());
     }
+
+    [TestMethod]
+    public void Test_ExecuteAsCommand()
+    {
+        Console.WriteLine("help".ExecuteAsCommand());
+    }
+
+    [TestMethod]
+    public async Task Test_ExecuteAsCommandAsync()
+    {
+        Console.WriteLine(await "help".ExecuteAsCommandAsync());
+    }
 }
