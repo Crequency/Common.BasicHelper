@@ -13,6 +13,7 @@ public static class CommandsExecutor
     /// </summary>
     /// <param name="command">命令</param>
     /// <param name="args">参数</param>
+    /// <param name="findInPath">是否在 Path 中寻找</param>
     /// <param name="action">对启动信息的行动</param>
     /// <returns>命令执行输出</returns>
     public static string GetExecutionResult
@@ -60,6 +61,7 @@ public static class CommandsExecutor
     /// </summary>
     /// <param name="command">命令</param>
     /// <param name="args">参数</param>
+    /// <param name="findInPath">是否在 Path 中寻找</param>
     /// <param name="action">针对启动信息的动作</param>
     /// <param name="token">取消口令</param>
     /// <returns>命令执行输出</returns>
@@ -138,6 +140,33 @@ public static class CommandsExecutorExtensions
             args ?? "",
             findInPath,
             action
+        );
+
+
+    /// <summary>
+    /// 将当前字符串作为命令执行, 异步获取命令执行输出
+    /// </summary>
+    /// <param name="command">命令</param>
+    /// <param name="args">参数</param>
+    /// <param name="findInPath">是否在 Path 中寻找</param>
+    /// <param name="action">针对启动信息的动作</param>
+    /// <param name="token">取消口令</param>
+    /// <returns>命令执行输出</returns>
+    public static Task<string> ExecuteAsCommandAsync
+    (
+        this string command,
+        string? args = null,
+        bool findInPath = true,
+        Action<ProcessStartInfo>? action = null,
+        CancellationToken? token = default
+    )
+        => CommandsExecutor.GetExecutionResultAsync
+        (
+            command,
+            args ?? "",
+            findInPath,
+            action,
+            token
         );
 
 }
