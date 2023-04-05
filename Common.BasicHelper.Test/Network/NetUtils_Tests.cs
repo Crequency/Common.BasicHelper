@@ -1,15 +1,15 @@
-﻿namespace Common.BasicHelper.Net;
+﻿namespace Common.BasicHelper.Network;
 
 [TestClass]
-public class BasicNet_Tests
+public class NetUtils_Tests
 {
     private const string testDownloadFilePath = "https://www.baidu.com/index.html";
 
     [TestMethod]
     public void Test_IsWebConected()
     {
-        Assert.IsTrue(BasicNet.IsWebConected("localhost", 3));
-        Assert.IsFalse(BasicNet.IsWebConected("192.168.255.255", 3));
+        Assert.IsTrue(NetUtils.IsWebConected("localhost", 3));
+        Assert.IsFalse(NetUtils.IsWebConected("192.168.255.255", 3));
     }
 
     [TestMethod]
@@ -17,7 +17,7 @@ public class BasicNet_Tests
     {
         var path = Path.GetFullPath($"{Path.GetTempPath()}/test_downloadFile.txt");
 
-        BasicNet.DownloadFile(testDownloadFilePath, path);
+        NetUtils.DownloadFile(testDownloadFilePath, path);
 
         File.Delete(path);
     }
@@ -27,7 +27,7 @@ public class BasicNet_Tests
     {
         var path = Path.GetFullPath($"{Path.GetTempPath()}/test_webDownloadFile.txt");
 
-        BasicNet.WebDownloadFile(testDownloadFilePath, path);
+        NetUtils.WebDownloadFile(testDownloadFilePath, path);
 
         File.Delete(path);
     }
