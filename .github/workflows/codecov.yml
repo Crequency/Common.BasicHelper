@@ -1,0 +1,25 @@
+﻿name: CodeCov
+
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".*/**"
+      - "**/*.md"
+  pull_request:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".*/**"
+      - "**/*.md"
+
+  workflow_dispatch:
+
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
