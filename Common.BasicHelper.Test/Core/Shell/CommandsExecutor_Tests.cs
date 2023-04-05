@@ -1,5 +1,7 @@
 ﻿namespace Common.BasicHelper.Core.Shell;
 
-public class EnvironmentHelperTests
+[TestClass]
+public class CommandsExecutor_Tests
 {
+
 }

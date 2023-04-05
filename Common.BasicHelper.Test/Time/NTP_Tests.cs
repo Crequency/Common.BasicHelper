@@ -3,7 +3,7 @@
 namespace Common.BasicHelper.Time;
 
 [TestClass]
-public class NTPTests
+public class NTP_Tests
 {
     private static double GetOffsetsMillisecondsInRandomWay(bool useTimeSpan = false, bool print = true)
     {

@@ -5,7 +5,7 @@ using System.Net.Sockets;
 namespace Common.BasicHelper.Utils.Extensions;
 
 [TestClass]
-public class CleanHelperTests
+public class CleanHelper_Tests
 {
     [TestMethod]
     public void Test_CloseAndDispose()

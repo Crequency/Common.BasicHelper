@@ -1,7 +1,7 @@
 ﻿namespace Common.BasicHelper.Utils.Extensions;
 
 [TestClass]
-public class StringHelperTests
+public class StringHelper_Tests
 {
     [TestMethod]
     public void Test_SeparateGroup()

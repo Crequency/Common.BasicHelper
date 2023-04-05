@@ -1,7 +1,7 @@
 ﻿namespace Common.BasicHelper.Utils.Extensions;
 
 [TestClass]
-public class QueueHelperTests
+public class QueueHelper_Tests
 {
     [TestMethod]
     public void Test_QueueExtensions()

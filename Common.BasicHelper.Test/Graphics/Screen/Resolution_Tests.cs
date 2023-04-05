@@ -1,7 +1,7 @@
 ﻿namespace Common.BasicHelper.Graphics.Screen;
 
 [TestClass]
-public class ResolutionTests
+public class Resolution_Tests
 {
     [TestMethod]
     public void Test_SuggestResolution()

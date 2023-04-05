@@ -1,7 +1,7 @@
 ﻿namespace Common.BasicHelper.Utils;
 
 [TestClass]
-public class PasswordTests
+public class Password_Tests
 {
     [TestMethod]
     public void Test_GeneratePassword()

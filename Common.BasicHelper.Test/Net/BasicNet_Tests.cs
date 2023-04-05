@@ -1,7 +1,7 @@
 ﻿namespace Common.BasicHelper.Net;
 
 [TestClass]
-public class BasicNetTests
+public class BasicNet_Tests
 {
     private const string testDownloadFilePath = "https://www.baidu.com/index.html";
 
@@ -9,6 +9,7 @@ public class BasicNetTests
     public void Test_IsWebConected()
     {
         Assert.IsTrue(BasicNet.IsWebConected("localhost", 3));
+        Assert.IsFalse(BasicNet.IsWebConected("192.168.255.255", 3));
     }
 
     [TestMethod]
