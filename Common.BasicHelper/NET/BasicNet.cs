@@ -17,56 +17,22 @@ public class BasicNet
     /// <returns>是否拥有网络连接</returns>
     public static bool IsWebConected(string target, int waitTime)
     {
-        try
+        var pingSender = new Ping();
+        var pingOptions = new PingOptions
         {
-            var objPingSender = new Ping();
-            var objPinOptions = new PingOptions
-            {
-                DontFragment = true
-            };
-            var data = "";
-            var buffer = Encoding.UTF8.GetBytes(data);
-            var objPinReply = objPingSender.Send(target,
-                waitTime, buffer, objPinOptions);
-            var strInfo = objPinReply.Status.ToString();
-            if (strInfo == "Success")
-            {
-                return true;
-            }
-            return false;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+            DontFragment = true
+        };
 
-    /// <summary>
-    /// 返回网络连接失败的原因
-    /// </summary>
-    /// <param name="target">测试目标</param>
-    /// <param name="waitTime">等待时间</param>
-    /// <returns>返回失败原因</returns>
-    public static Exception? WebConectionError(string target, int waitTime)
-    {
-        try
-        {
-            var objPingSender = new Ping();
-            var objPinOptions = new PingOptions
-            {
-                DontFragment = true
-            };
-            var data = "";
-            var buffer = Encoding.UTF8.GetBytes(data);
-            var objPinReply = objPingSender.Send(target,
-                waitTime, buffer, objPinOptions);
-            var strInfo = objPinReply.Status.ToString();
-            return null;
-        }
-        catch (Exception result)
-        {
-            return result;
-        }
+        var data = "";
+        var buffer = Encoding.UTF8.GetBytes(data);
+
+        var pingReply = pingSender.Send(target,
+            waitTime, buffer, pingOptions);
+        var strInfo = pingReply.Status.ToString();
+
+        if (strInfo.Equals("Success"))
+            return true;
+        return false;
     }
 
     /// <summary>
