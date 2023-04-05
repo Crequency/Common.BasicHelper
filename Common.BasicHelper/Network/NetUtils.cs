@@ -1,21 +1,20 @@
 ﻿using Common.BasicHelper.Utils.Extensions;
-using System;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 
-namespace Common.BasicHelper.Net;
+namespace Common.BasicHelper.Network;
 
-public class BasicNet
+public class NetUtils
 {
     /// <summary>
     /// 检验是否拥有网络连接
     /// </summary>
     /// <param name="target">测试的目标</param>
-    /// <param name="waitTime">等待时间</param>
+    /// <param name="timeOutMilliseconds">等待毫秒数</param>
     /// <returns>是否拥有网络连接</returns>
-    public static bool IsWebConected(string target, int waitTime)
+    public static bool IsWebConected(string target, int timeOutMilliseconds)
     {
         var pingSender = new Ping();
         var pingOptions = new PingOptions
@@ -27,7 +26,7 @@ public class BasicNet
         var buffer = Encoding.UTF8.GetBytes(data);
 
         var pingReply = pingSender.Send(target,
-            waitTime, buffer, pingOptions);
+            timeOutMilliseconds, buffer, pingOptions);
         var strInfo = pingReply.Status.ToString();
 
         if (strInfo.Equals("Success"))
