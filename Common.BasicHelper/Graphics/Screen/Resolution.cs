@@ -5,130 +5,6 @@ namespace Common.BasicHelper.Graphics.Screen;
 
 public class Resolution
 {
-    public double? Width { get; set; }
-
-    public double? Height { get; set; }
-
-    public double? FramePerSecond { get; set; }
-
-    public double? Area => Width * Height;
-
-    public double? AspectRatio => Width / Height;
-
-    public string Description { get; set; } = string.Empty;
-
-    /// <summary>
-    /// 宽高整数化
-    /// </summary>
-    public Resolution Integerization()
-    {
-        if (Width != null)
-            Width = System.Math.Round(Width.Value, 0);
-        if (Height != null)
-            Height = System.Math.Round(Height.Value, 0);
-        return this;
-    }
-
-    /// <summary>
-    /// 重载运算符: 除法
-    /// </summary>
-    /// <param name="a">分辨率1</param>
-    /// <param name="b">分辨率2</param>
-    /// <returns>面积之比</returns>
-    public static double? operator /(Resolution a, Resolution b) => a.Area / b.Area;
-
-    /// <summary>
-    /// 重载运算符: 加法
-    /// </summary>
-    /// <param name="a">分辨率1</param>
-    /// <param name="b">分辨率2</param>
-    /// <returns>分辨率</returns>
-    public static Resolution operator +(Resolution a, Resolution b) => new()
-    {
-        Width = a.Width + b.Width,
-        Height = a.Height + b.Height,
-        FramePerSecond = a.FramePerSecond + b.FramePerSecond,
-        Description = $"{a.Description}\nPlus\n{b.Description}"
-    };
-
-    /// <summary>
-    /// 重写 ToString() 方法
-    /// </summary>
-    /// <returns>表示分辨率及刷新率的字符串</returns>
-    public override string ToString()
-    {
-        return $"{Width}x{Height}@{FramePerSecond}";
-    }
-
-    /// <summary>
-    /// 重写 Equals() 方法
-    /// </summary>
-    /// <param name="obj">目标比较分辨率</param>
-    /// <returns>是否相等</returns>
-    public override bool Equals(object obj)
-    {
-        if (obj is not Resolution res) return false;
-
-        if (Width.Equals(res.Width) && Height.Equals(res.Height))
-            if (FramePerSecond != null && res.FramePerSecond != null)
-                if (FramePerSecond.Equals(res.FramePerSecond))
-                    return true;
-                else return false;
-            else return true;
-        else return false;
-    }
-
-    /// <summary>
-    /// 重写 GetHashCode() 方法
-    /// </summary>
-    /// <returns>哈希值</returns>
-    public override int GetHashCode() => (int)(
-        0
-        + (Area.GetHashCode() ^ AspectRatio.GetHashCode())
-        + (Width.GetHashCode() ^ Height.GetHashCode())
-        + FramePerSecond ?? 0
-        );
-
-    /// <summary>
-    /// 根据字符串返回分辨率对象
-    /// </summary>
-    /// <param name="input">字符串: 宽x高@刷新率</param>
-    /// <returns>分辨率对象</returns>
-    public static Resolution Parse(string input)
-    {
-        var res_fps = input.Split('@');
-        var res = res_fps[0].Split('x');
-        var resolution = new Resolution
-        {
-            Width = Convert.ToDouble(res[0]),
-            Height = Convert.ToDouble(res[1])
-        };
-        if (res_fps.Length == 2) resolution.FramePerSecond = Convert.ToDouble(res_fps[1]);
-        else resolution.FramePerSecond = null;
-        return resolution;
-    }
-
-    /// <summary>
-    /// 根据字符串返回分辨率对象
-    /// </summary>
-    /// <param name="input">字符串: 宽x高@刷新率</param>
-    /// <param name="descr">字符串: 描述信息</param>
-    /// <returns>分辨率对象</returns>
-    public static Resolution Parse(string input, string descr)
-    {
-        var res_fps = input.Split('@');
-        var res = res_fps[0].Split('x');
-        var resolution = new Resolution()
-        {
-            Width = Convert.ToDouble(res[0]),
-            Height = Convert.ToDouble(res[1]),
-            Description = descr
-        };
-        if (res_fps.Length == 2) resolution.FramePerSecond = Convert.ToDouble(res_fps[1]);
-        else resolution.FramePerSecond = null;
-        return resolution;
-    }
-
     public static readonly List<Resolution> resolutions = new()
     {
         Parse("800x600", "SVGA"),
@@ -162,6 +38,67 @@ public class Resolution
         Parse("7680x4800", "WHUXGA"),
     };
 
+    public double? Width { get; set; }
+
+    public double? Height { get; set; }
+
+    public double? FramePerSecond { get; set; }
+
+    public double? Area => Width * Height;
+
+    public double? AspectRatio => Width / Height;
+
+    public string Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 宽高整数化
+    /// </summary>
+    public Resolution Integerization()
+    {
+        if (Width != null)
+            Width = System.Math.Round(Width.Value, 0);
+        if (Height != null)
+            Height = System.Math.Round(Height.Value, 0);
+        return this;
+    }
+
+    /// <summary>
+    /// 根据字符串返回分辨率对象
+    /// </summary>
+    /// <param name="input">字符串: 宽x高@刷新率</param>
+    /// <returns>分辨率对象</returns>
+    public static Resolution Parse(string input)
+    {
+        var res_fps = input.Split('@');
+        var res = res_fps[0].Split('x');
+
+        var resolution = new Resolution
+        {
+            Width = Convert.ToDouble(res[0]),
+            Height = Convert.ToDouble(res[1])
+        };
+
+        if (res_fps.Length == 2) resolution.FramePerSecond = Convert.ToDouble(res_fps[1]);
+        else resolution.FramePerSecond = null;
+
+        return resolution;
+    }
+
+    /// <summary>
+    /// 根据字符串返回分辨率对象
+    /// </summary>
+    /// <param name="input">字符串: 宽x高@刷新率</param>
+    /// <param name="descr">字符串: 描述信息</param>
+    /// <returns>分辨率对象</returns>
+    public static Resolution Parse(string input, string descr)
+    {
+        var resolution = Parse(input);
+
+        resolution.Description = descr;
+
+        return resolution;
+    }
+
     /// <summary>
     /// 建议分辨率
     /// </summary>
@@ -192,6 +129,7 @@ public class Resolution
         var suggest = new Resolution();
 
         var yy = tararea / content.AspectRatio;
+
         if (yy != null)
         {
             suggest.Height = System.Math.Sqrt((double)yy);
@@ -204,4 +142,67 @@ public class Resolution
 
         return suggest;
     }
+
+    /// <summary>
+    /// 重载运算符: 除法
+    /// </summary>
+    /// <param name="a">分辨率1</param>
+    /// <param name="b">分辨率2</param>
+    /// <returns>面积之比</returns>
+    public static double? operator /(Resolution a, Resolution b) => a.Area / b.Area;
+
+    /// <summary>
+    /// 重载运算符: 加法
+    /// </summary>
+    /// <param name="a">分辨率1</param>
+    /// <param name="b">分辨率2</param>
+    /// <returns>分辨率</returns>
+    public static Resolution operator +(Resolution a, Resolution b) => new()
+    {
+        Width = a.Width + b.Width,
+        Height = a.Height + b.Height,
+        FramePerSecond = a.FramePerSecond + b.FramePerSecond,
+        Description = $"{a.Description}\nPlus\n{b.Description}"
+    };
+
+    /// <summary>
+    /// 重写 ToString() 方法
+    /// </summary>
+    /// <returns>表示分辨率及刷新率的字符串</returns>
+    public override string ToString() =>
+        $"{Width}x{Height}{(FramePerSecond is null ? "" : "@")}{FramePerSecond}";
+
+    /// <summary>
+    /// 重写 Equals() 方法
+    /// </summary>
+    /// <param name="obj">目标比较分辨率</param>
+    /// <returns>是否相等</returns>
+    public override bool Equals(object obj)
+    {
+        if (obj is not Resolution)
+            throw new ArgumentException($"CB0017: Only use `Equals` function for same type.");
+
+        return GetHashCode() == obj.GetHashCode();
+
+        //if (obj is not Resolution res) return false;
+
+        //if (Width.Equals(res.Width) && Height.Equals(res.Height))
+        //    if (FramePerSecond != null && res.FramePerSecond != null)
+        //        if (FramePerSecond.Equals(res.FramePerSecond))
+        //            return true;
+        //        else return false;
+        //    else return true;
+        //else return false;
+    }
+
+    /// <summary>
+    /// 重写 GetHashCode() 方法
+    /// </summary>
+    /// <returns>哈希值</returns>
+    public override int GetHashCode() => (int)(
+        0
+        + (Area.GetHashCode() ^ AspectRatio.GetHashCode())
+        + (Width.GetHashCode() ^ Height.GetHashCode())
+        + FramePerSecond ?? 0
+        );
 }
