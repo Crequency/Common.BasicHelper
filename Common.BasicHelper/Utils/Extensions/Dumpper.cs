@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Text;
 
@@ -137,4 +138,26 @@ public static class Dumpper
         }
         return sb.ToArray();
     }
+
+    /// <summary>
+    /// 字符串打印机
+    /// </summary>
+    /// <param name="src">字符串</param>
+    public static void Print(this string? src) => Console.WriteLine(src);
+
+    /// <summary>
+    /// 字符串数组打印机
+    /// </summary>
+    /// <param name="texts">字符串数组</param>
+    public static void Print(this string[] texts)
+    {
+        foreach (var text in texts)
+            text.Print();
+    }
+
+    /// <summary>
+    /// 整数打印机
+    /// </summary>
+    /// <param name="number">整数</param>
+    public static void Print(this int number) => Console.WriteLine(number);
 }
