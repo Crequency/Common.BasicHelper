@@ -1,9 +1,6 @@
-﻿using Common.BasicHelper.Core.Shell;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Common.BasicHelper.Utils.Extensions;
@@ -112,53 +109,4 @@ public static class StringHelper
     /// <param name="str">字符串对象</param>
     /// <returns>是否为空或仅有空白组成</returns>
     public static bool IsNullOrWhiteSpace(this string? str) => string.IsNullOrWhiteSpace(str);
-
-    /// <summary>
-    /// 将当前字符串作为命令执行, 返回命令执行的输出
-    /// </summary>
-    /// <param name="command">命令</param>
-    /// <param name="args">命令参数</param>
-    /// <param name="action">针对启动信息的行动</param>
-    /// <returns>执行的输出</returns>
-    public static string ExecuteAsCommand
-    (
-        this string command,
-        string? args = null,
-        bool findInPath = true,
-        Action<ProcessStartInfo>? action = null
-    )
-        => CommandsExecutor.GetExecutionResult
-        (
-            command,
-            args ?? "",
-            findInPath,
-            action
-        );
-
-
-    /// <summary>
-    /// 将当前字符串作为命令执行, 异步获取命令执行输出
-    /// </summary>
-    /// <param name="command">命令</param>
-    /// <param name="args">参数</param>
-    /// <param name="findInPath">是否在 Path 中寻找</param>
-    /// <param name="action">针对启动信息的动作</param>
-    /// <param name="token">取消口令</param>
-    /// <returns>命令执行输出</returns>
-    public static Task<string> ExecuteAsCommandAsync
-    (
-        this string command,
-        string? args = null,
-        bool findInPath = true,
-        Action<ProcessStartInfo>? action = null,
-        CancellationToken? token = default
-    )
-        => CommandsExecutor.GetExecutionResultAsync
-        (
-            command,
-            args ?? "",
-            findInPath,
-            action,
-            token
-        );
 }
