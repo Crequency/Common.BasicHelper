@@ -26,9 +26,9 @@ public class Tricks
         }
         else
         {
-            for (var x = from; x >= from; --x)
+            for (var x = from; x >= to; --x)
             {
-                for (var y = from; y <= x; ++y)
+                for (var y = from; y >= x; --y)
                     sb.Append($"{y}*{x}={x * y}\t");
                 sb.AppendLine();
             }
