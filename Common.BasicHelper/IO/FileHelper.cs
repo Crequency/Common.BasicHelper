@@ -160,25 +160,6 @@ public class FileHelper
     }
 
     /// <summary>
-    /// 二进制流读取文件
-    /// </summary>
-    /// <param name="filePath">文件路径</param>
-    /// <returns>二进制流</returns>
-    private static byte[] FileToBytes(string filePath)
-    {
-        var fi = new FileInfo(filePath);
-        var buffer = new byte[fi.Length];
-
-        var fs = fi.OpenRead();
-
-        fs.Read(buffer, 0, Convert.ToInt32(fi.Length));
-
-        fs.CloseAndDispose();
-
-        return buffer;
-    }
-
-    /// <summary>
     /// 二进制流创建文件
     /// 如果文件存在, 则覆盖原文件
     /// </summary>
@@ -199,39 +180,11 @@ public class FileHelper
     }
 
     /// <summary>
-    /// 递归删除目录下所有文件夹/文件包括子文件夹
-    /// </summary>
-    /// <param name="path">目录路径</param>
-    /// <returns>删除操作结果</returns>
-    /// <exception cref="Result{bool}">删除失败异常</exception>
-    public static Result<bool> DeleteFolder(string path)
-    {
-        try
-        {
-            var directoryInfo = new DirectoryInfo(Path.GetFullPath(path));
-
-            foreach (var file in directoryInfo.GetFiles())
-                file.Delete();
-
-            foreach (var directory in directoryInfo.GetDirectories())
-                DeleteFolder(directory.FullName);
-
-            directoryInfo.Delete();
-
-            return new Result<bool>(true);
-        }
-        catch (Exception e)
-        {
-            throw new Result<bool>(e.Message);
-        }
-    }
-
-    /// <summary>
     /// 将文件转换成 byte 数组
     /// </summary>
     /// <param name="fileUrl">文件路径文件名称</param>
     /// <returns>byte 数组</returns>
-    public static byte[] FileToByte(string fileUrl)
+    public static byte[] FileToBytes(string fileUrl)
     {
         try
         {
