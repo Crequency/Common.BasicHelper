@@ -40,21 +40,17 @@ public static class StringHelper
         else return null;
     }
 
-#if NETSTANDARD2_1_OR_GREATER
-
     /// <summary>
     /// 从磁盘异步读取全部文本
     /// </summary>
     /// <param name="path">文件路径</param>
     /// <returns>文本内容读取任务, 若文件不存在则返回空</returns>
-    public static Task<string>? ReadAllTextFromDiskAsync(this string path)
+    public static async Task<string?> ReadAllTextFromDiskAsync(this string path)
     {
         if (File.Exists(path))
-            return File.ReadAllTextAsync(path);
+            return await File.ReadAllTextAsync(path);
         else return null;
     }
-
-#endif
 
     /// <summary>
     /// 对字符串进行按指定数量分组拼接

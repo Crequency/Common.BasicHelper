@@ -1,4 +1,6 @@
-﻿namespace Common.BasicHelper.Utils.Extensions;
+﻿using Common.BasicHelper.IO;
+
+namespace Common.BasicHelper.Utils.Extensions;
 
 [TestClass]
 public class StringHelper_Tests
@@ -37,5 +39,43 @@ public class StringHelper_Tests
         Assert.IsTrue(b.IsNullOrWhiteSpace());
         Assert.IsTrue(c.IsNullOrWhiteSpace());
         Assert.IsTrue(d.IsNullOrWhiteSpace());
+    }
+
+    [TestMethod()]
+    public void Test_Num2UpperChar()
+    {
+        Assert.AreEqual("23FJ325FSDF938".Num2UpperChar().Print(), "CDFJDCFFSDFJDI");
+    }
+
+    [TestMethod()]
+    public void Test_ReadAllTextFromDisk()
+    {
+        var file = Path.GetTempFileName();
+
+        file.Print();
+
+        FileHelper.WriteIn(file, "Test");
+
+        var read = file.ReadAllTextFromDisk();
+
+        File.Delete(file);
+
+        Assert.AreEqual(read, "Test");
+    }
+
+    [TestMethod()]
+    public async Task Test_ReadAllTextFromDiskAsync()
+    {
+        var file = Path.GetTempFileName();
+
+        file.Print();
+
+        FileHelper.WriteIn(file, "Test");
+
+        var read = await file.ReadAllTextFromDiskAsync();
+
+        File.Delete(file);
+
+        Assert.AreEqual(read, "Test");
     }
 }
