@@ -1,4 +1,5 @@
 ﻿using Common.BasicHelper.Core.Shell;
+using Common.BasicHelper.Utils.Extensions;
 using System.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,13 +20,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/Core/Shell/CommandsExecutor/{cmd}.{args?}",
+app.MapGet("/Utils/Extensions/StringHelper/ExecuteAsCommand/{cmd}.{args?}",
     (string cmd, string? args) => cmd.ExecuteAsCommand(
-        args == "," || args == "{args}" || string.IsNullOrEmpty(args)
+        args == "," || args == "{args}" || args.IsNullOrWhiteSpace()
         ? null : HttpUtility.UrlDecode(args)
     )
 )
-.WithName("CommandsExecutor")
+.WithName("ExecuteAsCommand")
+.WithOpenApi();
+
+app.MapGet("/Utils/Extensions/StringHelper/ExecuteAsCommandAsync/{cmd}.{args?}",
+    async (string cmd, string? args) => await cmd.ExecuteAsCommandAsync(
+        args == "," || args == "{args}" || args.IsNullOrWhiteSpace()
+        ? null : HttpUtility.UrlDecode(args)
+    )
+)
+.WithName("ExecuteAsCommandAsync")
 .WithOpenApi();
 
 app.Run();
