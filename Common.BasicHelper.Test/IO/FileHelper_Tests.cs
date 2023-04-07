@@ -166,4 +166,25 @@ public class FileHelper_Tests
         for (int i = 0; i < read.LongLength; ++i)
             Assert.AreEqual(read[i], bytes[i]);
     }
+
+    [TestMethod()]
+    public void Test_CreateFile()
+    {
+        var file = Path.GetTempFileName();
+
+        file.Print();
+
+        var bytes = Encoding.UTF8.GetBytes("Test");
+
+        FileHelper.CreateFile(bytes, file);
+
+        var read = FileHelper.ReadAllBytes(file);
+
+        File.Delete(file);
+
+        Assert.AreEqual(read.LongLength, bytes.LongLength);
+
+        for (int i = 0; i < read.LongLength; ++i)
+            Assert.AreEqual(read[i], bytes[i]);
+    }
 }

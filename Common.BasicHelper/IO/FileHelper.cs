@@ -165,7 +165,7 @@ public class FileHelper
     /// </summary>
     /// <param name="fileBuffer">二进制流</param>
     /// <param name="newFilePath">文件路径</param>
-    private static void CreateFile(byte[] fileBuffer, string newFilePath)
+    public static void CreateFile(byte[] fileBuffer, string newFilePath)
     {
         if (File.Exists(newFilePath))
             File.Delete(newFilePath);
