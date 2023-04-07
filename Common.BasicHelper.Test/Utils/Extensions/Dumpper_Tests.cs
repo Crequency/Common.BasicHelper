@@ -12,12 +12,11 @@ public class Dumpper_Tests
             .Push(null)
             .Push(1)
             .Dump()
-            .Print()
             ;
 
         var interfaces = NetworkInterface.GetAllNetworkInterfaces();
         foreach (var iface in interfaces)
-            iface.Dump().Print();
+            iface.Dump();
     }
 
     [TestMethod()]
@@ -27,19 +26,35 @@ public class Dumpper_Tests
             .Push(null)
             .Push(1)
             .Dump2Lines()
-            .Print()
             ;
 
         var interfaces = NetworkInterface.GetAllNetworkInterfaces();
         foreach (var iface in interfaces)
-            iface.Dump2Lines().Print();
+            iface.Dump2Lines();
     }
 
     [TestMethod()]
     public void Test_Print()
     {
-        "Test".Print();
+        Assert.AreEqual("Test".Print(), "Test");
 
-        24523.Print();
+        Assert.AreEqual(24523.Print(), "24523");
+
+        Assert.AreEqual(new List<int>()
+        {
+            1, 2, 3
+        }.Print<int>(), "1, 2, 3");
+
+        Assert.AreEqual(new string[3]
+        {
+            "12",
+            "34",
+            "56"
+        }.Print<string>(), """
+        12
+        34
+        56
+        
+        """);
     }
 }
