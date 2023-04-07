@@ -47,7 +47,7 @@ public class FileHelper
     /// <param name="path">路径</param>
     /// <param name="content">要追加的内容</param>
     public static void Append(string path, string content)
-        => WriteIn(path, $"{ReadAll(path)}\n{content}");
+        => WriteIn(path, $"{ReadAll(path)}{Environment.NewLine}{content}");
 
     /// <summary>
     /// 以二进制流写入指定路径全部内容
@@ -55,7 +55,7 @@ public class FileHelper
     /// <param name="path">路径</param>
     /// <param name="content">内容</param>
     /// <returns>异常信息</returns>
-    public static Result<bool> WriteByteIn(string path, byte[] content)
+    public static Result<bool> WriteBytesTo(string path, byte[] content)
     {
         try
         {
@@ -146,7 +146,7 @@ public class FileHelper
     /// </summary>
     /// <param name="path">路径</param>
     /// <returns>二进制流</returns>
-    public static byte[] ReadByteAll(string path)
+    public static byte[] ReadAllBytes(string path)
     {
         var fs = new FileStream(path, FileMode.Open);
         var br = new BinaryReader(fs);
@@ -180,7 +180,7 @@ public class FileHelper
 
     /// <summary>
     /// 二进制流创建文件
-    /// 如果文件存在，则覆盖原文件
+    /// 如果文件存在, 则覆盖原文件
     /// </summary>
     /// <param name="fileBuffer">二进制流</param>
     /// <param name="newFilePath">文件路径</param>
@@ -227,10 +227,10 @@ public class FileHelper
     }
 
     /// <summary>
-    /// 将文件转换成byte[]数组
+    /// 将文件转换成 byte 数组
     /// </summary>
     /// <param name="fileUrl">文件路径文件名称</param>
-    /// <returns>byte[]数组</returns>
+    /// <returns>byte 数组</returns>
     public static byte[] FileToByte(string fileUrl)
     {
         try
@@ -251,9 +251,9 @@ public class FileHelper
     }
 
     /// <summary>
-    /// 将byte[]数组保存成文件
+    /// 将 byte 数组保存成文件
     /// </summary>
-    /// <param name="byteArray">byte[]数组</param>
+    /// <param name="byteArray">byte 数组</param>
     /// <param name="fileName">保存至硬盘的文件路径</param>
     /// <returns>保存是否成功</returns>
     public static Result<bool> ByteToFile(byte[] byteArray, string fileName)
