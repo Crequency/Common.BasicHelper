@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +12,7 @@ public static class CommandsExecutor
     /// </summary>
     /// <param name="command">命令</param>
     /// <param name="args">参数</param>
+    /// <param name="findInPath">是否在 Path 中寻找</param>
     /// <param name="action">对启动信息的行动</param>
     /// <returns>命令执行输出</returns>
     public static string GetExecutionResult
@@ -20,7 +20,7 @@ public static class CommandsExecutor
         string command,
         string args,
         bool findInPath = false,
-        Action<ProcessStartInfo> action = null
+        Action<ProcessStartInfo>? action = null
     )
     {
         if (findInPath)
@@ -34,9 +34,6 @@ public static class CommandsExecutor
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
             RedirectStandardError = false,
-            //StandardInputEncoding = Encoding.UTF8,
-            //StandardOutputEncoding = Encoding.UTF8,
-            //StandardErrorEncoding = Encoding.UTF8,
             CreateNoWindow = true,
         };
         action?.Invoke(psi);
@@ -60,6 +57,7 @@ public static class CommandsExecutor
     /// </summary>
     /// <param name="command">命令</param>
     /// <param name="args">参数</param>
+    /// <param name="findInPath">是否在 Path 中寻找</param>
     /// <param name="action">针对启动信息的动作</param>
     /// <param name="token">取消口令</param>
     /// <returns>命令执行输出</returns>
@@ -68,8 +66,8 @@ public static class CommandsExecutor
         string command,
         string args,
         bool findInPath = false,
-        Action<ProcessStartInfo> action = null,
-        CancellationToken token = default
+        Action<ProcessStartInfo>? action = null,
+        CancellationToken? token = default
     )
     {
         if (findInPath)
@@ -83,9 +81,6 @@ public static class CommandsExecutor
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
             RedirectStandardError = false,
-            //StandardInputEncoding = Encoding.UTF8,
-            //StandardOutputEncoding = Encoding.UTF8,
-            //StandardErrorEncoding = Encoding.UTF8,
             CreateNoWindow = true,
         };
         action?.Invoke(psi);
@@ -95,22 +90,21 @@ public static class CommandsExecutor
             StartInfo = psi,
         };
 
-        var sb = new StringBuilder();
+        //var sb = new StringBuilder();
 
-        void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-            => sb.AppendLine(outLine.Data);
+        //void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        //    => sb.AppendLine(outLine.Data);
 
-        process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
-        process.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
+        //process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+        //process.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
 
-        await Task.Run(() =>
-        {
-            process.Start();
+        process.Start();
 
-            process.WaitForExit();
-        });
+        var output = process.StandardOutput.ReadToEnd();
 
-        return sb.ToString();
+        await Task.Run(process.WaitForExit);
+
+        return output;
     }
 
 }
@@ -128,9 +122,9 @@ public static class CommandsExecutorExtensions
     public static string ExecuteAsCommand
     (
         this string command,
-        string args = null,
+        string? args = null,
         bool findInPath = true,
-        Action<ProcessStartInfo> action = null
+        Action<ProcessStartInfo>? action = null
     )
         => CommandsExecutor.GetExecutionResult
         (
@@ -140,4 +134,30 @@ public static class CommandsExecutorExtensions
             action
         );
 
+
+    /// <summary>
+    /// 将当前字符串作为命令执行, 异步获取命令执行输出
+    /// </summary>
+    /// <param name="command">命令</param>
+    /// <param name="args">参数</param>
+    /// <param name="findInPath">是否在 Path 中寻找</param>
+    /// <param name="action">针对启动信息的动作</param>
+    /// <param name="token">取消口令</param>
+    /// <returns>命令执行输出</returns>
+    public static Task<string> ExecuteAsCommandAsync
+    (
+        this string command,
+        string? args = null,
+        bool findInPath = true,
+        Action<ProcessStartInfo>? action = null,
+        CancellationToken? token = default
+    )
+        => CommandsExecutor.GetExecutionResultAsync
+        (
+            command,
+            args ?? "",
+            findInPath,
+            action,
+            token
+        );
 }

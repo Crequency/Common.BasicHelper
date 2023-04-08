@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Text;
 
@@ -13,14 +14,15 @@ public static class Dumpper
     /// <param name="queue">队列</param>
     /// <param name="separater">分隔符</param>
     /// <returns>打印内容</returns>
-    public static string Dump<T>(this Queue<T> queue, string separater = " ")
+    public static string Dump<T>(this Queue<T> queue, string separater = " ", bool print = true)
     {
         var result = new StringBuilder();
         queue.ForEach(x =>
         {
-            result.Append(x.ToString());
+            result.Append(x?.ToString());
             result.Append(separater);
         }, true);
+        if (print) result.ToString().Print();
         return result.ToString();
     }
 
@@ -30,10 +32,11 @@ public static class Dumpper
     /// <typeparam name="T">队列类型</typeparam>
     /// <param name="queue">队列</param>
     /// <returns>打印内容</returns>
-    public static string[] Dump2Lines<T>(this Queue<T> queue)
+    public static string[] Dump2Lines<T>(this Queue<T> queue, bool print = true)
     {
         var result = new List<string>();
-        queue.ForEach(x => result.Add(x.ToString()), true);
+        queue.ForEach(x => result.Add(x?.ToString() ?? string.Empty), true);
+        if (print) result.ToArray().Print();
         return result.ToArray();
     }
 
@@ -42,7 +45,7 @@ public static class Dumpper
     /// </summary>
     /// <param name="adapter">网络适配器</param>
     /// <returns>打印内容</returns>
-    public static string Dump(this NetworkInterface adapter)
+    public static string Dump(this NetworkInterface adapter, bool print = true)
     {
         var sb = new StringBuilder();
         var adapterProperties = adapter.GetIPProperties();
@@ -85,6 +88,8 @@ public static class Dumpper
             sb.AppendLine(new StringBuilder().Append('-', 50).ToString());
         }
 
+        if (print) sb.ToString().Print();
+
         return sb.ToString();
     }
 
@@ -93,7 +98,7 @@ public static class Dumpper
     /// </summary>
     /// <param name="adapter">网络适配器</param>
     /// <returns>打印内容</returns>
-    public static string[] Dump2Lines(this NetworkInterface adapter)
+    public static string[] Dump2Lines(this NetworkInterface adapter, bool print = true)
     {
         var sb = new List<string>();
         var adapterProperties = adapter.GetIPProperties();
@@ -135,6 +140,70 @@ public static class Dumpper
             sb.Add($"{"IP地址: "}{v4s.IncomingUnknownProtocolPackets}");
             sb.Add(new StringBuilder().Append('-', 50).ToString());
         }
+
+        if (print) sb.ToArray().Print();
+
         return sb.ToArray();
+    }
+
+    /// <summary>
+    /// 任意类型打印机
+    /// </summary>
+    /// <param name="src">打印对象</param>
+    public static string Print<T>(this T? src)
+    {
+        Console.WriteLine(src?.ToString());
+        return src?.ToString() ?? "";
+    }
+
+    /// <summary>
+    /// 打印任意类型数组
+    /// </summary>
+    /// <typeparam name="T">数组类型</typeparam>
+    /// <param name="array">数组对象</param>
+    /// <param name="connection">连接字符串</param>
+    /// <param name="cutEnding">是否裁剪末尾连接字符串</param>
+    /// <param name="newLineConnection4StringArray">对于 string 数组是否使用换行替代连接</param>
+    /// <returns>打印出的字符串</returns>
+    public static string Print<T>
+    (
+        this IEnumerable<T> array,
+        string? connection = ", ",
+        bool cutEnding = true,
+        bool newLineConnection4StringArray = true,
+        bool print = true
+    )
+    {
+        if (array is Queue<T> queue) return Dump(queue, connection ?? " ", print);
+
+        var sb = new StringBuilder();
+
+        var useNewLine2ReplaceConnectionString
+            = newLineConnection4StringArray && array is IEnumerable<string>;
+
+        foreach (var item in array)
+        {
+            sb.Append(item?.ToString());
+
+            if (useNewLine2ReplaceConnectionString)
+                sb.Append(Environment.NewLine);
+            else sb.Append(connection);
+        }
+
+        var result = sb.ToString();
+
+        if (useNewLine2ReplaceConnectionString)
+        {
+            Console.WriteLine(result);
+
+            return result;
+        }
+
+        if (cutEnding)
+            result = result[..(sb.Length - connection?.Length ?? 0)];
+
+        Console.WriteLine(result);
+
+        return result;
     }
 }

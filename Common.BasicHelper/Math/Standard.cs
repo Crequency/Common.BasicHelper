@@ -61,11 +61,16 @@ public class Standard
     /// <param name="number">指示要被获取指定位数字的数字</param>
     /// <param name="bit">指示要获取的位数</param>
     /// <returns>返回指定位上数字</returns>
-    public static int GetBit(int number, int bit)
+    public static int GetPosition(int number, int bit)
     {
         var pow = 10;
-        for (var i = 0; i < bit - 1; ++i)
+        for (var i = 0; i < bit - 2; ++i)
             pow *= pow;
         return (number % pow) / (pow / 10);
     }
+}
+
+public static class StandardExtensions
+{
+    public static int GetPosition(this int number, int bit) => Standard.GetPosition(number, bit);
 }
