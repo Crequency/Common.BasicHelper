@@ -12,7 +12,7 @@ public static class ListHelper
     /// <param name="list">列表</param>
     /// <param name="separater">分隔符</param>
     /// <returns>自定义字符串</returns>
-    public static string ToCustomString<T>(this List<T> list, string separater = ",")
+    public static string ToCustomString<T>(this List<T> list, string separater = ",", bool cutEnding = true)
     {
         var sb = new StringBuilder();
 
@@ -22,7 +22,9 @@ public static class ListHelper
             sb.Append(separater);
         }
 
-        return sb.ToString();
+        var result = sb.ToString();
+
+        return cutEnding ? result[0..(result.Length - separater.Length)] : result;
     }
 
 }
