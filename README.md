@@ -18,6 +18,34 @@ Via dotnet cli
 dotnet add package Common.BasicHelper
 ```
 
+# Samples
+
+We provide some samples in `Commong.BasicHelper.Samples` project.
+
+To run this project, just run commands:
+
+```shell
+cd Common.BasicHelper.Samples
+dotnet run
+```
+
+The output will looks like 
+
+```plaintext
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:<port>
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: <path>
+```
+
+`<port>` label is the port number of the server.
+
+Then you can visit `http://localhost:<port>/swagger/index.html` to see the samples.
+
 # Usage
 
 ## Extensions
