@@ -78,4 +78,10 @@ public class StringHelper_Tests
 
         Assert.AreEqual(read, "Test");
     }
+
+    [TestMethod()]
+    public void Test_Throw()
+    {
+        Assert.ThrowsException<ArgumentException>("Exception Message".Throw<ArgumentException>);
+    }
 }
