@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.BasicHelper.Core.Exceptions;
+using Common.BasicHelper.Utils.Extensions;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -64,11 +66,30 @@ public class Password
             && supportedNumbers.Length == 0
             && supportedSymbols.Length == 0;
 
-        if (!lengthProvided) throw new ArgumentException("CB0027: No length provided.");
+        if (!lengthProvided)
+            ErrorCodes.CB0027
+                .BuildMessage(
+                    parameterName: "length | lengthRangeStart | lengthRangeEnd",
+                    attachment: "At least one type of length provided."
+                ).Throw<ArgumentException>();
 
-        if (noCharIncluded) throw new ArgumentException("CB0028: At least one char type included.");
+        if (noCharIncluded)
+            ErrorCodes.CB0027
+                .BuildMessage(
+                    parameterName: "includeUppercase | includeLowercase | includeNumbers | includeSymbols",
+                    attachment: "At least one element type included."
+                ).Throw<ArgumentException>();
 
-        if (noSupportedChars) throw new ArgumentException("CB0029: No supported chars provided.");
+        if (noSupportedChars)
+            ErrorCodes.CB0027
+                .BuildMessage(
+                    parameterName: "" +
+                        "supportedUppercases | " +
+                        "supportedLowercases | " +
+                        "supportedNumbers | " +
+                        "supportedSymbols",
+                    attachment: "No supported chars provided."
+                ).Throw<ArgumentException>();
 
         #endregion Guard Blocks
 

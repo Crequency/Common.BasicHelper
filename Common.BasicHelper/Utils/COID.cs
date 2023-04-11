@@ -1,4 +1,6 @@
-﻿using Common.BasicHelper.Math;
+﻿using Common.BasicHelper.Core.Exceptions;
+using Common.BasicHelper.Math;
+using Common.BasicHelper.Utils.Extensions;
 using System;
 using System.Text.RegularExpressions;
 
@@ -107,7 +109,9 @@ public class COID
         var tmp = input.Split(sep);
 
         if (tmp.Length != 5)
-            throw new ArgumentException("CB0033: Error input format, it should be 5 parts.");
+            ErrorCodes.CB0033
+                .BuildMessage(inputFormatRequirements: "Need 5 parts.")
+                .Throw<ArgumentException>();
 
         for (int i = 0; i < 5; i++)
             parts[i] = new(tmp[i]);
@@ -170,13 +174,15 @@ public class COID_Part
         ids = new char[5];
 
         if (input.Length != 5)
-            throw new ArgumentException("CB0034: Error input length, it should be 5.");
+            ErrorCodes.CB0034
+                .BuildMessage(inputLengthRequirements: "It should be 5 chars.")
+                .Throw<ArgumentException>();
         else
             for (int i = 0; i < 5; i++)
                 ids[i] = input[i];
 
         if (!COID_Helper.FormatCheck(this))
-            throw new FormatException("CB0035: Error COID_Part format.");
+            ErrorCodes.CB0033.BuildMessage().Throw<FormatException>();
     }
 
     /// <summary>

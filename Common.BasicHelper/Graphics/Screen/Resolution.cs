@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.BasicHelper.Core.Exceptions;
+using Common.BasicHelper.Utils.Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace Common.BasicHelper.Graphics.Screen;
@@ -180,7 +182,7 @@ public class Resolution
     public override bool Equals(object obj)
     {
         if (obj is not Resolution)
-            throw new ArgumentException($"CB0017: Only use `Equals` function for same type.");
+            ErrorCodes.CB0017.BuildMessage(parameterName: nameof(Equals)).Throw<ArgumentException>();
 
         return GetHashCode() == obj.GetHashCode();
 
