@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.BasicHelper", "Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.BasicHelper.Test", "Common.BasicHelper.Test\Common.BasicHelper.Test.csproj", "{D3DFF9AC-8CF1-42FF-BAF1-954A430DFDCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.BasicHelper.Samples", "Common.BasicHelper.Samples\Common.BasicHelper.Samples.csproj", "{C363C055-5CDC-4CEB-935C-D099CE0681BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.BasicHelper.Samples", "Common.BasicHelper.Samples\Common.BasicHelper.Samples.csproj", "{C363C055-5CDC-4CEB-935C-D099CE0681BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
