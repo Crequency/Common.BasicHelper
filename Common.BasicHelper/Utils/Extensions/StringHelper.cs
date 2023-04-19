@@ -105,4 +105,15 @@ public static class StringHelper
     /// <param name="str">字符串对象</param>
     /// <returns>是否为空或仅有空白组成</returns>
     public static bool IsNullOrWhiteSpace(this string? str) => string.IsNullOrWhiteSpace(str);
+
+    /// <summary>
+    /// 将字符串作为异常消息抛出
+    /// </summary>
+    /// <typeparam name="T">异常类型</typeparam>
+    /// <param name="message">异常消息</param>
+    public static void Throw<T>(this string? message) where T : Exception
+    {
+        var exp = Activator.CreateInstance(typeof(T), message);
+        throw (exp as T) ?? new Exception(message);
+    }
 }
