@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.BasicHelper.IO;
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -123,4 +124,11 @@ public static class StringHelper
     /// <param name="path">路径</param>
     /// <returns>完整路径</returns>
     public static string GetFullPath(this string path) => Path.GetFullPath(path);
+
+    /// <summary>
+    /// 获取给定路径的完整大小 (字节数)
+    /// </summary>
+    /// <param name="path">路径</param>
+    /// <returns>给定路径的完整字节数</returns>
+    public static long GetTotalSize(this string path) => DirectoryHelper.GetDirectorySize(path);
 }
