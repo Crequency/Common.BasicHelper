@@ -116,4 +116,11 @@ public static class StringHelper
         var exp = Activator.CreateInstance(typeof(T), message);
         throw (exp as T) ?? new Exception(message);
     }
+
+    /// <summary>
+    /// 获取给定路径的完整路径
+    /// </summary>
+    /// <param name="path">路径</param>
+    /// <returns>完整路径</returns>
+    public static string GetFullPath(this string path) => Path.GetFullPath(path);
 }
