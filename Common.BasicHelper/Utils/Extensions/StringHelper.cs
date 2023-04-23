@@ -131,4 +131,32 @@ public static class StringHelper
     /// <param name="path">路径</param>
     /// <returns>给定路径的完整字节数</returns>
     public static long GetTotalSize(this string path) => DirectoryHelper.GetDirectorySize(path);
+
+    /// <summary>
+    /// 使用 UTF8 编码将字符串转换为字节数组
+    /// </summary>
+    /// <param name="text">字符串</param>
+    /// <returns>字节数组</returns>
+    public static byte[] FromUTF8(this string text) => Encoding.UTF8.GetBytes(text);
+
+    /// <summary>
+    /// 使用 UTF32 编码将字符串转换为字节数组
+    /// </summary>
+    /// <param name="text">字符串</param>
+    /// <returns>字节数组</returns>
+    public static byte[] FromUTF32(this string text) => Encoding.UTF32.GetBytes(text);
+
+    /// <summary>
+    /// 使用 Unicode 编码将字符串转换为字节数组
+    /// </summary>
+    /// <param name="text">字符串</param>
+    /// <returns>字节数组</returns>
+    public static byte[] FromUnicode(this string text) => Encoding.Unicode.GetBytes(text);
+
+    /// <summary>
+    /// 使用 ASCII 编码将字符串转换为字节数组
+    /// </summary>
+    /// <param name="text">字符串</param>
+    /// <returns>字节数组</returns>
+    public static byte[] FromASCII(this string text) => Encoding.ASCII.GetBytes(text);
 }
