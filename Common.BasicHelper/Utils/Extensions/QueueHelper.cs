@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Common.BasicHelper.Utils.Extensions;
@@ -57,8 +58,12 @@ public static class QueueHelper
     /// <param name="reappend">是否将出队元素重新入队</param>
     /// <param name="locker">操作锁</param>
     /// <returns>队列本身</returns>
-    public static Queue<T> ForEach<T>(this Queue<T> queue, Action<T> action,
-        bool reappend = false, object? locker = null)
+    public static Queue<T> ForEach<T>(
+        this Queue<T> queue,
+        Action<T> action,
+        bool reappend = false,
+        object? locker = null
+    )
     {
         Queue<T> func()
         {
@@ -92,8 +97,12 @@ public static class QueueHelper
     /// <param name="reappend">是否将出队元素重新入队</param>
     /// <param name="locker">操作锁</param>
     /// <returns>返回队列本身的任务</returns>
-    public static async Task<Queue<T>> ForEachAsync<T>(this Queue<T> queue, Action<T> action,
-        bool reappend = false)
+    public static async Task<Queue<T>> ForEachAsync<T>(
+        this Queue<T> queue,
+        Action<T> action,
+        bool reappend = false,
+        CancellationToken token = default
+    )
     {
         Queue<T> func()
         {
@@ -108,6 +117,6 @@ public static class QueueHelper
             return queue;
         }
 
-        return await Task.Run(func);
+        return await Task.Run(func, token);
     }
 }

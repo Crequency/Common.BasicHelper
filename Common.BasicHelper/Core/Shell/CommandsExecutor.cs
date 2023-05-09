@@ -67,7 +67,7 @@ public static class CommandsExecutor
         string args,
         bool findInPath = false,
         Action<ProcessStartInfo>? action = null,
-        CancellationToken? token = default
+        CancellationToken? token = null
     )
     {
         if (findInPath)
@@ -90,19 +90,24 @@ public static class CommandsExecutor
             StartInfo = psi,
         };
 
-        //var sb = new StringBuilder();
-
-        //void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        //    => sb.AppendLine(outLine.Data);
-
-        //process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
-        //process.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
-
         process.Start();
 
         var output = process.StandardOutput.ReadToEnd();
 
-        await Task.Run(process.WaitForExit);
+        await Task.Run(() =>
+        {
+            if (token is null) process.WaitForExit();
+
+            while (!process.HasExited)
+            {
+                if (token is not null && token.Value.IsCancellationRequested)
+                {
+                    process.Kill();
+
+                    break;
+                }
+            }
+        });
 
         return output;
     }
