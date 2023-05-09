@@ -1,10 +1,19 @@
-﻿<p align="center">
+<p align="center">
   <a href="#" target="_blank" rel="noopener noreferrer">
     <img width="128" src="https://raw.githubusercontent.com/Crequency/Common.BasicHelper/main/Common.BasicHelper/icon.png" alt="Common.BasicHelper Logo">
   </a>
 </p>
 
 <h1 align="center">Common.BasicHelper</h1>
+
+<p align="center">
+  <img alt="GitHub License" src="https://img.shields.io/github/license/Crequency/Common.BasicHelper">
+  <img alt="GitHub workflow status" src="https://img.shields.io/github/actions/workflow/status/Crequency/Common.BasicHelper/build.yml"></img>
+  <img alt="Nuget" src="https://img.shields.io/nuget/v/Common.BasicHelper">
+  <img alt="Nuget" src="https://img.shields.io/nuget/dt/Common.BasicHelper?label=nuget">
+  <img alt="GitHub issues" src="https://img.shields.io/github/issues/Crequency/Common.BasicHelper">
+  <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/Crequency/Common.BasicHelper">
+</p>
 
 # About
 
