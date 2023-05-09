@@ -14,9 +14,12 @@ public class Dumpper_Tests
             .Dump()
             ;
 
-        var interfaces = NetworkInterface.GetAllNetworkInterfaces();
-        foreach (var iface in interfaces)
-            iface.Dump();
+        if (OperatingSystem.IsWindows())
+        {
+            var interfaces = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (var iface in interfaces)
+                iface.Dump();
+        }
     }
 
     [TestMethod()]
@@ -28,9 +31,12 @@ public class Dumpper_Tests
             .Dump2Lines()
             ;
 
-        var interfaces = NetworkInterface.GetAllNetworkInterfaces();
-        foreach (var iface in interfaces)
-            iface.Dump2Lines();
+        if (OperatingSystem.IsWindows())
+        {
+            var interfaces = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (var iface in interfaces)
+                iface.Dump2Lines();
+        }
     }
 
     [TestMethod()]
