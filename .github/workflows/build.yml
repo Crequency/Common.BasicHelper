@@ -1,4 +1,4 @@
-name: Build
+﻿name: Build
 
 on:
   push:
@@ -17,8 +17,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-on-windows:
-    runs-on: windows-latest
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, linux-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
@@ -26,58 +30,36 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: |
+            6.0.x
+            7.0.x
           include-prerelease: false
 
       - name: Build
         run: |
           cd Common.BasicHelper
+
           dotnet build -c Release
 
-  build-on-ubuntu:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: "6.0.x"
-          include-prerelease: false
-
-      - name: Build
+      - name: Test
         run: |
-          cd Common.BasicHelper
-          dotnet build -c Release
+          cd Common.BasicHelper.Test
+
+          dotnet test -c Release
 
       - name: Add to GitHub Repo
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           nuget sources add -name github -Source https://nuget.pkg.github.com/Crequency/index.json -Username Crequency -Password ${{ secrets.GitHubToken }}
 
       - name: Install NuGet
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: nuget/setup-nuget@v1
         with:
           nuget-version: "6.x"
 
       - name: Publish Package to GitHub and NuGet
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol
           nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source github -SkipDuplicate
-
-  build-on-macos:
-    runs-on: macos-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: "6.0.x"
-          include-prerelease: false
-
-      - name: Build
-        run: |
-          cd Common.BasicHelper
-          dotnet build -c Release
