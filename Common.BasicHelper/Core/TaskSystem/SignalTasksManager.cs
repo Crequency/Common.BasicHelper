@@ -13,7 +13,7 @@ public class SignalTasksManager
     /// </summary>
     /// <param name="signal">信号名称</param>
     /// <returns>任务管理器本身</returns>
-    internal SignalTasksManager RaiseSignal(string signal)
+    public SignalTasksManager RaiseSignal(string signal)
     {
         if (SignalTasks.TryGetValue(signal, out var signalTask))
         {
@@ -32,7 +32,7 @@ public class SignalTasksManager
     /// <param name="signal">信号</param>
     /// <param name="action">任务</param>
     /// <returns>任务管理器本身</returns>
-    internal SignalTasksManager SignalRun(string signal, Action action, bool reusable = false)
+    public SignalTasksManager SignalRun(string signal, Action action, bool reusable = false)
     {
         if (SignalTasks.TryGetValue(signal, out var signalTask))
             signalTask.AddAction(action);
@@ -51,7 +51,7 @@ public class SignalTasksManager
     /// 清除所有信号响应任务
     /// </summary>
     /// <returns>任务管理器本身</returns>
-    internal SignalTasksManager Clear()
+    public SignalTasksManager Clear()
     {
         SignalTasks.Clear();
 
