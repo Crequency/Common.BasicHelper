@@ -56,4 +56,4 @@ jobs:
         draft: false
         prerelease: true
         files: |
-          Common.BasicHelper/Common.BasicHelper/bin/Release/*.nupkg
+          Common.BasicHelper/bin/Release/*.nupkg
