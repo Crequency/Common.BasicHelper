@@ -1,0 +1,59 @@
+name: daily-build
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+        
+    runs-on: ubuntu-latest
+
+    steps:
+  
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+          6.0.x
+          7.0.x
+        include-prerelease: false
+      
+    - name: Build
+      shell: pwsh
+      run: |
+        cd Common.BasicHelper
+        dotnet build -c Release
+        
+        cd bin/Release
+        $out = ls
+        if ("$out" -match 'Common.BasicHelper.(\d*).(\d*).(\d*).(\d*).nupkg') {
+          $v1 = $Matches.1
+          $v2 = $Matches.2
+          $v3 = $Matches.3
+          $v4 = $Matches.4
+          
+          echo "version=$v1.$v2.$v3.$v4" >> $env:GITHUB_ENV
+          echo "canRelease=true" >> $env:GITHUB_ENV
+        } else {
+          echo "canRelease=false" >> $env:GITHUB_ENV
+        }
+        
+        cd ../../..
+        
+    - name: Create Release and Upload Release Asset
+      if: ${{ env.canRelease == 'true' }}
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ env.version }}
+        name: Daily Release v${{ env.version }}
+        body: Auto release by Actions.
+        draft: false
+        prerelease: true
+        files: |
+          Common.BasicHelper/Common.BasicHelper/bin/Release/*.nupkg
