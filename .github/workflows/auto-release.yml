@@ -1,9 +1,6 @@
 name: daily-build
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     - cron: '0 0 * * *'
 
@@ -37,8 +34,10 @@ jobs:
           $v2 = $Matches.2
           $v3 = $Matches.3
           $v4 = $Matches.4
+          $version = "$v1.$v2.$v3.$v4"
           
-          echo "version=$v1.$v2.$v3.$v4" >> $env:GITHUB_ENV
+          echo "version=$version"
+          echo "version=$version" >> $env:GITHUB_ENV
           echo "canRelease=true" >> $env:GITHUB_ENV
         } else {
           echo "canRelease=false" >> $env:GITHUB_ENV
