@@ -150,9 +150,11 @@ public static class Dumpper
     /// 任意类型打印机
     /// </summary>
     /// <param name="src">打印对象</param>
-    public static string Print<T>(this T? src)
+    public static string Print<T>(this T? src, bool print = true)
     {
-        Console.WriteLine(src?.ToString());
+        if (print)
+            Console.WriteLine(src?.ToString());
+
         return src?.ToString() ?? "";
     }
 
@@ -194,7 +196,8 @@ public static class Dumpper
 
         if (useNewLine2ReplaceConnectionString)
         {
-            Console.WriteLine(result);
+            if (print)
+                Console.WriteLine(result);
 
             return result;
         }
@@ -202,7 +205,8 @@ public static class Dumpper
         if (cutEnding)
             result = result[..(sb.Length - connection?.Length ?? 0)];
 
-        Console.WriteLine(result);
+        if (print)
+            Console.WriteLine(result);
 
         return result;
     }
