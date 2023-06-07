@@ -5,8 +5,10 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <Authors>Dynesshely</Authors>
         <Company>Crequency</Company>
         <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
@@ -16,7 +18,9 @@
         <RepositoryUrl>https://github.com/Crequency/Common.BasicHelper/</RepositoryUrl>
         <Copyright>Copyright © Crequency 2022-present</Copyright>
         <PackageIcon>icon.png</PackageIcon>
+    </PropertyGroup>
 
+    <PropertyGroup>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
         <Version>1.2.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-06-06"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
