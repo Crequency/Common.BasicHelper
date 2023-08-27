@@ -57,9 +57,9 @@ public class Resolution
     /// </summary>
     public Resolution Integerization()
     {
-        if (Width != null)
+        if (Width is not null)
             Width = System.Math.Round(Width.Value, 0);
-        if (Height != null)
+        if (Height is not null)
             Height = System.Math.Round(Height.Value, 0);
         return this;
     }
@@ -132,7 +132,7 @@ public class Resolution
 
         var yy = tararea / content.AspectRatio;
 
-        if (yy != null)
+        if (yy is not null)
         {
             suggest.Height = System.Math.Sqrt((double)yy);
             suggest.Width = content.AspectRatio * suggest.Height;

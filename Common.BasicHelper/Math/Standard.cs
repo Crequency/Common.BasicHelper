@@ -66,7 +66,7 @@ public class Standard
         var pow = 10;
         for (var i = 0; i < bit - 2; ++i)
             pow *= pow;
-        return (number % pow) / (pow / 10);
+        return number % pow / (pow / 10);
     }
 }
 
