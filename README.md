@@ -60,8 +60,6 @@ Then you can visit `http://localhost:<port>/swagger/index.html` to see the sampl
 
 </details>
 
-<br>
-
 # Usage
 
 ## Math
