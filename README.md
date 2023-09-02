@@ -38,7 +38,10 @@ cd Common.BasicHelper.Samples
 dotnet run
 ```
 
-The output will looks like 
+<details>
+<summary>The output will looks like ...</summary>
+
+<br>
 
 ```plaintext
 info: Microsoft.Hosting.Lifetime[14]
@@ -55,7 +58,16 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Then you can visit `http://localhost:<port>/swagger/index.html` to see the samples.
 
+</details>
+
 # Usage
+
+## Math
+
+### Calculate
+
+With `Expression` class and `Calculator` class, you can calculate your calculation.
+See examples of [Expression](./Common.BasicHelper.Test/Math/Expression_Tests.cs) class and [Calculator](./Common.BasicHelper.Test/Math/Calculator_Tests.cs) class.
 
 ## Extensions
 
@@ -88,8 +100,11 @@ And you can execute a string as a system command:
 
 And you can pass arguments through parameters `args`.
 
+## More
+
 More extensions can be find in our docs later.
 
+We will be appreciate if you can help us with docs site.
 
 
 

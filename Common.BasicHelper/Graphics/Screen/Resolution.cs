@@ -2,6 +2,7 @@
 using Common.BasicHelper.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Common.BasicHelper.Graphics.Screen;
 
@@ -50,10 +51,10 @@ public class Resolution
 
     public double? AspectRatio => Width / Height;
 
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     /// <summary>
-    /// 宽高整数化
+    /// Integerize width and height
     /// </summary>
     public Resolution Integerization()
     {
@@ -65,10 +66,10 @@ public class Resolution
     }
 
     /// <summary>
-    /// 根据字符串返回分辨率对象
+    /// Returns a resolution object based on a string
     /// </summary>
-    /// <param name="input">字符串: 宽x高@刷新率</param>
-    /// <returns>分辨率对象</returns>
+    /// <param name="input">Format: {Width}x{Height}@{FPS}</param>
+    /// <returns>Resolution object</returns>
     public static Resolution Parse(string input)
     {
         var res_fps = input.Split('@');
@@ -77,7 +78,7 @@ public class Resolution
         var resolution = new Resolution
         {
             Width = Convert.ToDouble(res[0]),
-            Height = Convert.ToDouble(res[1])
+            Height = Convert.ToDouble(res[1]),
         };
 
         if (res_fps.Length == 2) resolution.FramePerSecond = Convert.ToDouble(res_fps[1]);
@@ -87,27 +88,30 @@ public class Resolution
     }
 
     /// <summary>
-    /// 根据字符串返回分辨率对象
+    /// Returns a resolution object based on a string
     /// </summary>
-    /// <param name="input">字符串: 宽x高@刷新率</param>
-    /// <param name="descr">字符串: 描述信息</param>
-    /// <returns>分辨率对象</returns>
-    public static Resolution Parse(string input, string descr)
+    /// <param name="input">Format: {Width}x{Height}@{FPS}</param>
+    /// <param name="descr">Description</param>
+    /// <returns>Resolution object</returns>
+    public static Resolution Parse(string input, string? descr = null)
     {
         var resolution = Parse(input);
 
-        resolution.Description = descr;
+        if (descr is null)
+            resolution.Description = resolutions.FirstOrDefault((x) => x.Equals(resolution))?.Description;
+        else
+            resolution.Description = descr;
 
         return resolution;
     }
 
     /// <summary>
-    /// 建议分辨率
+    /// Suggest content resolution
     /// </summary>
-    /// <param name="screen">理想屏幕</param>
-    /// <param name="content">理想内容</param>
-    /// <param name="actual">实际屏幕</param>
-    /// <returns>建议的内容尺寸</returns>
+    /// <param name="screen">Target screen resolution</param>
+    /// <param name="content">Target content resolution</param>
+    /// <param name="actual">Actual screen resolution</param>
+    /// <returns>Suggested content resolution</returns>
     public static Resolution Suggest(Resolution screen, Resolution content, Resolution actual)
     {
         //  理想内容面积与理想屏幕面积之比
@@ -145,20 +149,8 @@ public class Resolution
         return suggest;
     }
 
-    /// <summary>
-    /// 重载运算符: 除法
-    /// </summary>
-    /// <param name="a">分辨率1</param>
-    /// <param name="b">分辨率2</param>
-    /// <returns>面积之比</returns>
     public static double? operator /(Resolution a, Resolution b) => a.Area / b.Area;
 
-    /// <summary>
-    /// 重载运算符: 加法
-    /// </summary>
-    /// <param name="a">分辨率1</param>
-    /// <param name="b">分辨率2</param>
-    /// <returns>分辨率</returns>
     public static Resolution operator +(Resolution a, Resolution b) => new()
     {
         Width = a.Width + b.Width,
@@ -167,40 +159,19 @@ public class Resolution
         Description = $"{a.Description}\nPlus\n{b.Description}"
     };
 
-    /// <summary>
-    /// 重写 ToString() 方法
-    /// </summary>
-    /// <returns>表示分辨率及刷新率的字符串</returns>
     public override string ToString() =>
         $"{Width}x{Height}{(FramePerSecond is null ? "" : "@")}{FramePerSecond}";
 
-    /// <summary>
-    /// 重写 Equals() 方法
-    /// </summary>
-    /// <param name="obj">目标比较分辨率</param>
-    /// <returns>是否相等</returns>
     public override bool Equals(object obj)
     {
         if (obj is not Resolution)
             ErrorCodes.CB0017.BuildMessage(parameterName: nameof(Equals)).Throw<ArgumentException>();
 
-        return GetHashCode() == obj.GetHashCode();
+        var target = obj as Resolution;
 
-        //if (obj is not Resolution res) return false;
-
-        //if (Width.Equals(res.Width) && Height.Equals(res.Height))
-        //    if (FramePerSecond != null && res.FramePerSecond != null)
-        //        if (FramePerSecond.Equals(res.FramePerSecond))
-        //            return true;
-        //        else return false;
-        //    else return true;
-        //else return false;
+        return Width == target?.Width && Height == target?.Height && FramePerSecond == target?.FramePerSecond;
     }
 
-    /// <summary>
-    /// 重写 GetHashCode() 方法
-    /// </summary>
-    /// <returns>哈希值</returns>
     public override int GetHashCode() => (int)(
         0
         + (Area.GetHashCode() ^ AspectRatio.GetHashCode())

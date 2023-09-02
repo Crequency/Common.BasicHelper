@@ -1,4 +1,5 @@
 ﻿using Common.BasicHelper.Core.Shell;
+using Common.BasicHelper.Graphics.Screen;
 using Common.BasicHelper.Utils.Extensions;
 using System.Web;
 
@@ -20,10 +21,24 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+static bool parameterNullCheck(string? param, string? name = null)
+{
+    return param == "," || param == $"{{{name}}}" || param.IsNullOrWhiteSpace();
+}
+
+app.MapGet("/", () => Results.Redirect("/swagger/index.html"));
+
+app.MapGet("/Graphics/Screen/Resolution/Parse/{resolution}.{descr?}",
+    (string resolution, string? descr) => Resolution.Parse(
+        resolution, parameterNullCheck(descr, nameof(descr)) ? null : descr
+    )
+)
+.WithName("ParseSolution")
+.WithOpenApi();
+
 app.MapGet("/Utils/Extensions/StringHelper/ExecuteAsCommand/{cmd}.{args?}",
     (string cmd, string? args) => cmd.ExecuteAsCommand(
-        args == "," || args == "{args}" || args.IsNullOrWhiteSpace()
-        ? null : HttpUtility.UrlDecode(args)
+        parameterNullCheck(args, nameof(args)) ? null : HttpUtility.UrlDecode(args)
     )
 )
 .WithName("ExecuteAsCommand")
@@ -31,8 +46,7 @@ app.MapGet("/Utils/Extensions/StringHelper/ExecuteAsCommand/{cmd}.{args?}",
 
 app.MapGet("/Utils/Extensions/StringHelper/ExecuteAsCommandAsync/{cmd}.{args?}",
     async (string cmd, string? args) => await cmd.ExecuteAsCommandAsync(
-        args == "," || args == "{args}" || args.IsNullOrWhiteSpace()
-        ? null : HttpUtility.UrlDecode(args)
+        parameterNullCheck(args, nameof(args)) ? null : HttpUtility.UrlDecode(args)
     )
 )
 .WithName("ExecuteAsCommandAsync")
