@@ -48,18 +48,18 @@ jobs:
           dotnet test -c Release
 
       - name: Add to GitHub Repo
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && github.event_name != 'pull_request' }}
         run: |
           nuget sources add -name github -Source https://nuget.pkg.github.com/Crequency/index.json -Username Crequency -Password ${{ secrets.GitHubToken }}
 
       - name: Install NuGet
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && github.event_name != 'pull_request' }}
         uses: nuget/setup-nuget@v1
         with:
           nuget-version: "6.x"
 
       - name: Publish Package to GitHub and NuGet
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && github.event_name != 'pull_request' }}
         run: |
-          nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol
-          nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source github -SkipDuplicate
+          nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source github -SkipDuplicate -Verbosity detailed
+          nuget push ./Common.BasicHelper/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol -Verbosity detailed
