@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Common.BasicHelper.Math;
 
@@ -9,32 +9,19 @@ public static class Calculator
         a = a ?? throw new ArgumentNullException(nameof(a));
         b = b ?? throw new ArgumentNullException(nameof(b));
 
-        switch (type)
+        return type switch
         {
-            case CalculationType.Unknown:
-                throw new NotImplementedException(
-                    $"Unknown type can't calculate for `{a?.Result} {type} {b?.Result}`."
-                );
-
-            case CalculationType.Add:
-                return a!.Result + b!.Result;
-
-            case CalculationType.Substraction:
-                return a!.Result - b!.Result;
-
-            case CalculationType.Multiply:
-                return a!.Result * b!.Result;
-
-            case CalculationType.Division:
-                return a!.Result / b!.Result; // Here couldn't throw divide by zero exception.
-
-            case CalculationType.Power:
-                return System.Math.Pow(a!.Result, b!.Result);
-
-            default:
-                throw new NotImplementedException(
-                    $"Please provide argument {nameof(type)} ({nameof(CalculationType)})"
-                );
-        }
+            CalculationType.Unknown => throw new NotImplementedException(
+                $"Unknown type can't calculate for `{a?.Result} {type} {b?.Result}`."
+            ),
+            CalculationType.Add => a!.Result + b!.Result,
+            CalculationType.Substraction => a!.Result - b!.Result,
+            CalculationType.Multiply => a!.Result * b!.Result,
+            CalculationType.Division => a!.Result / b!.Result,// Here couldn't throw divide by zero exception.
+            CalculationType.Power => System.Math.Pow(a!.Result, b!.Result),
+            _ => throw new NotImplementedException(
+                $"Please provide argument {nameof(type)} ({nameof(CalculationType)})"
+            ),
+        };
     }
 }
