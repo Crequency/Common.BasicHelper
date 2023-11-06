@@ -96,6 +96,15 @@ public static class LbptSerializer
 
         var value = info.GetValue(target);
 
+        var attributes = info.GetCustomAttributes();
+        foreach (var attribute in attributes)
+        {
+            if (attribute is LbptCommentAttribute commentAttribute)
+            {
+                sb.AppendLine($"# {commentAttribute.Comment}");
+            }
+        }
+
         if (value is IEnumerable enumerable && value is not string)
         {
             node.IsEnumerable = true;
