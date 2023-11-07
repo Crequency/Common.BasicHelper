@@ -4,7 +4,7 @@ public class TestClasses
 {
     public class Person
     {
-        [LbptComment("编号")]
+        [LbptComment("ID")]
         public int Id { get; set; }
 
         [LbptComment("姓名")]
@@ -13,6 +13,10 @@ public class TestClasses
 
     public class PersonGroup
     {
+        [LbptFormat(Ignore=true)]
+        public string? Tip => "This tip will be ignored.";
+
+        [LbptComment("人数\nIndex from 0 - 1")]
         public int? PersonCount => Persons?.Count;
 
         public List<Person>? Persons { get; set; } = new();
