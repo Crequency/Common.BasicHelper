@@ -1,4 +1,4 @@
-name: daily-build
+name: Daily Build
 
 on:
   schedule:
@@ -19,7 +19,6 @@ jobs:
         dotnet-version: |
           6.0.x
           7.0.x
-        include-prerelease: false
       
     - name: Build
       shell: pwsh

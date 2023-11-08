@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.Core.DataStructure.LineBasedPropertyTable;
 
@@ -98,28 +99,27 @@ public static class LbptSerializer
 
         var value = info.GetValue(target);
 
-        var attributes = info.GetCustomAttributes();
-        foreach (var attribute in attributes)
-        {
-            if (attribute is LbptCommentAttribute commentAttribute)
+        var config = LbptSerializeConfig
+            .GetConfigFromAttributes(info.GetCustomAttributes())
+            .OnLbptComment(commentAttribute =>
             {
-                var lines = commentAttribute.Comment?.Split('\n');
+                var lines = commentAttribute?.Comment?.Split('\n');
 
-                if (lines is null) continue;
+                if (lines is null) return;
 
                 foreach (var line in lines)
                 {
                     sb.AppendLine($"# {line}");
                 }
-            }
-            else if (attribute is LbptFormatAttribute lbptFormatAttribute)
+            })
+            .OnLbptFormat(formatAttribute =>
             {
-                if (lbptFormatAttribute.Ignore)
-                {
-                    return null;
-                }
-            }
-        }
+
+            })
+            .Act();
+
+        if (config.LbptFormatAttribute?.Ignore ?? false)
+            return null;
 
         bool isDirectyleSerializable(Type type, out Type? nullableUnderlyingType)
         {
@@ -149,6 +149,26 @@ public static class LbptSerializer
             }
         }
 
+        void SerializeNodeToFinalText()
+        {
+            if (node is null) return;
+
+            if (config?.LbptFormatAttribute?.SerializeInMultiLineFormat ?? false)
+            {
+                var beginLine = $"{node.PropertyPath} Began";
+                var endedLine = $"{node.PropertyPath} Ended";
+                sb.AppendLine(beginLine);
+                sb.AppendLine("-".Repeat(beginLine.Length));
+                sb.AppendLine(node.PropertyValue);
+                sb.AppendLine("-".Repeat(beginLine.Length));
+                sb.AppendLine(endedLine);
+            }
+            else
+            {
+                sb.AppendLine($"{node.PropertyPath}: {node.PropertyValue}");
+            }
+        }
+
         if (IsEnumerable(value, out var enumerable, out var elementType) && value is not string)
         {
             node.IsEnumerable = true;
@@ -172,7 +192,9 @@ public static class LbptSerializer
                         PropertyPath = $"{basePath}[{index}]",
                         PropertyValue = item.ToString()
                     });
-                    sb.AppendLine($"{node.PropertyPath}: {node.PropertyValue}");
+
+                    SerializeNodeToFinalText();
+
                     ++index;
                 }
             }
@@ -205,7 +227,8 @@ public static class LbptSerializer
             if (isDirectyleSerializable(info.PropertyType, out _))
             {
                 node.PropertyValue = value.ToString();
-                sb.AppendLine($"{node.PropertyPath}: {node.PropertyValue}");
+
+                SerializeNodeToFinalText();
             }
             else
             {

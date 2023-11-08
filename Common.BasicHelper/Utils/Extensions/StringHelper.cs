@@ -159,4 +159,12 @@ public static class StringHelper
     /// <param name="text">字符串</param>
     /// <returns>字节数组</returns>
     public static byte[] FromASCII(this string text) => Encoding.ASCII.GetBytes(text);
+
+    public static string Repeat(this string src, int count)
+    {
+        var sb = new StringBuilder();
+        for (var i = 0; i < count; ++i)
+            sb.Append(src);
+        return sb.ToString();
+    }
 }

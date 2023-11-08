@@ -16,7 +16,8 @@ public class TestClasses
         [LbptFormat(Ignore=true)]
         public string? Tip => "This tip will be ignored.";
 
-        [LbptComment("人数\nIndex from 0 - 1")]
+        [LbptComment("人数\n这是一个多行属性")]
+        [LbptFormat(SerializeInMultiLineFormat=true)]
         public int? PersonCount => Persons?.Count;
 
         public List<Person>? Persons { get; set; } = new();
