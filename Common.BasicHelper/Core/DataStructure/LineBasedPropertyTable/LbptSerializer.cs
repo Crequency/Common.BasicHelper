@@ -53,6 +53,8 @@ public static class LbptSerializer
         typeof(Enum[]),
     };
 
+    private static string? SerializedTextAppendText;
+
     public static LineBasedPropertyTable Serialize<T>(T target, out string result)
     {
         var table = new LineBasedPropertyTable
@@ -79,6 +81,11 @@ public static class LbptSerializer
             table.RootNode.SubNodes.Add(subNode);
         }
 
+        if (SerializedTextAppendText is not null)
+            sb.AppendLine(SerializedTextAppendText);
+
+        SerializedTextAppendText = null;
+
         result = sb.ToString();
 
         return table;
@@ -101,18 +108,21 @@ public static class LbptSerializer
 
         var config = LbptSerializeConfig
             .GetConfigFromAttributes(info.GetCustomAttributes())
-            .OnLbptComment(commentAttribute =>
+            .OnLbptComment((commentAttribute, config) =>
             {
                 var lines = commentAttribute?.Comment?.Split('\n');
 
-                if (lines is null) return;
+                if (false
+                    || lines is null
+                    || (config?.LbptFormatAttribute?.SerializeAsFinalMultilineProperty ?? false)
+                ) return;
 
                 foreach (var line in lines)
                 {
                     sb.AppendLine($"# {line}");
                 }
             })
-            .OnLbptFormat(formatAttribute =>
+            .OnLbptFormat((formatAttribute, config) =>
             {
 
             })
@@ -153,7 +163,21 @@ public static class LbptSerializer
         {
             if (node is null) return;
 
-            if (config?.LbptFormatAttribute?.SerializeInMultiLineFormat ?? false)
+            if (config?.LbptFormatAttribute?.SerializeAsFinalMultilineProperty ?? false)
+            {
+                var sb = new StringBuilder();
+
+                var commentLines = config?.LbptCommentAttribute?.Comment;
+
+                if (commentLines is not null)
+                    foreach (var line in commentLines.Split('\n'))
+                        sb.AppendLine($"# {line}");
+
+                sb.AppendLine($"{node.PropertyPath}: |");
+                sb.AppendLine(node.PropertyValue);
+                SerializedTextAppendText = sb.ToString();
+            }
+            else if (config?.LbptFormatAttribute?.SerializeInMultiLineFormat ?? false)
             {
                 var beginLine = $"{node.PropertyPath} Began";
                 var endedLine = $"{node.PropertyPath} Ended";

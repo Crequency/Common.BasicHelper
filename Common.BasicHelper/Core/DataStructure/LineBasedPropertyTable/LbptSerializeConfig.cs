@@ -7,17 +7,17 @@ internal class LbptSerializeConfig
 {
     internal LbptSerializeConfig Act()
     {
-        LbptCommentAction?.Invoke(LbptCommentAttribute);
-        LbptFormatAction?.Invoke(LbptFormatAttribute);
+        LbptCommentAction?.Invoke(LbptCommentAttribute, this);
+        LbptFormatAction?.Invoke(LbptFormatAttribute, this);
 
         return this;
     }
 
     internal LbptCommentAttribute? LbptCommentAttribute { get; set; }
 
-    private Action<LbptCommentAttribute?>? LbptCommentAction { get; set; }
+    private Action<LbptCommentAttribute?, LbptSerializeConfig?>? LbptCommentAction { get; set; }
 
-    internal LbptSerializeConfig OnLbptComment(Action<LbptCommentAttribute?> action)
+    internal LbptSerializeConfig OnLbptComment(Action<LbptCommentAttribute?, LbptSerializeConfig?> action)
     {
         LbptCommentAction = action;
         return this;
@@ -25,9 +25,9 @@ internal class LbptSerializeConfig
 
     internal LbptFormatAttribute? LbptFormatAttribute { get; set; }
 
-    private Action<LbptFormatAttribute?>? LbptFormatAction { get; set; }
+    private Action<LbptFormatAttribute?, LbptSerializeConfig?>? LbptFormatAction { get; set; }
 
-    internal LbptSerializeConfig OnLbptFormat(Action<LbptFormatAttribute?> action)
+    internal LbptSerializeConfig OnLbptFormat(Action<LbptFormatAttribute?, LbptSerializeConfig?> action)
     {
         LbptFormatAction = action;
         return this;
