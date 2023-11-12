@@ -7,6 +7,8 @@ public class LineBasedPropertyTable
     private LineBasedPropertyTableNode? rootNode = null;
 
     public LineBasedPropertyTableNode? RootNode { get => rootNode; set => rootNode = value; }
+
+    public string? SerializedText { get; set; }
 }
 
 public class LineBasedPropertyTableNode

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.Core.DataStructure.LineBasedPropertyTable;
@@ -82,11 +84,13 @@ public static class LbptSerializer
         }
 
         if (SerializedTextAppendText is not null)
-            sb.AppendLine(SerializedTextAppendText);
+            sb.Append(SerializedTextAppendText);
 
         SerializedTextAppendText = null;
 
         result = sb.ToString();
+
+        table.SerializedText = sb.ToString();
 
         return table;
     }
@@ -131,51 +135,23 @@ public static class LbptSerializer
         if (config.LbptFormatAttribute?.Ignore ?? false)
             return null;
 
-        bool isDirectyleSerializable(Type type, out Type? nullableUnderlyingType)
-        {
-            var isBasicType = basicTypes.Contains(info.PropertyType);
-            var isNullableType = type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
-
-            if (isNullableType)
-                nullableUnderlyingType = Nullable.GetUnderlyingType(type);
-            else nullableUnderlyingType = null;
-
-            return isBasicType || isNullableType;
-        }
-
-        bool IsEnumerable(object value, out IEnumerable? enumerable, out Type? elementType)
-        {
-            if (value is IEnumerable enumerableValue)
-            {
-                enumerable = enumerableValue;
-                elementType = ReflectionUtils.GetIEnumerableElementType(info.PropertyType);
-                return true;
-            }
-            else
-            {
-                enumerable = null;
-                elementType = null;
-                return false;
-            }
-        }
-
         void SerializeNodeToFinalText()
         {
             if (node is null) return;
 
             if (config?.LbptFormatAttribute?.SerializeAsFinalMultilineProperty ?? false)
             {
-                var sb = new StringBuilder();
+                var tsb = new StringBuilder();
 
                 var commentLines = config?.LbptCommentAttribute?.Comment;
 
                 if (commentLines is not null)
                     foreach (var line in commentLines.Split('\n'))
-                        sb.AppendLine($"# {line}");
+                        tsb.AppendLine($"# {line}");
 
-                sb.AppendLine($"{node.PropertyPath}: |");
-                sb.AppendLine(node.PropertyValue);
-                SerializedTextAppendText = sb.ToString();
+                tsb.AppendLine($"{node.PropertyPath}: |");
+                tsb.Append(node.PropertyValue);
+                SerializedTextAppendText = tsb.ToString();
             }
             else if (config?.LbptFormatAttribute?.SerializeInMultiLineFormat ?? false)
             {
@@ -193,7 +169,9 @@ public static class LbptSerializer
             }
         }
 
-        if (IsEnumerable(value, out var enumerable, out var elementType) && value is not string)
+        if (ReflectionUtils.IsEnumerable(
+                value, out var enumerable, out var elementType, info
+            ) && value is not string)
         {
             node.IsEnumerable = true;
 
@@ -206,7 +184,7 @@ public static class LbptSerializer
                 new[] { enumerable }
             );
 
-            if (isDirectyleSerializable(elementType!, out _))
+            if (IsPropertyDirectlySerializable(elementType!, out _, info))
             {
                 foreach (var item in castedEnumerable)
                 {
@@ -248,9 +226,12 @@ public static class LbptSerializer
         }
         else
         {
-            if (isDirectyleSerializable(info.PropertyType, out _))
+            if (IsPropertyDirectlySerializable(info.PropertyType, out _, info))
             {
-                node.PropertyValue = value.ToString();
+                if (value is null)
+                    node.PropertyValue = "Null";
+                else
+                    node.PropertyValue = value.ToString();
 
                 SerializeNodeToFinalText();
             }
@@ -276,8 +257,127 @@ public static class LbptSerializer
         return node;
     }
 
-    public static T Deserialize<T>(string value) where T : new()
+    public static T Deserialize<T>(string text) where T : new()
     {
-        throw new NotImplementedException();
+        var singleLinePropertyRegex = @"(?:^|\r?\n)(\S*): ([\S ]*)(?:\r?\n|$)";
+        var multiLinePropertyRegex = @"(?:^|\r?\n)(\S*) Began\n(-*)\n([\S\s]*)\n(-*)\n(\S*) Ended(?:\r?\n|$)";
+        var multiLineFinalPropertyRegex = @"(?:^|\r?\n)(\S*): \|\n([\S\s]*)$";
+
+        var propertiesValuesDict = new Dictionary<string, string>();
+
+        var multiLineFinalPropertyMatches = Regex.Matches(text, multiLineFinalPropertyRegex);
+        if (multiLineFinalPropertyMatches.Count() > 1)
+            throw new ArgumentException(
+                $"Final property up to 1 while currently {multiLineFinalPropertyMatches.Count()} was gave.",
+                nameof(text)
+            );
+
+        if (multiLineFinalPropertyMatches.Count() == 1)
+        {
+            var groups = multiLineFinalPropertyMatches[0].Groups;
+
+            propertiesValuesDict.Add(groups[1].Value, groups[2].Value);
+        }
+
+        var singleLinePropertyMatches = Regex.Matches(text, singleLinePropertyRegex, RegexOptions.Multiline);
+        var multiLinePropertyMatches = Regex.Matches(text, multiLinePropertyRegex, RegexOptions.Multiline);
+
+        for (var i = 0; i < singleLinePropertyMatches.Count(); i++)
+        {
+            var property = singleLinePropertyMatches[i];
+
+            if (property.Length == 0) continue;
+            if (property.Value.EndsWith("|\n") || property.Value.EndsWith("|\r\n")) continue;
+
+            var groups = property.Groups;
+
+            propertiesValuesDict.Add(groups[1].Value, groups[2].Value);
+        }
+
+        for (var i = 0; i < multiLinePropertyMatches.Count(); i++)
+        {
+            var property = multiLinePropertyMatches[i];
+
+            if (property.Length == 0) continue;
+
+            var groups = property.Groups;
+
+            if (!groups[1].Value.Equals(groups[5].Value))
+                throw new FormatException("Begining property path not equals to ending property path.");
+
+            var separatorCountsEquals = groups[2].Value.Length == groups[4].Value.Length;
+            var separatorCountsMatchs = groups[1].Value.Length + 6 == groups[2].Value.Length;
+            if (!separatorCountsEquals || !separatorCountsMatchs)
+                throw new FormatException("Separator counts not equals to stantard.");
+
+            propertiesValuesDict.Add(groups[1].Value, groups[3].Value);
+        }
+
+        var deserializedObject = new T();
+
+        var type = typeof(T);
+
+        var properties = type.GetProperties();
+
+        foreach (var property in properties)
+        {
+            if (!property.CanWrite) continue;
+
+            DeserializeProperty(deserializedObject, "", propertiesValuesDict, property);
+        }
+
+        return deserializedObject;
+    }
+
+    public static void DeserializeProperty<T>(
+        T target,
+        string basePath,
+        Dictionary<string, string> propertiesValues,
+        PropertyInfo info)
+    {
+        basePath = $"{basePath}{(string.IsNullOrWhiteSpace(basePath) ? "" : ".")}{info.Name}";
+
+        var config = LbptSerializeConfig
+            .GetConfigFromAttributes(info.GetCustomAttributes())
+            .Act();
+
+        if (config.LbptFormatAttribute?.Ignore ?? false)
+            return;
+
+        if (ReflectionUtils.IsEnumerable(info.PropertyType, out var elementType))
+        {
+
+        }
+        else
+        {
+            if (IsPropertyDirectlySerializable(info.PropertyType, out _, info))
+            {
+                // ToDo: Parse value by property type parser
+                info.SetValue(target, propertiesValues[basePath]);
+            }
+            else
+            {
+                var properties = info.PropertyType.GetProperties();
+
+                foreach (var property in properties)
+                {
+                    if (!property.CanWrite) continue;
+
+                    DeserializeProperty(target, basePath, propertiesValues, property);
+                }
+            }
+        }
+    }
+
+    private static bool IsPropertyDirectlySerializable(Type type, out Type? nullableUnderlyingType, PropertyInfo info)
+    {
+        var isBasicType = basicTypes.Contains(info.PropertyType);
+        var isNullableType = type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+
+        if (isNullableType)
+            nullableUnderlyingType = Nullable.GetUnderlyingType(type);
+        else nullableUnderlyingType = null;
+
+        return isBasicType || isNullableType;
     }
 }
