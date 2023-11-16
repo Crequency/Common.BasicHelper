@@ -46,4 +46,23 @@ public class ReflectionUtils
             return false;
         }
     }
+
+    public static dynamic ParseValue(Type type, object value, Type valueType)
+    {
+        if (type == valueType) return value;
+
+        var parseMethod = type.GetMethod("Parse", new[] { valueType } )
+            ?? throw new ArgumentOutOfRangeException(
+                nameof(value), $"Cannot find method `Parse` for type {valueType.Name}."
+            );
+
+        if (parseMethod.IsStatic)
+        {
+            return parseMethod.Invoke(null, new[] { value });
+        }
+        else
+        {
+            throw new Exception("Cannot execute non-static `Parse` function.");
+        }
+    }
 }

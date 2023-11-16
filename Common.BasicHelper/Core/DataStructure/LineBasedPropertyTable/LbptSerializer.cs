@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.Core.DataStructure.LineBasedPropertyTable;
@@ -107,6 +106,17 @@ public static class LbptSerializer
 
         node.PropertyName = info.Name;
         node.PropertyPath = basePath;
+
+        try
+        {
+            // Avoid indexiable property temporary
+            // ToDo: indexiable property support
+            _ = info.GetValue(target);
+        }
+        catch
+        {
+            return null;
+        }
 
         var value = info.GetValue(target);
 
@@ -346,14 +356,20 @@ public static class LbptSerializer
 
         if (ReflectionUtils.IsEnumerable(info.PropertyType, out var elementType))
         {
-
+            // ToDo: Deserialize enumerable type
         }
         else
         {
             if (IsPropertyDirectlySerializable(info.PropertyType, out _, info))
             {
-                // ToDo: Parse value by property type parser
-                info.SetValue(target, propertiesValues[basePath]);
+                info.SetValue(
+                    target,
+                    ReflectionUtils.ParseValue(
+                        info.PropertyType,
+                        propertiesValues[basePath],
+                        typeof(string)
+                    )
+                );
             }
             else
             {

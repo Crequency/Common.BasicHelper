@@ -16,5 +16,15 @@ var obj = LbptSerializer.Deserialize<TestClasses.PersonGroup>(
     LbptSerializer.Serialize(group, out _).SerializedText!
 );
 
+Console.WriteLine(
+    LbptSerializer.Serialize(
+        new string[]
+        {
+            "A", "B", "C"
+        },
+        out _
+    ).SerializedText
+);
+
 // Breakpoint for debug
 ;
