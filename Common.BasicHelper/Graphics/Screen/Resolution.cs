@@ -8,8 +8,8 @@ namespace Common.BasicHelper.Graphics.Screen;
 
 public class Resolution
 {
-    public static readonly List<Resolution> resolutions = new()
-    {
+    public static readonly List<Resolution> resolutions =
+    [
         Parse("800x600", "SVGA"),
         Parse("1024x768", "XGA"),
         Parse("1280x720", "HD"),
@@ -39,7 +39,7 @@ public class Resolution
         Parse("6400x4800", "HUXGA"),
         Parse("7680x4320", "8K Ultra HD"),
         Parse("7680x4800", "WHUXGA"),
-    };
+    ];
 
     public double? Width { get; set; }
 

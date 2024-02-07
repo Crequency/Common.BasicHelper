@@ -13,7 +13,7 @@ public class LineBasedPropertyTable
 
 public class LineBasedPropertyTableNode
 {
-    private readonly List<LineBasedPropertyTableNode> subNodes = new();
+    private readonly List<LineBasedPropertyTableNode> subNodes = [];
 
     public List<LineBasedPropertyTableNode> SubNodes => subNodes;
 

@@ -7,13 +7,6 @@ namespace Common.BasicHelper.Utils.Extensions;
 
 public static class Dumpper
 {
-    /// <summary>
-    /// 队列打印机
-    /// </summary>
-    /// <typeparam name="T">队列类型</typeparam>
-    /// <param name="queue">队列</param>
-    /// <param name="separater">分隔符</param>
-    /// <returns>打印内容</returns>
     public static string Dump<T>(this Queue<T> queue, string separater = " ", bool print = true)
     {
         var result = new StringBuilder();
@@ -26,25 +19,14 @@ public static class Dumpper
         return result.ToString();
     }
 
-    /// <summary>
-    /// 队列打印机, 按行返回
-    /// </summary>
-    /// <typeparam name="T">队列类型</typeparam>
-    /// <param name="queue">队列</param>
-    /// <returns>打印内容</returns>
     public static string[] Dump2Lines<T>(this Queue<T> queue, bool print = true)
     {
         var result = new List<string>();
         queue.ForEach(x => result.Add(x?.ToString() ?? string.Empty), true);
         if (print) result.ToArray().Print();
-        return result.ToArray();
+        return [.. result];
     }
 
-    /// <summary>
-    /// 网络适配器打印机
-    /// </summary>
-    /// <param name="adapter">网络适配器</param>
-    /// <returns>打印内容</returns>
     public static string Dump(this NetworkInterface adapter, bool print = true)
     {
         var sb = new StringBuilder();
@@ -93,11 +75,6 @@ public static class Dumpper
         return sb.ToString();
     }
 
-    /// <summary>
-    /// 网络适配器打印机, 按行返回
-    /// </summary>
-    /// <param name="adapter">网络适配器</param>
-    /// <returns>打印内容</returns>
     public static string[] Dump2Lines(this NetworkInterface adapter, bool print = true)
     {
         var sb = new List<string>();
@@ -143,13 +120,9 @@ public static class Dumpper
 
         if (print) sb.ToArray().Print();
 
-        return sb.ToArray();
+        return [.. sb];
     }
 
-    /// <summary>
-    /// 任意类型打印机
-    /// </summary>
-    /// <param name="src">打印对象</param>
     public static string Print<T>(this T? src, bool print = true)
     {
         if (print)
@@ -158,15 +131,6 @@ public static class Dumpper
         return src?.ToString() ?? "";
     }
 
-    /// <summary>
-    /// 打印任意类型数组
-    /// </summary>
-    /// <typeparam name="T">数组类型</typeparam>
-    /// <param name="array">数组对象</param>
-    /// <param name="connection">连接字符串</param>
-    /// <param name="cutEnding">是否裁剪末尾连接字符串</param>
-    /// <param name="newLineConnection4StringArray">对于 string 数组是否使用换行替代连接</param>
-    /// <returns>打印出的字符串</returns>
     public static string Print<T>
     (
         this IEnumerable<T> array,

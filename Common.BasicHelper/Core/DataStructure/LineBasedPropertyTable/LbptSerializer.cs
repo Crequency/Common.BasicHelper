@@ -11,8 +11,8 @@ namespace Common.BasicHelper.Core.DataStructure.LineBasedPropertyTable;
 
 public static class LbptSerializer
 {
-    private static readonly List<Type> basicTypes = new()
-    {
+    private static readonly List<Type> basicTypes =
+    [
         typeof(sbyte),
         typeof(byte),
         typeof(short), // Int16
@@ -52,7 +52,7 @@ public static class LbptSerializer
         typeof(Guid[]),
         typeof(TimeSpan[]),
         typeof(Enum[]),
-    };
+    ];
 
     private static string? SerializedTextAppendText;
 
@@ -353,8 +353,7 @@ public static class LbptSerializer
 
         if (config.LbptFormatAttribute?.Ignore ?? false)
             return;
-
-        if (ReflectionUtils.IsEnumerable(info.PropertyType, out var elementType))
+        if (ReflectionUtils.IsEnumerable(info.PropertyType, out _))
         {
             // ToDo: Deserialize enumerable type
         }

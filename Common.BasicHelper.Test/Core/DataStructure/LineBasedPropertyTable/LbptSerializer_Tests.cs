@@ -44,5 +44,7 @@ public class LbptSerializer_Tests
         var result = LbptSerializer.Serialize(group, out var text);
 
         Console.WriteLine(text);
+
+        Assert.AreEqual(result.SerializedText, text);
     }
 }
