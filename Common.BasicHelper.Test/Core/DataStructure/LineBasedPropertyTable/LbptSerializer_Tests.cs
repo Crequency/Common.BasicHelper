@@ -37,7 +37,7 @@ public class LbptSerializer_Tests
     }
 
     [TestMethod]
-    public void Serialize()
+    public void Test_Serialize()
     {
         var group = TestClasses.GetOneGroup();
 
