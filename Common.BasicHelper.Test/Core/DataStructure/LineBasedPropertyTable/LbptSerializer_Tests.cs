@@ -16,7 +16,11 @@ public class LbptSerializer_Tests
         {
             public int? PersonCount => Persons?.Count;
 
-            public List<Person>? Persons { get; set; } = new();
+            public List<Person>? Persons { get; set; } = [];
+
+            public string? GroupName { get; set; } = "Test Group";
+
+            public List<int> TestList { get; set; } = [1, 2, 3, 4, 5, 6];
         }
 
         internal static PersonGroup GetOneGroup()
@@ -46,5 +50,17 @@ public class LbptSerializer_Tests
         Console.WriteLine(text);
 
         Assert.AreEqual(result.SerializedText, text);
+    }
+
+    [TestMethod]
+    public void Test_Deserialize()
+    {
+        var group = TestClasses.GetOneGroup();
+
+        var result = LbptSerializer.Serialize(group, out _).SerializedText;
+
+        var des = LbptSerializer.Deserialize<TestClasses.PersonGroup>(result);
+
+        Console.WriteLine(LbptSerializer.Serialize(des, out _).SerializedText);
     }
 }

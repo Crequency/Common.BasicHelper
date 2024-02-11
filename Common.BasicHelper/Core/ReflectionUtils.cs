@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Common.BasicHelper.Core;
@@ -24,7 +25,11 @@ public class ReflectionUtils
 
     public static bool IsEnumerable(Type type, out Type? elementType)
     {
-        var isEnumerable = typeof(IEnumerable).IsAssignableFrom(type) && type != typeof(string);
+        var isEnumerable = type.GetInterfaces()
+            .Any(
+                x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+            ) && type != typeof(string);
+        //var isEnumerable = type.IsAssignableFrom(typeof(IEnumerable)) && type != typeof(string);
 
         elementType = GetIEnumerableElementType(type);
 
@@ -51,7 +56,7 @@ public class ReflectionUtils
     {
         if (type == valueType) return value;
 
-        var parseMethod = type.GetMethod("Parse", new[] { valueType } )
+        var parseMethod = type.GetMethod("Parse", new[] { valueType })
             ?? throw new ArgumentOutOfRangeException(
                 nameof(value), $"Cannot find method `Parse` for type {valueType.Name}."
             );
