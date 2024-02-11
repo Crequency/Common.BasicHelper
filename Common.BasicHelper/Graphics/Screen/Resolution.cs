@@ -53,6 +53,17 @@ public class Resolution
 
     public string? Description { get; set; }
 
+    public Resolution()
+    {
+
+    }
+
+    public Resolution(double width = default, double height = default)
+    {
+        Width = width;
+        Height = height;
+    }
+
     /// <summary>
     /// Integerize width and height
     /// </summary>
