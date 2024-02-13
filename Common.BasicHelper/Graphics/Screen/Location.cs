@@ -1,16 +1,25 @@
 ﻿using System;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Common.BasicHelper.Graphics.Screen;
 
-public class Location(double x = default, double y = default, double z = default)
+public class Location
 {
-    public double X { get; set; } = x;
+    public Location()
+    {
 
-    public double Y { get; set; } = y;
+    }
 
-    public double Z { get; set; } = z;
+    public Location(double x = default, double y = default, double z = default)
+    {
+        X = x; Y = y; Z = z;
+    }
+
+    public double X { get; set; }
+
+    public double Y { get; set; }
+
+    public double Z { get; set; }
 
     /// <summary>
     /// Parse from [string]

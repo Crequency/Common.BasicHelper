@@ -19,6 +19,11 @@ public class Distances
 
     public double Under { get; set; }
 
+    public Distances()
+    {
+
+    }
+
     public Distances(
         double left = default,
         double right = default,
