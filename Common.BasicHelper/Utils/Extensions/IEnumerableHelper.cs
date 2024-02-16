@@ -28,16 +28,22 @@ public static class IEnumerableHelper
     {
         var count = 0;
 
+        var execute = false;
+
         foreach (var item in items)
         {
             if (predicate(item))
                 count++;
 
             if (match(count))
+            {
+                execute = true;
                 break;
+            }
         }
 
-        action(items);
+        if (execute)
+            action(items);
 
         return items;
     }
