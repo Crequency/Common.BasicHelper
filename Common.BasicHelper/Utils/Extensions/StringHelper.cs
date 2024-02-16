@@ -126,4 +126,6 @@ public static class StringHelper
     }
 
     public static bool IsAscii(this string text) => text.Any(x => x is not (>= (char)0 and <= (char)0xff)) == true;
+
+    public static string Append(this string src, string text) => src + text;
 }
