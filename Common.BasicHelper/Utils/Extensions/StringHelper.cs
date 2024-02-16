@@ -1,6 +1,7 @@
 ﻿using Common.BasicHelper.IO;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -123,4 +124,6 @@ public static class StringHelper
             sb.Append(src);
         return sb.ToString();
     }
+
+    public static bool IsAscii(this string text) => text.Any(x => x is not (>= (char)0 and <= (char)0xff)) == true;
 }
