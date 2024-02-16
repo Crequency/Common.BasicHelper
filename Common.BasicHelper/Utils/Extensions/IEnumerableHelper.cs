@@ -18,4 +18,27 @@ public static class IEnumerableHelper
 
         return items;
     }
+
+    public static IEnumerable<T> WhenCount<T>(
+        this IEnumerable<T> items,
+        Func<int, bool> match,
+        Func<T, bool> predicate,
+        Action<IEnumerable<T>> action
+    )
+    {
+        var count = 0;
+
+        foreach (var item in items)
+        {
+            if (predicate(item))
+                count++;
+
+            if (match(count))
+                break;
+        }
+
+        action(items);
+
+        return items;
+    }
 }
