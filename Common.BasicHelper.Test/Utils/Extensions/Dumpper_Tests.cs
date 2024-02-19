@@ -51,16 +51,16 @@ public class Dumpper_Tests
             1, 2, 3
         }.Print<int>(), "1, 2, 3");
 
-        Assert.AreEqual(new string[3]
-        {
-            "12",
-            "34",
-            "56"
-        }.Print<string>(), """
-        12
-        34
-        56
+        var temp = new string[3] { "12", "34", "56" };
+
+        Assert.AreEqual(
+            temp.Print<string>(),
+            """
+            12
+            34
+            56
         
-        """);
+            """
+        );
     }
 }
