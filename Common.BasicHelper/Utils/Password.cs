@@ -105,8 +105,7 @@ public class Password
             supportedSymbols
         };
 
-        var generateLength = length
-            ?? random.Next(lengthRangeStart ?? 0, lengthRangeEnd ?? 13);
+        var generateLength = length ?? random.Next(lengthRangeStart ?? 0, lengthRangeEnd ?? 13);
 
         var selected = from item in Enumerable.Range(0, generateLength)
                        let selection = chars[random.Next(0, chars.Length)]
