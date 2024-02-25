@@ -47,4 +47,19 @@ public static class IEnumerableHelper
 
         return items;
     }
+
+    public static int IndexOf<T>(this IEnumerable<T> items, Func<T, bool> match)
+    {
+        var index = 0;
+
+        foreach (var item in items)
+        {
+            if (match.Invoke(item))
+                return index;
+
+            ++index;
+        }
+
+        return -1;
+    }
 }
