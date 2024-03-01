@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
 namespace Common.BasicHelper.Utils.Extensions;

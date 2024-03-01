@@ -1,7 +1,7 @@
-﻿using Common.BasicHelper.Core.Shell;
+﻿using System.Web;
+using Common.BasicHelper.Core.Shell;
 using Common.BasicHelper.Graphics.Screen;
 using Common.BasicHelper.Utils.Extensions;
-using System.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
-﻿using Common.BasicHelper.Utils.Extensions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.Graphics.Screen;
 

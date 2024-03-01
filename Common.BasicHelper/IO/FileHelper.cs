@@ -1,7 +1,7 @@
-﻿using Common.BasicHelper.Utils.Extensions;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.IO;
 
