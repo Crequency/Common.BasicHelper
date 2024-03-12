@@ -15,6 +15,10 @@
   <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/Crequency/Common.BasicHelper">
 </p>
 
+<p align="center">
+    <img src="https://profile-counter.glitch.me/Crequency-Common.BasicHelper/count.svg"></img>
+</p>
+
 # About
 
 Common.BasicHelper is a collection of helper functions for dotnet platform (C# mainly).
