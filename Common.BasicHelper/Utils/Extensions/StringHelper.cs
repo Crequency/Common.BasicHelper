@@ -1,24 +1,44 @@
-﻿using Common.BasicHelper.IO;
-using System;
+﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.BasicHelper.IO;
 
 namespace Common.BasicHelper.Utils.Extensions;
 
 public static class StringHelper
 {
-    public static char[] A_Z = new char[26]
-    {
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-        'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-    };
+    public static char[] A_Z =
+    [
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'U',
+        'V',
+        'W',
+        'X',
+        'Y',
+        'Z'
+    ];
 
-    /// <summary>
-    /// 将数字转换成大写字母
-    /// </summary>
-    /// <param name="source">源字符串</param>
-    /// <returns>转换后字符串</returns>
     public static string Num2UpperChar(this string source)
     {
         var sb = new StringBuilder();
@@ -29,11 +49,6 @@ public static class StringHelper
         return sb.ToString();
     }
 
-    /// <summary>
-    /// 从磁盘读取全部文本
-    /// </summary>
-    /// <param name="path">文件路径</param>
-    /// <returns>文本内容, 若文件不存在则返回空</returns>
     public static string? ReadAllTextFromDisk(this string path)
     {
         if (File.Exists(path))
@@ -41,11 +56,6 @@ public static class StringHelper
         else return null;
     }
 
-    /// <summary>
-    /// 从磁盘异步读取全部文本
-    /// </summary>
-    /// <param name="path">文件路径</param>
-    /// <returns>文本内容读取任务, 若文件不存在则返回空</returns>
     public static async Task<string?> ReadAllTextFromDiskAsync(this string path)
     {
         if (File.Exists(path))
@@ -53,14 +63,6 @@ public static class StringHelper
         else return null;
     }
 
-    /// <summary>
-    /// 对字符串进行按指定数量分组拼接
-    /// </summary>
-    /// <param name="text">字符串</param>
-    /// <param name="count">每组字符数</param>
-    /// <param name="action">每组分割完后动作</param>
-    /// <param name="executeAfterLastGroup">最后一组分割完成后是否执行动作</param>
-    /// <returns>返回拼接结果</returns>
     public static string SeparateGroup
     (
         this string text,
@@ -93,70 +95,37 @@ public static class StringHelper
         return sb.ToString();
     }
 
-    /// <summary>
-    /// 判断字符串是否为空
-    /// </summary>
-    /// <param name="str">字符串对象</param>
-    /// <returns>是否为空</returns>
     public static bool IsNullOrEmpty(this string? str) => string.IsNullOrEmpty(str);
 
-    /// <summary>
-    /// 判断字符串是否为空或仅由空白组成
-    /// </summary>
-    /// <param name="str">字符串对象</param>
-    /// <returns>是否为空或仅有空白组成</returns>
     public static bool IsNullOrWhiteSpace(this string? str) => string.IsNullOrWhiteSpace(str);
 
-    /// <summary>
-    /// 将字符串作为异常消息抛出
-    /// </summary>
-    /// <typeparam name="T">异常类型</typeparam>
-    /// <param name="message">异常消息</param>
     public static void Throw<T>(this string? message) where T : Exception
     {
         var exp = Activator.CreateInstance(typeof(T), message);
         throw (exp as T) ?? new Exception(message);
     }
 
-    /// <summary>
-    /// 获取给定路径的完整路径
-    /// </summary>
-    /// <param name="path">路径</param>
-    /// <returns>完整路径</returns>
     public static string GetFullPath(this string path) => Path.GetFullPath(path);
 
-    /// <summary>
-    /// 获取给定路径的完整大小 (字节数)
-    /// </summary>
-    /// <param name="path">路径</param>
-    /// <returns>给定路径的完整字节数</returns>
     public static long GetTotalSize(this string path) => DirectoryHelper.GetDirectorySize(path);
 
-    /// <summary>
-    /// 使用 UTF8 编码将字符串转换为字节数组
-    /// </summary>
-    /// <param name="text">字符串</param>
-    /// <returns>字节数组</returns>
     public static byte[] FromUTF8(this string text) => Encoding.UTF8.GetBytes(text);
 
-    /// <summary>
-    /// 使用 UTF32 编码将字符串转换为字节数组
-    /// </summary>
-    /// <param name="text">字符串</param>
-    /// <returns>字节数组</returns>
     public static byte[] FromUTF32(this string text) => Encoding.UTF32.GetBytes(text);
 
-    /// <summary>
-    /// 使用 Unicode 编码将字符串转换为字节数组
-    /// </summary>
-    /// <param name="text">字符串</param>
-    /// <returns>字节数组</returns>
     public static byte[] FromUnicode(this string text) => Encoding.Unicode.GetBytes(text);
 
-    /// <summary>
-    /// 使用 ASCII 编码将字符串转换为字节数组
-    /// </summary>
-    /// <param name="text">字符串</param>
-    /// <returns>字节数组</returns>
     public static byte[] FromASCII(this string text) => Encoding.ASCII.GetBytes(text);
+
+    public static string Repeat(this string src, int count)
+    {
+        var sb = new StringBuilder();
+        for (var i = 0; i < count; ++i)
+            sb.Append(src);
+        return sb.ToString();
+    }
+
+    public static bool IsAscii(this string text) => text.Any(x => x is not (>= (char)0 and <= (char)0xff)) == true;
+
+    public static string Append(this string src, string text) => src + text;
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Common.BasicHelper.Math;
 
@@ -67,15 +67,15 @@ public class Expression
         { CalculationType.Power, "**" },
     };
 
-    public static List<CalculationType> CalculationTypeOrder = new()
-    {
+    public static List<CalculationType> CalculationTypeOrder =
+    [
         CalculationType.Power,
         CalculationType.Multiply,
         CalculationType.Division,
         CalculationType.Add,
         CalculationType.Substraction,
         CalculationType.Unknown,
-    };
+    ];
 
     public static Expression FromValue(double value)
     {

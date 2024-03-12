@@ -35,12 +35,13 @@ you can await this method.
 using Common.BasicHelper.Core.Shell;
 
 var output = CommandsExecutor.GetExecutionResult(
-    "help", // command, use `help` for example
+    "help", // command, take `help` for example
     "",
     true
 );
 
-var output_async - CommandsExecutor.GetExecutionResultAsync(
+// You can always call it in async way.
+var output_async = await CommandsExecutor.GetExecutionResultAsync(
     "help",
     "",
     true

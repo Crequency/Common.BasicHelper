@@ -1,15 +1,15 @@
-﻿using Common.BasicHelper.Core.Exceptions;
-using Common.BasicHelper.Utils.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.BasicHelper.Core.Exceptions;
+using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.Graphics.Screen;
 
 public class Resolution
 {
-    public static readonly List<Resolution> resolutions = new()
-    {
+    public static readonly List<Resolution> resolutions =
+    [
         Parse("800x600", "SVGA"),
         Parse("1024x768", "XGA"),
         Parse("1280x720", "HD"),
@@ -39,7 +39,7 @@ public class Resolution
         Parse("6400x4800", "HUXGA"),
         Parse("7680x4320", "8K Ultra HD"),
         Parse("7680x4800", "WHUXGA"),
-    };
+    ];
 
     public double? Width { get; set; }
 
@@ -52,6 +52,17 @@ public class Resolution
     public double? AspectRatio => Width / Height;
 
     public string? Description { get; set; }
+
+    public Resolution()
+    {
+
+    }
+
+    public Resolution(double width = default, double height = default)
+    {
+        Width = width;
+        Height = height;
+    }
 
     /// <summary>
     /// Integerize width and height

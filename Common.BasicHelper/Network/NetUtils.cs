@@ -1,8 +1,8 @@
-﻿using Common.BasicHelper.Utils.Extensions;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
+using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.Network;
 

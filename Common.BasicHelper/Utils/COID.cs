@@ -1,8 +1,8 @@
-﻿using Common.BasicHelper.Core.Exceptions;
+﻿using System;
+using System.Text.RegularExpressions;
+using Common.BasicHelper.Core.Exceptions;
 using Common.BasicHelper.Math;
 using Common.BasicHelper.Utils.Extensions;
-using System;
-using System.Text.RegularExpressions;
 
 namespace Common.BasicHelper.Utils;
 

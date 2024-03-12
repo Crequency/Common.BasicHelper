@@ -8,13 +8,13 @@ namespace Common.BasicHelper.Core.Shell;
 public static class CommandsExecutor
 {
     /// <summary>
-    /// 获取命令执行输出
+    /// Get standard output from command executed in system shell
     /// </summary>
-    /// <param name="command">命令</param>
-    /// <param name="args">参数</param>
-    /// <param name="findInPath">是否在 Path 中寻找</param>
-    /// <param name="action">对启动信息的行动</param>
-    /// <returns>命令执行输出</returns>
+    /// <param name="command">Command</param>
+    /// <param name="args">Arguments</param>
+    /// <param name="findInPath">Should find command file path from system variable "Path"</param>
+    /// <param name="action">Further action for `ProcessStartInfo` processing</param>
+    /// <returns>Standard output for command</returns>
     public static string GetExecutionResult
     (
         string command,
@@ -53,14 +53,14 @@ public static class CommandsExecutor
     }
 
     /// <summary>
-    /// 异步获取命令执行输出
+    /// Get standard output from command executed in system shell asyncly
     /// </summary>
-    /// <param name="command">命令</param>
-    /// <param name="args">参数</param>
-    /// <param name="findInPath">是否在 Path 中寻找</param>
-    /// <param name="action">针对启动信息的动作</param>
-    /// <param name="token">取消口令</param>
-    /// <returns>命令执行输出</returns>
+    /// <param name="command">Command</param>
+    /// <param name="args">Arguments</param>
+    /// <param name="findInPath">Should find command file path from system variable "Path"</param>
+    /// <param name="action">Further action for `ProcessStartInfo` processing</param>
+    /// <param name="token">Cancellation token</param>
+    /// <returns>Standard output for command</returns>
     public static async Task<string> GetExecutionResultAsync
     (
         string command,
@@ -118,12 +118,13 @@ public static class CommandsExecutorExtensions
 {
 
     /// <summary>
-    /// 将当前字符串作为命令执行, 返回命令执行的输出
+    /// Regard this string as command and return standard output as it executed
     /// </summary>
-    /// <param name="command">命令</param>
-    /// <param name="args">命令参数</param>
-    /// <param name="action">针对启动信息的行动</param>
-    /// <returns>执行的输出</returns>
+    /// <param name="command">Command</param>
+    /// <param name="args">Arguments</param>
+    /// <param name="findInPath">Should find command file path from system variable "Path"</param>
+    /// <param name="action">Further action for `ProcessStartInfo` processing</param>
+    /// <returns>Standard output from this command</returns>
     public static string ExecuteAsCommand
     (
         this string command,
@@ -141,14 +142,14 @@ public static class CommandsExecutorExtensions
 
 
     /// <summary>
-    /// 将当前字符串作为命令执行, 异步获取命令执行输出
+    /// Regard this string as command and return standard output as it executed asyncly
     /// </summary>
-    /// <param name="command">命令</param>
-    /// <param name="args">参数</param>
-    /// <param name="findInPath">是否在 Path 中寻找</param>
-    /// <param name="action">针对启动信息的动作</param>
-    /// <param name="token">取消口令</param>
-    /// <returns>命令执行输出</returns>
+    /// <param name="command">Command</param>
+    /// <param name="args">Arguments</param>
+    /// <param name="findInPath">Should find command file path from system variable "Path"</param>
+    /// <param name="action">Further action for `ProcessStartInfo` processing</param>
+    /// <param name="token">Cancellation token</param>
+    /// <returns>Standard output from this command</returns>
     public static Task<string> ExecuteAsCommandAsync
     (
         this string command,

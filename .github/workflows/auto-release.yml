@@ -1,58 +1,59 @@
-name: daily-build
+name: Daily Build
 
 on:
   schedule:
-    - cron: '0 6 * * 0'
+    - cron: "0 6 * * 0"
 
 jobs:
   build:
-        
     runs-on: ubuntu-latest
 
     steps:
-  
-    - uses: actions/checkout@v3
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: |
-          6.0.x
-          7.0.x
-        include-prerelease: false
-      
-    - name: Build
-      shell: pwsh
-      run: |
-        cd Common.BasicHelper
-        dotnet build -c Release
-        
-        cd bin/Release
-        $out = ls
-        if ("$out" -match 'Common.BasicHelper.(\d*).(\d*).(\d*).(\d*).nupkg') {
-          $v1 = $Matches.1
-          $v2 = $Matches.2
-          $v3 = $Matches.3
-          $v4 = $Matches.4
-          $version = "$v1.$v2.$v3.$v4"
-          
-          echo "version=$version"
-          echo "version=$version" >> $env:GITHUB_ENV
-          echo "canRelease=true" >> $env:GITHUB_ENV
-        } else {
-          echo "canRelease=false" >> $env:GITHUB_ENV
-        }
-        
-        cd ../../..
-        
-    - name: Create Release and Upload Release Asset
-      if: ${{ env.canRelease == 'true' }}
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: v${{ env.version }}
-        name: Weekly Release v${{ env.version }}
-        body: Auto release by Actions.
-        draft: false
-        prerelease: true
-        files: |
-          Common.BasicHelper/bin/Release/*.nupkg
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            8.0.x
+
+      - name: Build
+        working-directory: Common.BasicHelper
+        shell: pwsh
+        run: |
+          dotnet build -c Release
+
+          cd bin/Release
+          $out = ls
+          if ("$out" -match 'Common.BasicHelper.(\d*).(\d*).(\d*).(\d*).nupkg') {
+            $v1 = $Matches.1
+            $v2 = $Matches.2
+            $v3 = $Matches.3
+            $v4 = $Matches.4
+            $version = "$v1.$v2.$v3.$v4"
+            
+            echo "version=$version"
+            echo "version=$version" >> $env:GITHUB_ENV
+            echo "CAN_RELEASE=true" >> $env:GITHUB_ENV
+          } else {
+            echo "CAN_RELEASE=false" >> $env:GITHUB_ENV
+          }
+
+      - name: Check New Commit
+        shell: pwsh
+        run: |
+          $latest_commit_date=((git show --pretty=format:"%cd" --date=iso) -split '\n')[0]
+          py ./.github/scripts/check_new_commit.py "$latest_commit_date" 7
+          ./set_env.ps1
+
+      - name: Create Release and Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        if: env.CAN_RELEASE == 'true' && env.HAS_NEW_COMMIT == 'true'
+        with:
+          tag_name: v${{ env.version }}
+          name: Auto Release v${{ env.version }} on ${{ env.date }}
+          body: Auto release by Actions.
+          draft: false
+          prerelease: true
+          files: |
+            Common.BasicHelper/bin/Release/*.nupkg

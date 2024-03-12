@@ -7,10 +7,10 @@ namespace Common.BasicHelper.Core.Shell;
 public static class EnvironmentHelper
 {
     /// <summary>
-    /// 获取系统 PATH 中的文件路径
+    /// Get file path from system environment variable "Path"
     /// </summary>
-    /// <param name="fileName">文件名 (是否包含 .exe 均可)</param>
-    /// <returns>准确的文件路径</returns>
+    /// <param name="fileName">File name (With or without ".exe" are available)</param>
+    /// <returns>Exactly file path</returns>
     public static string GetFilePathInPaths(string fileName)
     {
         var result = fileName;
@@ -35,4 +35,9 @@ public static class EnvironmentHelper
 
         return result;
     }
+}
+
+public static class EnvironmentHelperExtensions
+{
+    public static string FindInPath(this string fileName) => EnvironmentHelper.GetFilePathInPaths(fileName);
 }

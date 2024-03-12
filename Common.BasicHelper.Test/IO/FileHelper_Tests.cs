@@ -1,5 +1,5 @@
-﻿using Common.BasicHelper.Utils.Extensions;
-using System.Text;
+﻿using System.Text;
+using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.IO;
 

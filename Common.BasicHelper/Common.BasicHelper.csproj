@@ -41,4 +41,8 @@
         <None Include="..\README.md" Pack="True" PackagePath="\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    </ItemGroup>
+
 </Project>
