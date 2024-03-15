@@ -56,14 +56,14 @@ public class ReflectionUtils
     {
         if (type == valueType) return value;
 
-        var parseMethod = type.GetMethod("Parse", new[] { valueType })
+        var parseMethod = type.GetMethod("Parse", [valueType])
             ?? throw new ArgumentOutOfRangeException(
                 nameof(value), $"Cannot find method `Parse` for type {valueType.Name}."
             );
 
         if (parseMethod.IsStatic)
         {
-            return parseMethod.Invoke(null, new[] { value });
+            return parseMethod.Invoke(null, [value]);
         }
         else
         {
