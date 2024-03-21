@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AssemblyVersion>$(Version)</AssemblyVersion>
+        <FileVersion>$(Version)</FileVersion>
+        <Version>0.1.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-06-06"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Authors>Dynesshely</Authors>
+        <Company>Crequency</Company>
+        <Copyright>Copyright (C) Crequency 2024</Copyright>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <RepositoryUrl>https://github.com/Crequency/Common.BasicHelper/</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Crequency/Common.BasicHelper/</PackageProjectUrl>
+        <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageId>$(AssemblyName)</PackageId>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>bc</ToolCommandName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="icon.png" Pack="True" PackagePath="\" />
+        <None Include="..\README.md" Pack="True" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Common.BasicHelper.Samples\Common.BasicHelper.Samples.csproj" />
+        <ProjectReference Include="..\Common.BasicHelper\Common.BasicHelper.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    </ItemGroup>
+
+</Project>
