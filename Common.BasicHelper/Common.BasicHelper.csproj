@@ -8,33 +8,35 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Authors>Dynesshely</Authors>
-        <Company>Crequency</Company>
-        <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
-        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <PackageId>$(AssemblyName)</PackageId>
-        <PackageProjectUrl>https://github.com/Crequency/Common.BasicHelper/</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Crequency/Common.BasicHelper/</RepositoryUrl>
-        <Copyright>Copyright © Crequency 2022-present</Copyright>
-        <PackageIcon>icon.png</PackageIcon>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
         <Version>1.2.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-06-06"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <Authors>Dynesshely</Authors>
+        <Company>Crequency</Company>
+        <Copyright>Copyright (C) Crequency 2022-present</Copyright>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <RepositoryUrl>https://github.com/Crequency/Common.BasicHelper/</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Crequency/Common.BasicHelper/</PackageProjectUrl>
+        <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageId>$(AssemblyName)</PackageId>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
     <ItemGroup>
-        <None Include="icon.png">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
+        <None Include="icon.png" Pack="True" PackagePath="\"/>
+        <None Include="..\README.md" Pack="True" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     </ItemGroup>
 
 </Project>
