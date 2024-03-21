@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common.BasicHelper.Core.Exceptions;
@@ -97,18 +98,24 @@ public class Password
 
         var random = new Random();
 
-        var chars = new string[4]
-        {
-            supportedUppercases,
-            supportedLowercases,
-            supportedNumbers,
-            supportedSymbols
-        };
+        var chars = new List<string>();
+
+        if (includeUppercase)
+            chars.Add(supportedUppercases);
+
+        if (includeLowercase)
+            chars.Add(supportedLowercases);
+
+        if (includeNumbers)
+            chars.Add(supportedNumbers);
+
+        if (includeSymbols)
+            chars.Add(supportedSymbols);
 
         var generateLength = length ?? random.Next(lengthRangeStart ?? 0, lengthRangeEnd ?? 13);
 
         var selected = from item in Enumerable.Range(0, generateLength)
-                       let selection = chars[random.Next(0, chars.Length)]
+                       let selection = chars[random.Next(0, chars.Count)]
                        select selection[random.Next(0, selection.Length)];
 
         foreach (var item in selected)

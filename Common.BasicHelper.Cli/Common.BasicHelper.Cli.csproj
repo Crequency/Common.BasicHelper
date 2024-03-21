@@ -1,22 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <LangVersion>preview</LangVersion>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <ImplicitUsings>disable</ImplicitUsings>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <PropertyGroup>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
-        <Version>1.3.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-06-06"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
+        <Version>0.1.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-06-06"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
     </PropertyGroup>
 
     <PropertyGroup>
         <Authors>Dynesshely</Authors>
         <Company>Crequency</Company>
-        <Copyright>Copyright (C) Crequency 2022-present</Copyright>
+        <Copyright>Copyright (C) Crequency 2024</Copyright>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -30,13 +30,23 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>cbt</ToolCommandName>
+    </PropertyGroup>
+
     <ItemGroup>
-        <None Include="icon.png" Pack="True" PackagePath="\"/>
-        <None Include="..\README.md" Pack="True" PackagePath="\"/>
+        <None Include="icon.png" Pack="True" PackagePath="\" />
+        <None Include="..\README.md" Pack="True" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <ProjectReference Include="..\Common.BasicHelper.Samples\Common.BasicHelper.Samples.csproj" />
+        <ProjectReference Include="..\Common.BasicHelper\Common.BasicHelper.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommandLineParser" Version="2.9.1" />
     </ItemGroup>
 
 </Project>
