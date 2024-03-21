@@ -32,7 +32,7 @@
 
     <PropertyGroup>
         <PackAsTool>true</PackAsTool>
-        <ToolCommandName>bc</ToolCommandName>
+        <ToolCommandName>cbt</ToolCommandName>
     </PropertyGroup>
 
     <ItemGroup>

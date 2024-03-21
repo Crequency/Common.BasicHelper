@@ -22,16 +22,19 @@ jobs:
                       8.0.x
 
             - name: Add to GitHub Repo
+              if: ${{ github.event_name != 'pull_request' }}
               run: |
                   nuget sources add -name github -Source https://nuget.pkg.github.com/Crequency/index.json -Username Crequency -Password ${{ secrets.GitHubToken }}
 
             - name: Install NuGet
               uses: nuget/setup-nuget@v1
+              if: ${{ github.event_name != 'pull_request' }}
               with:
                   nuget-version: "6.x"
 
             - name: Build and Publish Cli Tool
               working-directory: "Common.BasicHelper.Cli"
+              if: ${{ github.event_name != 'pull_request' }}
               run: |
                   dotnet build -c Release
 
