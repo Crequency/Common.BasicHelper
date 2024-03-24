@@ -44,6 +44,9 @@ jobs:
             echo "CAN_RELEASE=false" >> $env:GITHUB_ENV
           }
 
+          $date = (Get-Date -Format "yyyy.MM.dd")
+          echo "date=$date" >> $env:GITHUB_ENV
+
       - name: Check New Commit
         shell: pwsh
         run: |
