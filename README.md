@@ -33,12 +33,13 @@ dotnet add package Common.BasicHelper
 
 # Samples
 
-We provide some samples in `Commong.BasicHelper.Samples` project.
+We provide some samples in `Commong.BasicHelper.Samples` project (which is a api site).
 
 To run this project, just run commands:
 
 ```shell
 cd Common.BasicHelper.Samples
+
 dotnet run
 ```
 
@@ -110,5 +111,58 @@ More extensions can be find in our docs later.
 
 We will be appreciate if you can help us with docs site.
 
+# Cli Tool
 
+We provide a cli tool to help you to call Common.BasicHelper's power.
 
+You can install it simply from nuget:
+
+```shell
+dotnet tool install --global Common.BasicHelper.Cli
+
+# Test installation
+cbt --version
+```
+
+[Nuget Package - Common.BasicHelper.Cli](https://www.nuget.org/packages/Common.BasicHelper.Cli)
+
+## Usage
+
+Take `Password` for example (here is the output for command `cbt pwd --help`):
+
+```text
+Common.BasicHelper.Cli 0.1.6863.950+8b01c11c384856b3a1ffbf64e6424adf3e187ed8
+Copyright (C) Crequency 2024
+
+  -g, --generate               (Default: true) Generate a password.
+
+  -l, --length                 (Default: 12) Length of the password.
+
+  -r, --length-range           Length range of the password, like `3,5`.
+
+  -u, --ignore-uppercase       Ignore uppercase letters.
+
+  -e, --ignore-lowercase       Ignore lowercase letters.
+
+  -n, --ignore-numbers         Ignore numbers.
+
+  -s, --ignore-symbols         Ignore symbols.
+
+  -U, --supported-uppercase    (Default: ABCDEFGHIJKLMNOPQRSTUVWXYZ) Supported uppercase letters.
+
+  -E, --supported-lowercase    (Default: abcdefghijklmnopqrstuvwxyz) Supported lowercase letters.
+
+  -N, --supported-numbers      (Default: 0123456789) Supported numbers.
+
+  -S, --supported-symbols      (Default: !@#$%^&*()_+-=[]{};':,./<>?) Supported symbols.
+
+  --verbose                    Display verbose output.
+
+  --dry-run                    Dry run the command.
+
+  --help                       Display this help screen.
+
+  --version                    Display version information.
+```
+
+The more commands you can find in `cbt help`.

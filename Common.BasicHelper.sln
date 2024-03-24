@@ -9,7 +9,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.BasicHelper.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.BasicHelper.Samples", "Common.BasicHelper.Samples\Common.BasicHelper.Samples.csproj", "{C363C055-5CDC-4CEB-935C-D099CE0681BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.BasicHelper.Cli", "Common.BasicHelper.Cli\Common.BasicHelper.Cli.csproj", "{3545B3A1-32CE-4404-8749-0E930354F5BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.BasicHelper.Cli", "Common.BasicHelper.Cli\Common.BasicHelper.Cli.csproj", "{3545B3A1-32CE-4404-8749-0E930354F5BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{6E4AD4E0-64BE-49F1-AC5C-2ECB15109F7E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		view-samples.ps1 = view-samples.ps1
+		view-samples.sh = view-samples.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
