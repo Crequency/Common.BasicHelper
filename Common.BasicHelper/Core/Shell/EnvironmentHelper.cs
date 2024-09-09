@@ -16,17 +16,9 @@ public static class EnvironmentHelper
         var result = fileName;
         var environmentPaths = Environment.GetEnvironmentVariable("PATH");
         var paths = environmentPaths.Split(';').ToArray();
-        var exePath = paths.Select
-            (
-                x => Path.Combine
-                (
-                    x,
-                    fileName.ToLower().EndsWith(".exe")
-                    ?
-                    fileName
-                    :
-                    $"{fileName}.exe"
-                )
+        var exePath = paths
+            .Select(x =>
+                Path.Combine(x, fileName.ToLower().EndsWith(".exe") ? fileName : $"{fileName}.exe")
             )
             .FirstOrDefault(File.Exists);
 
@@ -39,5 +31,6 @@ public static class EnvironmentHelper
 
 public static class EnvironmentHelperExtensions
 {
-    public static string FindInPath(this string fileName) => EnvironmentHelper.GetFilePathInPaths(fileName);
+    public static string FindInPath(this string fileName) =>
+        EnvironmentHelper.GetFilePathInPaths(fileName);
 }
