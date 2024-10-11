@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using Common.BasicHelper.Utils;
+using TextCopy;
 
 namespace Common.BasicHelper.Cli.Arguments.Verbs;
 
@@ -27,17 +28,35 @@ public class VerbPassword : BasicOptions
     [Option('s', "ignore-symbols", HelpText = "Ignore symbols.")]
     public bool IgnoreSymbols { get; set; }
 
-    [Option('U', "supported-uppercase", Default = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", HelpText = "Supported uppercase letters.")]
+    [Option(
+        'U',
+        "supported-uppercase",
+        Default = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        HelpText = "Supported uppercase letters."
+    )]
     public string? SupportedUppercase { get; set; }
 
-    [Option('E', "supported-lowercase", Default = "abcdefghijklmnopqrstuvwxyz", HelpText = "Supported lowercase letters.")]
+    [Option(
+        'E',
+        "supported-lowercase",
+        Default = "abcdefghijklmnopqrstuvwxyz",
+        HelpText = "Supported lowercase letters."
+    )]
     public string? SupportedLowercase { get; set; }
 
     [Option('N', "supported-numbers", Default = "0123456789", HelpText = "Supported numbers.")]
     public string? SupportedNumbers { get; set; }
 
-    [Option('S', "supported-symbols", Default = "!@#$%^&*()_+-=[]{};':,./<>?", HelpText = "Supported symbols.")]
+    [Option(
+        'S',
+        "supported-symbols",
+        Default = "!@#$%^&*()_+-=[]{};':,./<>?",
+        HelpText = "Supported symbols."
+    )]
     public string? SupportedSymbols { get; set; }
+
+    [Option('c', "copy", HelpText = "Copy to clipboard")]
+    public bool CopyToClipboard { get; set; }
 }
 
 public static class PasswordExtensions
@@ -56,8 +75,10 @@ public static class PasswordExtensions
             if (splited.Length != 2)
                 throw new ArgumentException("Length range should be like `3,5`.");
 
-            lengthRangeProvided = lengthRangeProvided && int.TryParse(splited[0], out lengthRangeStart);
-            lengthRangeProvided = lengthRangeProvided && int.TryParse(splited[1], out lengthRangeEnd);
+            lengthRangeProvided =
+                lengthRangeProvided && int.TryParse(splited[0], out lengthRangeStart);
+            lengthRangeProvided =
+                lengthRangeProvided && int.TryParse(splited[1], out lengthRangeEnd);
         }
 
         var pwd = Password.GeneratePassword(
@@ -75,6 +96,25 @@ public static class PasswordExtensions
         );
 
         Console.WriteLine(pwd);
+
+        if (pwdc.CopyToClipboard)
+        {
+            try
+            {
+                ClipboardService.SetText(pwd);
+
+                Console.WriteLine("Copied to clipboard !");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(
+                    $"""
+                    {e.Message}
+                    {e.StackTrace}
+                    """
+                );
+            }
+        }
 
         return pwdc;
     }
