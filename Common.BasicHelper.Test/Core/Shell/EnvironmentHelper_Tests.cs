@@ -1,9 +1,7 @@
-﻿using Common.BasicHelper.Core.Shell;
-
-namespace Common.BasicHelper.Test.Core.Shell;
+﻿namespace Common.BasicHelper.Core.Shell;
 
 [TestClass]
-public class EnvironmentHelperTests
+public class EnvironmentHelper_Tests
 {
     [TestMethod]
     public void Test_FindInPath()
