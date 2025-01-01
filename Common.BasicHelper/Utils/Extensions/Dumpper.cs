@@ -7,118 +7,66 @@ namespace Common.BasicHelper.Utils.Extensions;
 
 public static class Dumpper
 {
-    public static string Dump<T>(this Queue<T> queue, string separater = " ", bool print = true)
-    {
-        var result = new StringBuilder();
-        queue.ForEach(x =>
-        {
-            result.Append(x?.ToString());
-            result.Append(separater);
-        }, true);
-        if (print) result.ToString().Print();
-        return result.ToString();
-    }
+    public static string Dump<T>(this Queue<T> queue, string separator = " ", bool print = true) =>
+        string.Join(separator, queue.Dump2Lines(print: print));
 
     public static string[] Dump2Lines<T>(this Queue<T> queue, bool print = true)
     {
         var result = new List<string>();
         queue.ForEach(x => result.Add(x?.ToString() ?? string.Empty), true);
-        if (print) result.ToArray().Print();
+        if (print)
+            result.ToArray().Print();
         return [.. result];
     }
 
-    public static string Dump(this NetworkInterface adapter, bool print = true)
-    {
-        var sb = new StringBuilder();
-        var adapterProperties = adapter.GetIPProperties();
-        var v4s = adapter.GetIPv4Statistics();
-        if (adapter.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-        {
-            sb.AppendLine($"{"网络适配器名称: "}{adapter.Name}");
-            sb.AppendLine($"{"网络适配器标识符: "}{adapter.Id}");
-            sb.AppendLine($"{"适配器连接状态: "}{adapter.OperationalStatus}");
-            if (adapterProperties.UnicastAddresses.Count > 0)
-            {
-                var unicastIP = adapterProperties.UnicastAddresses[0];
-                sb.AppendLine($"{"IP地址:"}{unicastIP.Address}");
-                sb.AppendLine($"{"子网掩码:"}{unicastIP.IPv4Mask}");
-            }
-            if (adapterProperties.GatewayAddresses.Count > 0)
-            {
-                var gatewayIP = adapterProperties.GatewayAddresses[0];
-                sb.AppendLine($"默认网关:{gatewayIP.Address}");   //默认网关
-            }
-            int DnsCount = adapterProperties.DnsAddresses.Count;
-            sb.AppendLine("DNS服务器地址:");   //默认网关
-            if (DnsCount > 0)
-            {
-                //其中第一个为首选DNS，第二个为备用的，余下的为所有DNS为DNS备用，按使用顺序排列
-                for (int i = 0; i < DnsCount; i++)
-                    sb.AppendLine($"{adapterProperties.DnsAddresses[i],50}");
-            }
-            sb.AppendLine($"{"网络接口速度: "}{adapter.Speed / 1000000:0.0}Mbps");
-            sb.AppendLine($"{"接口描述: "}{adapter.Description}");
-            sb.AppendLine($"{"适配器的媒体访问控制 (MAC) 地址: "}{adapter.GetPhysicalAddress()}");
-            sb.AppendLine($"{"该接口是否只接收数据包: "}{adapter.IsReceiveOnly}");
-            sb.AppendLine($"{"该接口收到的字节数: "}{v4s.BytesReceived}");
-            sb.AppendLine($"{"该接口发送的字节数: "}{v4s.BytesSent}");
-            sb.AppendLine($"{"该接口丢弃的传入数据包数: "}{v4s.IncomingPacketsDiscarded}");
-            sb.AppendLine($"{"该接口丢弃的传出数据包数: "}{v4s.OutgoingPacketsDiscarded}");
-            sb.AppendLine($"{"IP地址: "}{v4s.IncomingPacketsWithErrors}");
-            sb.AppendLine($"{"IP地址: "}{v4s.OutgoingPacketsWithErrors}");
-            sb.AppendLine($"{"IP地址: "}{v4s.IncomingUnknownProtocolPackets}");
-            sb.AppendLine(new StringBuilder().Append('-', 50).ToString());
-        }
-
-        if (print) sb.ToString().Print();
-
-        return sb.ToString();
-    }
+    public static string Dump(this NetworkInterface adapter, bool print = true) =>
+        string.Join(Environment.NewLine, adapter.Dump2Lines(print: print));
 
     public static string[] Dump2Lines(this NetworkInterface adapter, bool print = true)
     {
         var sb = new List<string>();
         var adapterProperties = adapter.GetIPProperties();
-        var v4s = adapter.GetIPv4Statistics();
+        var iPv4Statistics = adapter.GetIPv4Statistics();
         if (adapter.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
         {
-            sb.Add($"{"网络适配器名称: "}{adapter.Name}");
-            sb.Add($"{"网络适配器标识符: "}{adapter.Id}");
-            sb.Add($"{"适配器连接状态: "}{adapter.OperationalStatus}");
+            sb.Add($"网络适配器名称: {adapter.Name}");
+            sb.Add($"网络适配器标识符: {adapter.Id}");
+            sb.Add($"适配器连接状态: {adapter.OperationalStatus}");
             if (adapterProperties.UnicastAddresses.Count > 0)
             {
-                var unicastIP = adapterProperties.UnicastAddresses[0];
-                sb.Add($"{"IP地址:"}{unicastIP.Address}");
-                sb.Add($"{"子网掩码:"}{unicastIP.IPv4Mask}");
+                var unicastIp = adapterProperties.UnicastAddresses[0];
+                sb.Add($"IP 地址: {unicastIp.Address}");
+                sb.Add($"子网掩码: {unicastIp.IPv4Mask}");
             }
             if (adapterProperties.GatewayAddresses.Count > 0)
             {
-                var gatewayIP = adapterProperties.GatewayAddresses[0];
-                sb.Add($"默认网关:{gatewayIP.Address}");   //默认网关
+                var gatewayIp = adapterProperties.GatewayAddresses[0];
+                sb.Add($"默认网关:{gatewayIp.Address}"); //默认网关
             }
-            int DnsCount = adapterProperties.DnsAddresses.Count;
-            sb.Add("DNS服务器地址:");   //默认网关
-            if (DnsCount > 0)
+            int dnsCount = adapterProperties.DnsAddresses.Count;
+            sb.Add("DNS 服务器地址:"); //默认网关
+            if (dnsCount > 0)
             {
-                //其中第一个为首选DNS，第二个为备用的，余下的为所有DNS为DNS备用，按使用顺序排列
-                for (int i = 0; i < DnsCount; i++)
+                //其中第一个为首选 DNS，第二个为备用的，余下的为所有DNS为DNS备用，按使用顺序排列
+                for (int i = 0; i < dnsCount; i++)
                     sb.Add($"{adapterProperties.DnsAddresses[i],50}");
             }
-            sb.Add($"{"网络接口速度: "}{adapter.Speed / 1000000:0.0}Mbps");
-            sb.Add($"{"接口描述: "}{adapter.Description}");
-            sb.Add($"{"适配器的媒体访问控制 (MAC) 地址: "}{adapter.GetPhysicalAddress()}");
-            sb.Add($"{"该接口是否只接收数据包: "}{adapter.IsReceiveOnly}");
-            sb.Add($"{"该接口收到的字节数: "}{v4s.BytesReceived}");
-            sb.Add($"{"该接口发送的字节数: "}{v4s.BytesSent}");
-            sb.Add($"{"该接口丢弃的传入数据包数: "}{v4s.IncomingPacketsDiscarded}");
-            sb.Add($"{"该接口丢弃的传出数据包数: "}{v4s.OutgoingPacketsDiscarded}");
-            sb.Add($"{"IP地址: "}{v4s.IncomingPacketsWithErrors}");
-            sb.Add($"{"IP地址: "}{v4s.OutgoingPacketsWithErrors}");
-            sb.Add($"{"IP地址: "}{v4s.IncomingUnknownProtocolPackets}");
+            sb.Add($"网络接口速度: {adapter.Speed / 1000000:0.0}Mbps");
+            sb.Add($"接口描述: {adapter.Description}");
+            sb.Add($"适配器的媒体访问控制 (MAC) 地址: {adapter.GetPhysicalAddress()}");
+            sb.Add($"该接口是否只接收数据包: {adapter.IsReceiveOnly}");
+            sb.Add($"该接口收到的字节数: {iPv4Statistics.BytesReceived}");
+            sb.Add($"该接口发送的字节数: {iPv4Statistics.BytesSent}");
+            sb.Add($"该接口丢弃的传入数据包数: {iPv4Statistics.IncomingPacketsDiscarded}");
+            sb.Add($"该接口丢弃的传出数据包数: {iPv4Statistics.OutgoingPacketsDiscarded}");
+            sb.Add($"IP 地址: {iPv4Statistics.IncomingPacketsWithErrors}");
+            sb.Add($"IP 地址: {iPv4Statistics.OutgoingPacketsWithErrors}");
+            sb.Add($"IP 地址: {iPv4Statistics.IncomingUnknownProtocolPackets}");
             sb.Add(new StringBuilder().Append('-', 50).ToString());
         }
 
-        if (print) sb.ToArray().Print();
+        if (print)
+            sb.ToArray().Print();
 
         return [.. sb];
     }
@@ -131,29 +79,30 @@ public static class Dumpper
         return src?.ToString() ?? "";
     }
 
-    public static string Print<T>
-    (
-        this IEnumerable<T> array,
+    public static string Print<T>(
+        this IEnumerable<T>? array,
         string? connection = ", ",
-        bool cutEnding = true,
-        bool newLineConnection4StringArray = true,
+        bool cutEndingConnection = true,
+        bool separateWithNewLine = true,
         bool print = true
     )
     {
-        if (array is Queue<T> queue) return Dump(queue, connection ?? " ", print);
+        if (array is null)
+            return string.Empty;
+
+        if (array is Queue<T> queue)
+            return Dump(queue, connection ?? " ", print);
 
         var sb = new StringBuilder();
 
-        var useNewLine2ReplaceConnectionString
-            = newLineConnection4StringArray && array is IEnumerable<string>;
+        var useNewLine2ReplaceConnectionString =
+            separateWithNewLine && array is IEnumerable<string>;
 
         foreach (var item in array)
         {
-            sb.Append(item?.ToString());
+            sb.Append(item);
 
-            if (useNewLine2ReplaceConnectionString)
-                sb.Append(Environment.NewLine);
-            else sb.Append(connection);
+            sb.Append(useNewLine2ReplaceConnectionString ? Environment.NewLine : connection);
         }
 
         var result = sb.ToString();
@@ -166,7 +115,7 @@ public static class Dumpper
             return result;
         }
 
-        if (cutEnding)
+        if (cutEndingConnection)
             result = result[..(sb.Length - connection?.Length ?? 0)];
 
         if (print)
