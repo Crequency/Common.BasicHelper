@@ -53,10 +53,7 @@ public class Resolution
 
     public string? Description { get; set; }
 
-    public Resolution()
-    {
-
-    }
+    public Resolution() { }
 
     public Resolution(double width = default, double height = default)
     {
@@ -76,6 +73,19 @@ public class Resolution
         return this;
     }
 
+    public Resolution Clone()
+    {
+        var result = new Resolution
+        {
+            Width = Width,
+            Height = Height,
+            FramePerSecond = FramePerSecond,
+            Description = Description,
+        };
+
+        return result;
+    }
+
     /// <summary>
     /// Returns a resolution object based on a string
     /// </summary>
@@ -92,8 +102,10 @@ public class Resolution
             Height = Convert.ToDouble(res[1]),
         };
 
-        if (res_fps.Length == 2) resolution.FramePerSecond = Convert.ToDouble(res_fps[1]);
-        else resolution.FramePerSecond = null;
+        if (res_fps.Length == 2)
+            resolution.FramePerSecond = Convert.ToDouble(res_fps[1]);
+        else
+            resolution.FramePerSecond = null;
 
         return resolution;
     }
@@ -109,7 +121,9 @@ public class Resolution
         var resolution = Parse(input);
 
         if (descr is null)
-            resolution.Description = resolutions.FirstOrDefault((x) => x.Equals(resolution))?.Description;
+            resolution.Description = resolutions
+                .FirstOrDefault((x) => x.Equals(resolution))
+                ?.Description;
         else
             resolution.Description = descr;
 
@@ -162,13 +176,14 @@ public class Resolution
 
     public static double? operator /(Resolution a, Resolution b) => a.Area / b.Area;
 
-    public static Resolution operator +(Resolution a, Resolution b) => new()
-    {
-        Width = a.Width + b.Width,
-        Height = a.Height + b.Height,
-        FramePerSecond = a.FramePerSecond + b.FramePerSecond,
-        Description = $"{a.Description}\nPlus\n{b.Description}"
-    };
+    public static Resolution operator +(Resolution a, Resolution b) =>
+        new()
+        {
+            Width = a.Width + b.Width,
+            Height = a.Height + b.Height,
+            FramePerSecond = a.FramePerSecond + b.FramePerSecond,
+            Description = $"{a.Description}\nPlus\n{b.Description}",
+        };
 
     public override string ToString() =>
         $"{Width}x{Height}{(FramePerSecond is null ? "" : "@")}{FramePerSecond}";
@@ -176,17 +191,23 @@ public class Resolution
     public override bool Equals(object obj)
     {
         if (obj is not Resolution)
-            ErrorCodes.CB0017.BuildMessage(parameterName: nameof(Equals)).Throw<ArgumentException>();
+            ErrorCodes
+                .CB0017.BuildMessage(parameterName: nameof(Equals))
+                .Throw<ArgumentException>();
 
         var target = obj as Resolution;
 
-        return Width == target?.Width && Height == target?.Height && FramePerSecond == target?.FramePerSecond;
+        return Width == target?.Width
+            && Height == target?.Height
+            && FramePerSecond == target?.FramePerSecond;
     }
 
-    public override int GetHashCode() => (int)(
-        0
-        + (Area.GetHashCode() ^ AspectRatio.GetHashCode())
-        + (Width.GetHashCode() ^ Height.GetHashCode())
-        + FramePerSecond ?? 0
+    public override int GetHashCode() =>
+        (int)(
+            0
+                + (Area.GetHashCode() ^ AspectRatio.GetHashCode())
+                + (Width.GetHashCode() ^ Height.GetHashCode())
+                + FramePerSecond
+            ?? 0
         );
 }
