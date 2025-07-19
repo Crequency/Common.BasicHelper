@@ -1,6 +1,7 @@
 ﻿using System.Net.NetworkInformation;
+using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Utils.Extensions;
+namespace Common.BasicHelper.Test.Utils.Extensions;
 
 [TestClass()]
 public class Dumpper_Tests

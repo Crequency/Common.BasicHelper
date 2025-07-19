@@ -1,4 +1,6 @@
-﻿namespace Common.BasicHelper.Core.Shell;
+﻿using Common.BasicHelper.Core.Shell;
+
+namespace Common.BasicHelper.Test.Core.Shell;
 
 [TestClass]
 public class CommandsExecutor_Tests

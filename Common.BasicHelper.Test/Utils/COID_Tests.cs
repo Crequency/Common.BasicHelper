@@ -1,4 +1,6 @@
-﻿namespace Common.BasicHelper.Utils;
+﻿using Common.BasicHelper.Utils;
+
+namespace Common.BasicHelper.Test.Utils;
 
 [TestClass]
 public class COID_Tests

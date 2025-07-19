@@ -1,6 +1,7 @@
-﻿using Common.BasicHelper.Utils.Extensions;
+﻿using Common.BasicHelper.Core.Exceptions;
+using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Core.Exceptions;
+namespace Common.BasicHelper.Test.Core.Exceptions;
 
 [TestClass()]
 public class ErrorCodes_Tests

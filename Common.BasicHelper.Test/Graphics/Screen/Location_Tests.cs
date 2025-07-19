@@ -1,4 +1,6 @@
-﻿namespace Common.BasicHelper.Graphics.Screen;
+﻿using Common.BasicHelper.Graphics.Screen;
+
+namespace Common.BasicHelper.Test.Graphics.Screen;
 
 [TestClass()]
 public class Location_Tests

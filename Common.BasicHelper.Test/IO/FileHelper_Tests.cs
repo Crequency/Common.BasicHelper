@@ -1,7 +1,8 @@
 ﻿using System.Text;
+using Common.BasicHelper.IO;
 using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.IO;
+namespace Common.BasicHelper.Test.IO;
 
 [TestClass()]
 public class FileHelper_Tests

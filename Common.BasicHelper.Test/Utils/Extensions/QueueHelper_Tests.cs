@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Utils.Extensions;
+namespace Common.BasicHelper.Test.Utils.Extensions;
 
 [TestClass]
 public class QueueHelper_Tests

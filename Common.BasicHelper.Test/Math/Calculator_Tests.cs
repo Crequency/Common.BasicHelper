@@ -1,4 +1,6 @@
-namespace Common.BasicHelper.Math;
+using Common.BasicHelper.Math;
+
+namespace Common.BasicHelper.Test.Math;
 
 [TestClass()]
 public class Calculator_Tests

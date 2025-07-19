@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using Common.BasicHelper.Time;
 
-namespace Common.BasicHelper.Time;
+namespace Common.BasicHelper.Test.Time;
 
 [TestClass]
 public class NTP_Tests

@@ -1,6 +1,7 @@
 ﻿using Common.BasicHelper.IO;
+using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Utils.Extensions;
+namespace Common.BasicHelper.Test.Utils.Extensions;
 
 [TestClass]
 public class StringHelper_Tests

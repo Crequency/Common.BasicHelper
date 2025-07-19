@@ -1,6 +1,7 @@
-﻿using Common.BasicHelper.Utils.Extensions;
+﻿using Common.BasicHelper.Math;
+using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Math;
+namespace Common.BasicHelper.Test.Math;
 
 [TestClass()]
 public class Equation_Tests

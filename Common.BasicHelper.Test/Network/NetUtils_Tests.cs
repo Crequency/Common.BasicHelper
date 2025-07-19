@@ -1,4 +1,6 @@
-﻿namespace Common.BasicHelper.Network;
+﻿using Common.BasicHelper.Network;
+
+namespace Common.BasicHelper.Test.Network;
 
 [TestClass]
 public class NetUtils_Tests

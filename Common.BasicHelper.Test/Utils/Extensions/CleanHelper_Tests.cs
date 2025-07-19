@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using System.IO.Pipes;
 using System.Net.Sockets;
+using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Utils.Extensions;
+namespace Common.BasicHelper.Test.Utils.Extensions;
 
 [TestClass]
 public class CleanHelper_Tests

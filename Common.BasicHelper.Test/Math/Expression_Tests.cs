@@ -1,4 +1,6 @@
-namespace Common.BasicHelper.Math;
+using Common.BasicHelper.Math;
+
+namespace Common.BasicHelper.Test.Math;
 
 [TestClass()]
 public class Expression_Tests
@@ -6,7 +8,7 @@ public class Expression_Tests
     [TestMethod()]
     public void Test_Expression()
     {
-        var expr = (39 / 3) + (16 * 5) - ((24 * 24) + 5 + 7);
+        var expr = 39 / 3 + 16 * 5 - (24 * 24 + 5 + 7);
 
         var tree = new Expression()
         {

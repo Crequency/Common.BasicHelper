@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Common.BasicHelper.Utils.Extensions;
 
-namespace Common.BasicHelper.Utils.Extensions;
+namespace Common.BasicHelper.Test.Utils.Extensions;
 
 [TestClass]
 public class RegexHelper_Tests

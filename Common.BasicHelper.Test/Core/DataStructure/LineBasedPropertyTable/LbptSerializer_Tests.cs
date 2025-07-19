@@ -1,4 +1,6 @@
-﻿namespace Common.BasicHelper.Core.DataStructure.LineBasedPropertyTable;
+﻿using Common.BasicHelper.Core.DataStructure.LineBasedPropertyTable;
+
+namespace Common.BasicHelper.Test.Core.DataStructure.LineBasedPropertyTable;
 
 [TestClass]
 public class LbptSerializer_Tests
@@ -26,16 +28,8 @@ public class LbptSerializer_Tests
         internal static PersonGroup GetOneGroup()
         {
             var group = new PersonGroup();
-            group.Persons?.Add(new()
-            {
-                Id = 0,
-                Name = "张三"
-            });
-            group.Persons?.Add(new()
-            {
-                Id = 1,
-                Name = "李四"
-            });
+            group.Persons?.Add(new() { Id = 0, Name = "张三" });
+            group.Persons?.Add(new() { Id = 1, Name = "李四" });
             return group;
         }
     }
