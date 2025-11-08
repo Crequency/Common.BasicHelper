@@ -38,7 +38,7 @@ public class QueueHelper_Tests
             .Pop()
             .Push(5)
             ;
-        Assert.AreEqual("3 4 5 ", queue.Dump());
+        Assert.AreEqual("3 4 5", queue.Dump());
     }
 
     [TestMethod()]
