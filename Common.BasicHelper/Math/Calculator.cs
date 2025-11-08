@@ -15,13 +15,20 @@ public static class Calculator
                 $"Unknown type can't calculate for `{a?.Result} {type} {b?.Result}`."
             ),
             CalculationType.Add => a!.Result + b!.Result,
-            CalculationType.Substraction => a!.Result - b!.Result,
+            CalculationType.Subtraction => a!.Result - b!.Result,
             CalculationType.Multiply => a!.Result * b!.Result,
-            CalculationType.Division => a!.Result / b!.Result,// Here couldn't throw divide by zero exception.
+            CalculationType.Division => a!.Result / b!.Result, // Here couldn't throw divide by zero exception.
             CalculationType.Power => System.Math.Pow(a!.Result, b!.Result),
             _ => throw new NotImplementedException(
                 $"Please provide argument {nameof(type)} ({nameof(CalculationType)})"
             ),
         };
+    }
+
+    public static double Calculate(string expression)
+    {
+        var parser = new ExpressionParser();
+        var expr = parser.Parse(expression);
+        return expr.Result;
     }
 }

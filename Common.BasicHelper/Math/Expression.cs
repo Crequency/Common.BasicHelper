@@ -6,7 +6,7 @@ public enum CalculationType
 {
     Unknown = 0,
     Add = 1,
-    Substraction = 2,
+    Subtraction = 2,
     Multiply = 3,
     Division = 4,
     Power = 5,
@@ -16,7 +16,11 @@ public class Expression
 {
     private CalculationType type = CalculationType.Unknown;
 
-    public CalculationType Type { get => type; set => type = value; }
+    public CalculationType Type
+    {
+        get => type;
+        set => type = value;
+    }
 
     public Expression? Parent { get; set; }
 
@@ -51,17 +55,14 @@ public class Expression
     public double Result
     {
         get => givenValue ?? Calculator.Calculate(Left, Right, type);
-        set
-        {
-            givenValue = value;
-        }
+        set { givenValue = value; }
     }
 
     public static Dictionary<CalculationType, string> CalculationTypeStrings = new()
     {
         { CalculationType.Unknown, "?" },
         { CalculationType.Add, "+" },
-        { CalculationType.Substraction, "-" },
+        { CalculationType.Subtraction, "-" },
         { CalculationType.Multiply, "*" },
         { CalculationType.Division, "/" },
         { CalculationType.Power, "**" },
@@ -73,16 +74,13 @@ public class Expression
         CalculationType.Multiply,
         CalculationType.Division,
         CalculationType.Add,
-        CalculationType.Substraction,
+        CalculationType.Subtraction,
         CalculationType.Unknown,
     ];
 
     public static Expression FromValue(double value)
     {
-        return new()
-        {
-            Result = value
-        };
+        return new() { Result = value };
     }
 
     public override string ToString()
@@ -92,7 +90,8 @@ public class Expression
             return givenValue.ToString();
         }
 
-        var shouldAddBrackets = true
+        var shouldAddBrackets =
+            true
             && Parent is not null
             && (CalculationTypeOrder.IndexOf(type) < CalculationTypeOrder.IndexOf(Parent.type));
 
@@ -101,5 +100,3 @@ public class Expression
         return $"{(shouldAddBrackets ? "(" : "")}{baseStr}{(shouldAddBrackets ? ")" : "")}";
     }
 }
-
-

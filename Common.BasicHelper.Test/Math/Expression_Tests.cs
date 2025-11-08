@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Common.BasicHelper.Math;
 
 namespace Common.BasicHelper.Test.Math;
@@ -8,7 +9,11 @@ public class Expression_Tests
     [TestMethod()]
     public void Test_Expression()
     {
+        var exprStr = "39 / 3 + 16 * 5 - (24 * 24 + 5 + 7)";
         var expr = 39 / 3 + 16 * 5 - (24 * 24 + 5 + 7);
+
+        Debug.WriteLine($"Given Expression: {exprStr}");
+        Debug.WriteLine($"Given Expression Result: {expr}");
 
         var tree = new Expression()
         {
@@ -17,11 +22,11 @@ public class Expression_Tests
             {
                 Type = CalculationType.Division,
                 Left = Expression.FromValue(39),
-                Right = Expression.FromValue(3)
+                Right = Expression.FromValue(3),
             },
             Right = new()
             {
-                Type = CalculationType.Substraction,
+                Type = CalculationType.Subtraction,
                 Left = new()
                 {
                     Type = CalculationType.Multiply,
@@ -35,17 +40,19 @@ public class Expression_Tests
                     {
                         Type = CalculationType.Power,
                         Left = Expression.FromValue(24),
-                        Right = Expression.FromValue(2)
+                        Right = Expression.FromValue(2),
                     },
                     Right = new()
                     {
                         Type = CalculationType.Add,
                         Left = Expression.FromValue(5),
-                        Right = Expression.FromValue(7)
-                    }
-                }
-            }
+                        Right = Expression.FromValue(7),
+                    },
+                },
+            },
         };
+
+        Debug.WriteLine($"Expression Tree Result: {tree.Result}");
 
         Assert.AreEqual(expr, tree.Result);
     }
@@ -55,6 +62,8 @@ public class Expression_Tests
     {
         var expr = "(39 / 3) + (16 * 5) - ((24 ** 2) + 5 + 7)";
 
+        Debug.WriteLine($"Given Expression: {expr}");
+
         var tree = new Expression()
         {
             Type = CalculationType.Add,
@@ -62,11 +71,11 @@ public class Expression_Tests
             {
                 Type = CalculationType.Division,
                 Left = Expression.FromValue(39),
-                Right = Expression.FromValue(3)
+                Right = Expression.FromValue(3),
             },
             Right = new()
             {
-                Type = CalculationType.Substraction,
+                Type = CalculationType.Subtraction,
                 Left = new()
                 {
                     Type = CalculationType.Multiply,
@@ -80,17 +89,19 @@ public class Expression_Tests
                     {
                         Type = CalculationType.Power,
                         Left = Expression.FromValue(24),
-                        Right = Expression.FromValue(2)
+                        Right = Expression.FromValue(2),
                     },
                     Right = new()
                     {
                         Type = CalculationType.Add,
                         Left = Expression.FromValue(5),
-                        Right = Expression.FromValue(7)
-                    }
-                }
-            }
+                        Right = Expression.FromValue(7),
+                    },
+                },
+            },
         };
+
+        Debug.WriteLine($"Expression Tree to String: {tree}");
 
         Assert.AreEqual(expr, tree.ToString());
     }

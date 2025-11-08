@@ -24,7 +24,7 @@ public class Calculator_Tests
             Calculator.Calculate(
                 Expression.FromValue(10),
                 Expression.FromValue(5),
-                CalculationType.Substraction
+                CalculationType.Subtraction
             )
         );
 
