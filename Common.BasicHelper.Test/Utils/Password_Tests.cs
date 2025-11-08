@@ -13,33 +13,36 @@ public class Password_Tests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
     public void Test_GeneratePassword_1()
     {
-        Password.GeneratePassword(lengthRangeStart: null, lengthRangeEnd: null);
-    }
-
-    [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
-    public void Test_GeneratePassword_2()
-    {
-        Password.GeneratePassword(
-            includeUppercase: false,
-            includeLowercase: false,
-            includeNumbers: false,
-            includeSymbols: false
+        Assert.Throws<ArgumentException>(() =>
+            Password.GeneratePassword(lengthRangeStart: null, lengthRangeEnd: null)
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
+    public void Test_GeneratePassword_2()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            Password.GeneratePassword(
+                includeUppercase: false,
+                includeLowercase: false,
+                includeNumbers: false,
+                includeSymbols: false
+            )
+        );
+    }
+
+    [TestMethod]
     public void Test_GeneratePassword_3()
     {
-        Password.GeneratePassword(
-            supportedUppercases: "",
-            supportedLowercases: "",
-            supportedNumbers: "",
-            supportedSymbols: ""
+        Assert.Throws<ArgumentException>(() =>
+            Password.GeneratePassword(
+                supportedUppercases: "",
+                supportedLowercases: "",
+                supportedNumbers: "",
+                supportedSymbols: ""
+            )
         );
     }
 }

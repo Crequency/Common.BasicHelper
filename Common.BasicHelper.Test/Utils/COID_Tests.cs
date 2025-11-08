@@ -6,17 +6,15 @@ namespace Common.BasicHelper.Test.Utils;
 public class COID_Tests
 {
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
     public void Test_COID_Constructor()
     {
-        _ = new COID("WFE-SD-WFE-VWE");
+        Assert.Throws<ArgumentException>(() => _ = new COID("WFE-SD-WFE-VWE"));
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
     public void Test_COID_Part_Constructor()
     {
-        _ = new COID("WFE-SD-WFE-VWE-SDF");
+        Assert.Throws<ArgumentException>(() => _ = new COID("WFE-SD-WFE-VWE-SDF"));
     }
 
     [TestMethod]

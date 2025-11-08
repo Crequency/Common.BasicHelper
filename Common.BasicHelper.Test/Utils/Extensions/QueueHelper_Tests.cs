@@ -9,35 +9,19 @@ public class QueueHelper_Tests
     [TestMethod]
     public void Test_QueueExtensions()
     {
-        var queue = new Queue<int>()
-            .Push(1)
-            .Push(2)
-            .Push(3)
-            .Push(4)
-            .Push(5)
-            .Push(6)
-            .Pop()
-            ;
+        var queue = new Queue<int>().Push(1).Push(2).Push(3).Push(4).Push(5).Push(6).Pop();
         while (queue.IsNotEmpty())
         {
             queue = queue.ForEach(x => ++x);
             queue = queue.Pop();
         }
-        Assert.AreEqual(0, queue.Count);
+        Assert.IsEmpty(queue);
     }
 
     [TestMethod]
     public void Test_DumpQueue()
     {
-        var queue = new Queue<int>()
-            .Push(1)
-            .Push(2)
-            .Pop()
-            .Push(3)
-            .Push(4)
-            .Pop()
-            .Push(5)
-            ;
+        var queue = new Queue<int>().Push(1).Push(2).Pop().Push(3).Push(4).Pop().Push(5);
         Assert.AreEqual("3 4 5", queue.Dump());
     }
 
@@ -50,11 +34,9 @@ public class QueueHelper_Tests
             .Push(1)
             .Push(3)
             .Push(5)
-            .ForEach(x => sb.AppendLine(x.ToString()), reappend: true)
-            ;
+            .ForEach(x => sb.AppendLine(x.ToString()), reappend: true);
 
-        Assert.AreEqual
-        (
+        Assert.AreEqual(
             """
             1
             3
@@ -74,11 +56,13 @@ public class QueueHelper_Tests
             .Push(1)
             .Push(3)
             .Push(5)
-            .ForEachAsync(x => sb.AppendLine(x.ToString()), reappend: true)
-            ;
+            .ForEachAsync(
+                x => sb.AppendLine(x.ToString()),
+                reappend: true,
+                TestContext.CancellationToken
+            );
 
-        Assert.AreEqual
-        (
+        Assert.AreEqual(
             """
             1
             3
@@ -92,17 +76,10 @@ public class QueueHelper_Tests
     [TestMethod()]
     public void Test_IsEmpty()
     {
-        Assert.AreEqual(true, new Queue<int>().IsEmpty());
+        Assert.IsTrue(new Queue<int>().IsEmpty());
 
-        Assert.AreEqual
-        (
-            true,
-            new Queue<int>()
-                .Push(3)
-                .Push(5)
-                .Pop()
-                .Pop()
-                .IsEmpty()
-        );
+        Assert.IsTrue(new Queue<int>().Push(3).Push(5).Pop().Pop().IsEmpty());
     }
+
+    public TestContext TestContext { get; set; }
 }

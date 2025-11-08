@@ -17,9 +17,7 @@ public class COID_Helper_Tests
     {
         _ = COID_Helper.Build_COID("98KTD-N4GFV-J1RQK-E7CWJ-F9NTJ");
 
-        Assert.ThrowsException<ArgumentException>(
-            () => COID_Helper.Build_COID("98KTD-N4GFV-J1RQK-E7CWJ")
-        );
+        Assert.Throws<ArgumentException>(() => COID_Helper.Build_COID("98KTD-N4GFV-J1RQK-E7CWJ"));
     }
 
     [TestMethod]
@@ -27,7 +25,7 @@ public class COID_Helper_Tests
     {
         var coid_part = COID_Helper.Build_COID_Part("98KTD");
 
-        Assert.AreEqual(coid_part.ToString(), "98KTD");
+        Assert.AreEqual("98KTD", coid_part.ToString());
 
         coid_part = new COID_Part()
         {
@@ -38,14 +36,10 @@ public class COID_Helper_Tests
             E = 'E',
         };
 
-        Assert.AreEqual(coid_part.ToString(), "ABCDE");
+        Assert.AreEqual("ABCDE", coid_part.ToString());
 
-        Assert.ThrowsException<ArgumentException>(
-            () => COID_Helper.Build_COID_Part("1234")
-        );
+        Assert.Throws<ArgumentException>(() => COID_Helper.Build_COID_Part("1234"));
 
-        Assert.ThrowsException<FormatException>(
-            () => COID_Helper.Build_COID_Part("1#5$9")
-        );
+        Assert.Throws<FormatException>(() => COID_Helper.Build_COID_Part("1#5$9"));
     }
 }

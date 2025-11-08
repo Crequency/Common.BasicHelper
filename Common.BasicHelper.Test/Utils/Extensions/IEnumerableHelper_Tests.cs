@@ -1,4 +1,5 @@
-﻿using Common.BasicHelper.Utils.Extensions;
+﻿using System.Diagnostics;
+using Common.BasicHelper.Utils.Extensions;
 
 namespace Common.BasicHelper.Test.Utils.Extensions;
 
@@ -23,7 +24,7 @@ public class IEnumerableHelper_Tests
         enumerable.WhenCount(
             x => x == 4,
             i => i == 2,
-            _ => Assert.IsNull(null)
+            _ => Debug.WriteLine("There are exactly two 4's.")
         );
     }
 }

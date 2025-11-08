@@ -10,8 +10,8 @@ public class StringHelper_Tests
     public void Test_SeparateGroup()
     {
         var mac = "60F677F6C179";
-        var formatedMac = mac.SeparateGroup(2, sb => sb.Append(':'));
-        Assert.AreEqual(formatedMac, "60:F6:77:F6:C1:79");
+        var formattedMac = mac.SeparateGroup(2, sb => sb.Append(':'));
+        Assert.AreEqual("60:F6:77:F6:C1:79", formattedMac);
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class StringHelper_Tests
     [TestMethod()]
     public void Test_Num2UpperChar()
     {
-        Assert.AreEqual("23FJ325FSDF938".Num2UpperChar().Print(), "CDFJDCFFSDFJDI");
+        Assert.AreEqual("CDFJDCFFSDFJDI", "23FJ325FSDF938".Num2UpperChar().Print());
     }
 
     [TestMethod()]
@@ -61,7 +61,7 @@ public class StringHelper_Tests
 
         File.Delete(file);
 
-        Assert.AreEqual(read, "Test");
+        Assert.AreEqual("Test", read);
     }
 
     [TestMethod()]
@@ -77,12 +77,12 @@ public class StringHelper_Tests
 
         File.Delete(file);
 
-        Assert.AreEqual(read, "Test");
+        Assert.AreEqual("Test", read);
     }
 
     [TestMethod()]
     public void Test_Throw()
     {
-        Assert.ThrowsException<ArgumentException>("Exception Message".Throw<ArgumentException>);
+        Assert.Throws<ArgumentException>("Exception Message".Throw<ArgumentException>);
     }
 }

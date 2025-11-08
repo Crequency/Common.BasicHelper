@@ -13,8 +13,7 @@ public class CleanHelper_Tests
     {
         // Arrange
         var memoryStream = new MemoryStream();
-        var namedPipeServerStream = new NamedPipeServerStream("testpipe",
-            PipeDirection.InOut);
+        var namedPipeServerStream = new NamedPipeServerStream("testpipe", PipeDirection.InOut);
         var binaryReader = new BinaryReader(memoryStream);
         var binaryWriter = new BinaryWriter(memoryStream);
         var streamReader = new StreamReader(memoryStream);
@@ -34,11 +33,11 @@ public class CleanHelper_Tests
         memoryStream.CloseAndDispose();
 
         // Assert
-        Assert.IsTrue(namedPipeServerStream.IsConnected == false);
-        Assert.IsTrue(binaryReader.BaseStream.CanRead == false);
-        Assert.IsTrue(binaryWriter.BaseStream.CanWrite == false);
-        Assert.IsTrue(streamReader.BaseStream.CanRead == false);
-        Assert.IsTrue(streamWriter.BaseStream.CanWrite == false);
-        Assert.IsTrue(socket.Connected == false);
+        Assert.IsFalse(namedPipeServerStream.IsConnected);
+        Assert.IsFalse(binaryReader.BaseStream.CanRead);
+        Assert.IsFalse(binaryWriter.BaseStream.CanWrite);
+        Assert.IsFalse(streamReader.BaseStream.CanRead);
+        Assert.IsFalse(streamWriter.BaseStream.CanWrite);
+        Assert.IsFalse(socket.Connected);
     }
 }

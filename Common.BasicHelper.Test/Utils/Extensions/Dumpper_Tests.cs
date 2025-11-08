@@ -9,11 +9,7 @@ public class Dumpper_Tests
     [TestMethod()]
     public void Test_Dump()
     {
-        new Queue<int?>()
-            .Push(null)
-            .Push(1)
-            .Dump()
-            ;
+        new Queue<int?>().Push(null).Push(1).Dump();
 
         if (OperatingSystem.IsWindows())
         {
@@ -26,11 +22,7 @@ public class Dumpper_Tests
     [TestMethod()]
     public void Test_Dump2Lines()
     {
-        new Queue<int?>()
-            .Push(null)
-            .Push(1)
-            .Dump2Lines()
-            ;
+        new Queue<int?>().Push(null).Push(1).Dump2Lines();
 
         if (OperatingSystem.IsWindows())
         {
@@ -43,25 +35,22 @@ public class Dumpper_Tests
     [TestMethod()]
     public void Test_Print()
     {
-        Assert.AreEqual("Test".Print(), "Test");
+        Assert.AreEqual("Test", "Test".Print());
 
-        Assert.AreEqual(24523.Print(), "24523");
+        Assert.AreEqual("24523", 24523.Print());
 
-        Assert.AreEqual(new List<int>()
-        {
-            1, 2, 3
-        }.Print<int>(), "1, 2, 3");
+        Assert.AreEqual("1, 2, 3", new List<int>() { 1, 2, 3 }.Print<int>());
 
         var temp = new string[3] { "12", "34", "56" };
 
         Assert.AreEqual(
-            temp.Print<string>(),
             """
             12
             34
             56
-        
-            """
+
+            """,
+            temp.Print<string>()
         );
     }
 }

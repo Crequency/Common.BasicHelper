@@ -6,7 +6,10 @@ namespace Common.BasicHelper.Test.Time;
 [TestClass]
 public class NTP_Tests
 {
-    private static double GetOffsetsMillisecondsInRandomWay(bool useTimeSpan = false, bool print = true)
+    private static double GetOffsetsMillisecondsInRandomWay(
+        bool useTimeSpan = false,
+        bool print = true
+    )
     {
         var random = new Random();
 
@@ -32,8 +35,12 @@ public class NTP_Tests
         var localReceive = remoteSend + networkInterval_2;
 
         //  计算时间差毫秒数
-        var calculateOffsetMilliseconds = NTP
-            .GetOffset(localSend, remoteReceive, remoteSend, localReceive);
+        var calculateOffsetMilliseconds = NTP.GetOffset(
+            localSend,
+            remoteReceive,
+            remoteSend,
+            localReceive
+        );
 
         //  计算时间差
         var calculateOffset = useTimeSpan
@@ -74,17 +81,15 @@ public class NTP_Tests
     {
         var offsetsDeltaMilliseconds = GetOffsetsMillisecondsInRandomWay();
 
-        Assert.IsTrue(offsetsDeltaMilliseconds < 1200);
+        Assert.IsLessThan(1200, offsetsDeltaMilliseconds);
     }
 
     [TestMethod]
     public void Test_GetOffsetTimeSpan()
     {
-        var offsetsDeltaMilliseconds = GetOffsetsMillisecondsInRandomWay(
-            useTimeSpan: true
-        );
+        var offsetsDeltaMilliseconds = GetOffsetsMillisecondsInRandomWay(useTimeSpan: true);
 
-        Assert.IsTrue(offsetsDeltaMilliseconds < 1200);
+        Assert.IsLessThan(1200, offsetsDeltaMilliseconds);
     }
 
     [TestMethod]
@@ -119,6 +124,6 @@ public class NTP_Tests
         Console.WriteLine($"Tasks count: {tasksCount}");
         Console.WriteLine($"Average offsets delta: {averageMilliseconds} ms");
 
-        Assert.IsTrue(averageMilliseconds < 1200);
+        Assert.IsLessThan(1200, averageMilliseconds);
     }
 }

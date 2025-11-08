@@ -20,7 +20,7 @@ public class FileHelper_Tests
 
         File.Delete(file);
 
-        Assert.AreEqual(read, "Test");
+        Assert.AreEqual("Test", read);
     }
 
     [TestMethod()]
@@ -54,7 +54,7 @@ public class FileHelper_Tests
 
         File.Delete(file);
 
-        Assert.AreEqual(read, "Test");
+        Assert.AreEqual("Test", read);
     }
 
     [TestMethod()]
@@ -70,7 +70,7 @@ public class FileHelper_Tests
 
         File.Delete(file);
 
-        Assert.AreEqual(read, "Test");
+        Assert.AreEqual("Test", read);
     }
 
     [TestMethod()]
@@ -86,7 +86,7 @@ public class FileHelper_Tests
 
         File.Delete(file);
 
-        Assert.AreEqual(read, "Test");
+        Assert.AreEqual("Test", read);
     }
 
     [TestMethod()]
@@ -102,7 +102,7 @@ public class FileHelper_Tests
 
         File.Delete(file);
 
-        Assert.AreEqual(read, "Test");
+        Assert.AreEqual("Test", read);
     }
 
     [TestMethod()]
