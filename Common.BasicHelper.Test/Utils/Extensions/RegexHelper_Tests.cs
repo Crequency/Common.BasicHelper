@@ -4,15 +4,16 @@ using Common.BasicHelper.Utils.Extensions;
 namespace Common.BasicHelper.Test.Utils.Extensions;
 
 [TestClass]
-public class RegexHelper_Tests
+public partial class RegexHelper_Tests
 {
     [TestMethod]
     public void Test_WhenSuccess()
     {
-#pragma warning disable SYSLIB1045 // 转换为“GeneratedRegexAttribute”。
-        _ = Regex.Match("Hello World", "^(Hello).*$").WhenSuccess(
-            x => Assert.AreEqual("Hello", x?.Groups[1].Value)
-        );
-#pragma warning restore SYSLIB1045 // 转换为“GeneratedRegexAttribute”。
+        _ = Regex_Test_WhenSuccess()
+            .Match("Hello World")
+            .WhenSuccess(x => Assert.AreEqual("Hello", x?.Groups[1].Value));
     }
+
+    [GeneratedRegex("^(Hello).*$")]
+    private static partial Regex Regex_Test_WhenSuccess();
 }
